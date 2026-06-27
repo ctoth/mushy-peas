@@ -1,6 +1,10 @@
 import pytest
 
-from mushy_peas.constants import END_MARKER_CURRENT, END_MARKER_OLD
+from mushy_peas.constants import (
+    CURRENT_MAIN_DB_FLAGS,
+    END_MARKER_CURRENT,
+    END_MARKER_OLD,
+)
 from mushy_peas.errors import ParseError
 from mushy_peas.primitives import (
     LineReader,
@@ -87,6 +91,11 @@ def test_dbref_requires_hash() -> None:
 def test_db_header_decode_encode_known_roundtrip() -> None:
     for flags in (0, 1, 2, 256, -1, 0xFFFF):
         assert decode_db_header(encode_db_header(flags)) == flags
+
+
+def test_db_header_uses_pennmush_signed_32_bit_encoding() -> None:
+    assert encode_db_header(CURRENT_MAIN_DB_FLAGS) == "+V-4199422"
+    assert decode_db_header("+V-4199422") == CURRENT_MAIN_DB_FLAGS
 
 
 def test_db_header_rejects_bad_prefix() -> None:

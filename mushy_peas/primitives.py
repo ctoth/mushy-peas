@@ -8,6 +8,8 @@ from mushy_peas.errors import ParseError
 
 LabelValueKind = Literal["raw", "int", "dbref", "quoted", "words"]
 EndMarkerStyle = Literal["current", "old"]
+UINT32_MODULUS = 2**32
+INT32_SIGN_BIT = 2**31
 
 
 class LineReader:
@@ -259,7 +261,7 @@ def decode_db_header(header: str, *, source: str = "<string>", line: int = 0) ->
             actual=header,
         ) from exc
 
-    adjusted = encoded - 2
+    adjusted = _to_unsigned_32(encoded) - 2
     if adjusted % 256 != 0:
         raise ParseError(
             "DB header does not encode whole DB flags",
@@ -272,7 +274,8 @@ def decode_db_header(header: str, *, source: str = "<string>", line: int = 0) ->
 
 
 def encode_db_header(raw_dbflags: int) -> str:
-    return f"+V{((raw_dbflags + 5) * 256) + 2}"
+    encoded = ((raw_dbflags + 5) * 256) + 2
+    return f"+V{_to_signed_32(encoded)}"
 
 
 def is_end_marker(line_text: str) -> bool:
@@ -313,3 +316,16 @@ def _parse_int(text: str, *, source: str, line: int) -> int:
             expected="<int>",
             actual=text,
         ) from exc
+
+
+def _to_unsigned_32(value: int) -> int:
+    if value < 0:
+        return value + UINT32_MODULUS
+    return value
+
+
+def _to_signed_32(value: int) -> int:
+    wrapped = value % UINT32_MODULUS
+    if wrapped >= INT32_SIGN_BIT:
+        return wrapped - UINT32_MODULUS
+    return wrapped
