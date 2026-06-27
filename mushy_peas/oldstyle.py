@@ -4,6 +4,7 @@ from collections.abc import Sequence
 from dataclasses import replace
 from pathlib import Path
 
+from mushy_peas.chat_model import PennChannel, PennChannelUser, PennChatDatabase
 from mushy_peas.compression import CompressionMode, read_database_text
 from mushy_peas.constants import (
     DBF_CREATION_TIMES,
@@ -27,8 +28,11 @@ from mushy_peas.primitives import (
     LineReader,
     decode_db_header,
     is_end_marker,
+    parse_labeled_line,
     parse_quoted_string,
 )
+
+OLDSTYLE_CHAT_LOCK_ORDER = ("join", "speak", "modify", "see", "hide")
 
 
 def read_oldstyle_main_database(
@@ -96,6 +100,94 @@ def read_oldstyle_main_database_text(
             )
 
     raise reader.error("missing end marker")
+
+
+def read_oldstyle_chat_database(
+    path: str | Path,
+    *,
+    compression: CompressionMode = "auto",
+    external_command: Sequence[str] | None = None,
+    encoding: str = "utf-8",
+) -> PennChatDatabase:
+    text = read_database_text(
+        path,
+        compression=compression,
+        external_command=external_command,
+        encoding=encoding,
+    )
+    return read_oldstyle_chat_database_text(text, source=str(path))
+
+
+def read_oldstyle_chat_database_text(
+    text: str,
+    *,
+    source: str = "<string>",
+) -> PennChatDatabase:
+    reader = LineReader(text, source=source)
+    channel_count = _read_int_line(reader)
+    channels = [_read_old_chat_channel(reader) for _ in range(channel_count)]
+    line_text = reader.read_line()
+    if not is_end_marker(line_text):
+        raise reader.error(
+            "bad oldstyle chat end marker",
+            expected="***END OF DUMP***",
+            actual=line_text,
+        )
+    return PennChatDatabase(
+        raw_chat_flags=0,
+        savedtime=None,
+        channels=channels,
+        format_kind="chat-oldstyle",
+        line_ending=reader.line_ending,
+    )
+
+
+def _read_old_chat_channel(reader: LineReader) -> PennChannel:
+    name = _read_legacy_string(reader)
+    description = _read_legacy_string(reader)
+    flags = _read_int_line(reader)
+    creator = _read_int_line(reader)
+    cost = _read_int_line(reader)
+    locks = {
+        lock_name: _read_old_chat_lock(reader)
+        for lock_name in OLDSTYLE_CHAT_LOCK_ORDER
+    }
+    user_count = _read_int_line(reader)
+    users = [_read_old_chat_user(reader) for _ in range(user_count)]
+    return PennChannel(
+        name=name,
+        description=description,
+        flags=flags,
+        creator=creator,
+        cost=cost,
+        locks=locks,
+        users=users,
+    )
+
+
+def _read_old_chat_user(reader: LineReader) -> PennChannelUser:
+    return PennChannelUser(
+        dbref=_read_int_line(reader),
+        flags=_read_int_line(reader),
+        title=_read_legacy_string(reader),
+    )
+
+
+def _read_old_chat_lock(reader: LineReader) -> str:
+    line_text = reader.read_line()
+    label, value = parse_labeled_line(
+        line_text,
+        "quoted",
+        source=reader.source,
+        line=reader.line_number,
+    )
+    if label != "key":
+        raise reader.error(
+            "unexpected oldstyle chat lock label",
+            expected="key",
+            actual=line_text,
+        )
+    return value
 
 
 def _read_old_object(reader: LineReader, dbref: int, flags: int) -> PennObject:
@@ -284,6 +376,24 @@ def _read_old_string(reader: LineReader, flags: int) -> str:
     if flags & DBF_NEW_STRINGS:
         return _read_quoted_line(reader)
     return reader.read_line().replace("\r", "\n")
+
+
+def _read_legacy_string(reader: LineReader) -> str:
+    line_text = reader.read_line()
+    if not line_text.startswith('"'):
+        return line_text.replace("\r", "\n")
+    value, trailing = parse_quoted_string(
+        line_text,
+        source=reader.source,
+        line=reader.line_number,
+    )
+    if trailing.strip(" "):
+        raise reader.error(
+            "unexpected trailing text after oldstyle quoted string",
+            expected="end of line",
+            actual=line_text,
+        )
+    return value
 
 
 def _read_quoted_line(reader: LineReader) -> str:

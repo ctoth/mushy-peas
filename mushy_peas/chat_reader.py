@@ -36,6 +36,12 @@ def read_chat_database_text(
     """Parse a current labeled PennMUSH chat database."""
 
     reader = LineReader(text, source=source)
+    first_line = reader.peek_line()
+    if first_line is not None and not first_line.startswith("+"):
+        from mushy_peas.oldstyle import read_oldstyle_chat_database_text
+
+        return read_oldstyle_chat_database_text(text, source=source)
+
     raw_chat_flags = _read_chat_header(reader)
     savedtime = _read_quoted(reader, "savedtime")
     channel_count = _read_int(reader, "channels")

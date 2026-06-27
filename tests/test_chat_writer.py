@@ -5,6 +5,7 @@ from hypothesis.strategies import SearchStrategy
 from mushy_peas.chat_model import PennChannel, PennChannelUser, PennChatDatabase
 from mushy_peas.chat_reader import read_chat_database_text
 from mushy_peas.chat_writer import CHAT_LOCK_ORDER, write_chat_database_text
+from mushy_peas.oldstyle import read_oldstyle_chat_database_text
 from tests.strategies import dbrefs, quoted_text
 
 
@@ -101,6 +102,46 @@ def test_writer_output_for_channel_matches_expected_text() -> None:
             "",
         )
     )
+
+
+def test_oldstyle_chat_database_writes_as_current_chat_database() -> None:
+    oldstyle = read_oldstyle_chat_database_text(
+        "\n".join(
+            (
+                "1",
+                '"Public"',
+                '"Old public channel"',
+                "2",
+                "1",
+                "10",
+                'key "*UNLOCKED*"',
+                'key "#1"',
+                'key "#2"',
+                'key "#3"',
+                'key "#4"',
+                "0",
+                "***END OF DUMP***",
+                "",
+            )
+        )
+    )
+
+    upgraded = read_chat_database_text(write_chat_database_text(oldstyle))
+
+    assert upgraded.format_kind == "chat-current"
+    assert len(upgraded.channels) == 1
+    assert len(oldstyle.channels) == 1
+    upgraded_channel = upgraded.channels[0]
+    oldstyle_channel = oldstyle.channels[0]
+    assert upgraded_channel.name == oldstyle_channel.name
+    assert upgraded_channel.description == oldstyle_channel.description
+    assert upgraded_channel.flags == oldstyle_channel.flags
+    assert upgraded_channel.creator == oldstyle_channel.creator
+    assert upgraded_channel.cost == oldstyle_channel.cost
+    assert upgraded_channel.locks == oldstyle_channel.locks
+    assert upgraded_channel.users == oldstyle_channel.users
+    assert upgraded_channel.buffer_blocks == 0
+    assert upgraded_channel.mogrifier == -1
 
 
 @given(st.lists(channels(), max_size=5))

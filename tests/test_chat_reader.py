@@ -94,9 +94,55 @@ def test_reads_non_spiffy_current_chat_database() -> None:
     assert database.channels[0].locks == {}
 
 
+def test_reads_oldstyle_chat_database_through_chat_reader_fallback() -> None:
+    database = read_chat_database_text(
+        "\n".join(
+            (
+                "1",
+                '"Public"',
+                '"Old public channel"',
+                "2",
+                "1",
+                "10",
+                'key "*UNLOCKED*"',
+                'key "#1"',
+                'key "#2"',
+                'key "#3"',
+                'key "#4"',
+                "1",
+                "1",
+                "8",
+                '"Builder"',
+                "***END OF DUMP***",
+                "",
+            )
+        )
+    )
+
+    assert database.format_kind == "chat-oldstyle"
+    assert database.savedtime is None
+    assert database.channels == [
+        PennChannel(
+            name="Public",
+            description="Old public channel",
+            flags=2,
+            creator=1,
+            cost=10,
+            locks={
+                "join": "*UNLOCKED*",
+                "speak": "#1",
+                "modify": "#2",
+                "see": "#3",
+                "hide": "#4",
+            },
+            users=[PennChannelUser(dbref=1, flags=8, title="Builder")],
+        )
+    ]
+
+
 def test_current_chat_database_must_start_with_chat_header() -> None:
     with pytest.raises(ParseError, match="unsupported chat database format"):
-        read_chat_database_text("1\n")
+        read_chat_database_text("+X\n")
 
 
 def test_channel_labels_must_match_source_format() -> None:
