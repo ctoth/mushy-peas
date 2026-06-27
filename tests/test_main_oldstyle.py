@@ -7,6 +7,7 @@ from mushy_peas.main_model import PennAttribute, PennLock, PennObject
 from mushy_peas.main_reader import read_main_database_text
 from mushy_peas.main_writer import write_main_database_text
 from mushy_peas.oldstyle import read_oldstyle_main_database_text
+from mushy_peas.primitives import encode_db_header
 
 
 def test_reads_new_string_oldstyle_main_database_fixture() -> None:
@@ -86,7 +87,7 @@ def test_oldstyle_reader_rejects_labeled_current_database() -> None:
 
 
 def test_oldstyle_numeric_flag_conversion_is_explicitly_unsupported() -> None:
-    text = """+V1282
+    text = f"""{encode_db_header(65)}
 ~1
 !0
 Room
@@ -101,11 +102,121 @@ Room
 1
 -1
 0
-1
+16
 0
 <
 ***END OF DUMP***
 """
 
-    with pytest.raises(ParseError, match="old numeric flag conversion"):
+    with pytest.raises(ParseError, match="non-zero old numeric flag conversion"):
+        read_oldstyle_main_database_text(text)
+
+
+def test_oldstyle_new_locks_preserve_lock_keys() -> None:
+    text = f"""{encode_db_header(393463)}
+~1
+!0
+"Room"
+-1
+-1
+-1
+-1
+-1
+_Basic|#0
+1
+-1
+0
+1
+""
+""
+0
+100
+101
+<
+***END OF DUMP***
+"""
+
+    database = read_oldstyle_main_database_text(text)
+
+    assert database.objects[0].locks == {
+        "Basic": PennLock(
+            type="Basic",
+            creator=0,
+            flags=(),
+            derefs=0,
+            key="#0",
+        )
+    }
+
+
+def test_oldstyle_pre_new_locks_and_unquoted_strings_parse() -> None:
+    text = f"""{encode_db_header(65)}
+~1
+!0
+Room Zero
+-1
+-1
+-1
+-1
+-1
+#0
+
+#1
+1
+-1
+0
+0
+0
+0
+<
+***END OF DUMP***
+"""
+
+    database = read_oldstyle_main_database_text(text)
+
+    assert database.objects[0].name == "Room Zero"
+    assert database.objects[0].type == 1
+    assert database.objects[0].powers == ()
+    assert database.objects[0].locks == {
+        "Basic": PennLock(
+            type="Basic",
+            creator=0,
+            flags=(),
+            derefs=0,
+            key="#0",
+        ),
+        "Enter": PennLock(
+            type="Enter",
+            creator=0,
+            flags=(),
+            derefs=0,
+            key="#1",
+        ),
+    }
+
+
+def test_oldstyle_non_zero_numeric_power_conversion_is_explicitly_unsupported() -> None:
+    text = f"""{encode_db_header(65)}
+~1
+!0
+Room
+-1
+-1
+-1
+-1
+-1
+
+
+
+1
+-1
+0
+0
+0
+1
+<
+***END OF DUMP***
+"""
+
+    with pytest.raises(ParseError, match="non-zero old numeric power conversion"):
         read_oldstyle_main_database_text(text)

@@ -206,10 +206,15 @@ def _read_old_type_and_flags(
 ) -> tuple[int, tuple[str, ...]]:
     if flags & DBF_NEW_FLAGS:
         return (_read_int_line(reader), tuple(_read_quoted_line(reader).split()))
-    raise reader.error(
-        "old numeric flag conversion is not implemented in this slice",
-        expected="DBF_NEW_FLAGS",
-    )
+    old_flags = _read_int_line(reader)
+    old_toggles = _read_int_line(reader)
+    object_type = _old_type_from_flags(reader, old_flags)
+    if old_flags & ~0x7 or old_toggles != 0:
+        raise reader.error(
+            "non-zero old numeric flag conversion is not implemented in this slice",
+            actual=f"flags={old_flags} toggles={old_toggles}",
+        )
+    return (object_type, ())
 
 
 def _read_old_powers(reader: LineReader, flags: int) -> tuple[str, ...]:
@@ -217,9 +222,12 @@ def _read_old_powers(reader: LineReader, flags: int) -> tuple[str, ...]:
         return ()
     if flags & DBF_NEW_POWERS:
         return tuple(_read_quoted_line(reader).split())
+    power_bits = _read_int_line(reader)
+    if power_bits == 0:
+        return ()
     raise reader.error(
-        "old numeric power conversion is not implemented in this slice",
-        expected="DBF_NEW_POWERS or DBF_NO_POWERS",
+        "non-zero old numeric power conversion is not implemented in this slice",
+        actual=str(power_bits),
     )
 
 
@@ -318,3 +326,18 @@ def _parse_int(text: str, reader: LineReader, actual: str) -> int:
             expected="<int>",
             actual=actual,
         ) from exc
+
+
+def _old_type_from_flags(reader: LineReader, old_flags: int) -> int:
+    old_type = old_flags & 0x7
+    if old_type == 0x0:
+        return 0x1
+    if old_type == 0x1:
+        return 0x2
+    if old_type == 0x2:
+        return 0x4
+    if old_type == 0x3:
+        return 0x8
+    if old_type == 0x6:
+        return 0x10
+    raise reader.error("unknown old object type", actual=str(old_type))
