@@ -1,0 +1,25 @@
++V1
+savedtime "Fri Jan 01 00:00:00 2026"
+channels 1
+ name "Public"
+  description "Public channel"
+  flags 2
+  creator #1
+  cost 10
+  buffer 3
+  mogrifier #-1
+  lock "join"
+  key "*UNLOCKED*"
+  lock "speak"
+  key "#1"
+  lock "modify"
+  key "#2"
+  lock "see"
+  key "#3"
+  lock "hide"
+  key "#4"
+  users 1
+   dbref #1
+    flags 8
+    title "Builder"
+***END OF DUMP***

@@ -18,9 +18,33 @@ This project is not a LambdaMOO parser or converter.
 Use `uv` for all Python commands:
 
 ```powershell
+uv run ruff check .
+uv run mypy .
+uv run pyright
 uv run pytest
 ```
 
-The current first slice implements the package skeleton plus shared primitives:
-line ending detection, quoted strings, labeled lines, dbrefs, `+V` header
-encoding/decoding, and PennMUSH end markers.
+The repository is configured for strict typing with mypy and pyright, Ruff, a
+post-commit hook, and GitHub Actions CI.
+
+## CLI
+
+The package installs four verification commands:
+
+```powershell
+mush-inspect PATH --kind main|mail|chat|auto
+mush-roundtrip PATH --kind main|mail|chat|auto --out OUT
+mush-dump-json PATH --kind main|mail|chat|auto
+mush-upgrade PATH --kind main-oldstyle|chat-oldstyle --out OUT
+```
+
+The commands use the same readers and writers as the test suite. Parse failures
+include source file and line context.
+
+## Compatibility
+
+The test suite includes source-shaped fixtures for current main, oldstyle main,
+mail, current chat, oldstyle chat, compression, and cross-family read/write/read
+round trips. `tests/oracle/` also runs the generated main/mail/chat files
+through a real PennMUSH server load path when the local WSL PennMUSH checkout is
+available.
