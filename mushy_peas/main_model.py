@@ -21,6 +21,7 @@ class PennAttribute:
     creator: int = -1
     data: str = ""
     aliases: tuple[str, ...] = ()
+    derefs: int = 0
 
 
 @dataclass(frozen=True)

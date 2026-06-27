@@ -1,0 +1,65 @@
++V1282
+dbversion 6
+savedtime "Fri Jan 01 00:00:00 2026"
++FLAGS LIST
+flagcount 0
+flagaliascount 0
++POWER LIST
+flagcount 0
+flagaliascount 0
++ATTRIBUTES LIST
+attrcount 0
+attraliascount 0
+~3
+!0
+name "Room Zero"
+location #-1
+contents #-1
+exits #-1
+next #-1
+parent #-1
+lockcount 0
+owner #1
+zone #-1
+pennies 0
+type 1
+flags ""
+powers ""
+warnings ""
+created 100
+modified 101
+attrcount 0
+!2
+name "Player Two"
+location #0
+contents #-1
+exits #-1
+next #-1
+parent #-1
+lockcount 2
+ type "Basic"
+  creator #2
+  flags "visual"
+  derefs 0
+  key "#2"
+ type "Use"
+  creator #2
+  flags ""
+  derefs 1
+  key "#0&!#1"
+owner #2
+zone #-1
+pennies 10
+type 8
+flags "CONNECTED"
+powers "BOOT"
+warnings "NO_LOG"
+created 200
+modified 201
+attrcount 1
+ name "DESCRIBE"
+  owner #2
+  flags "wizard"
+  derefs 1
+  value "A player"
+***END OF DUMP***

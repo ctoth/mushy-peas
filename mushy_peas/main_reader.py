@@ -1,16 +1,73 @@
 """Reader for current PennMUSH main object databases."""
 
 from collections.abc import Sequence
+from dataclasses import replace
 from pathlib import Path
 
 from mushy_peas.compression import CompressionMode, read_database_text
 from mushy_peas.errors import ParseError
-from mushy_peas.main_model import PennAttribute, PennFlag, PennMainDatabase
+from mushy_peas.main_model import (
+    PennAttribute,
+    PennFlag,
+    PennLock,
+    PennMainDatabase,
+    PennObject,
+)
 from mushy_peas.primitives import (
     LineReader,
     decode_db_header,
+    is_end_marker,
     parse_labeled_line,
 )
+
+
+def read_main_database(
+    path: str | Path,
+    *,
+    compression: CompressionMode = "auto",
+    external_command: Sequence[str] | None = None,
+    encoding: str = "utf-8",
+) -> PennMainDatabase:
+    text = read_database_text(
+        path,
+        compression=compression,
+        external_command=external_command,
+        encoding=encoding,
+    )
+    return read_main_database_text(text, source=str(path))
+
+
+def read_main_database_text(
+    text: str,
+    *,
+    source: str = "<string>",
+) -> PennMainDatabase:
+    reader = LineReader(text, source=source)
+    database = _read_main_header_and_global_lists(reader)
+    objects: dict[int, PennObject] = {}
+
+    while not reader.eof():
+        line_text = reader.read_line()
+        if is_end_marker(line_text):
+            return replace(database, objects=objects)
+        if not line_text.startswith("!"):
+            raise reader.error(
+                "expected object record or end marker",
+                expected="!<dbref> or end marker",
+                actual=line_text,
+            )
+        dbref = _parse_object_record_header(line_text, reader)
+        if dbref in objects:
+            raise reader.error("duplicate object record", actual=line_text)
+        if dbref < 0 or dbref >= database.object_count:
+            raise reader.error(
+                "object dbref is outside declared capacity",
+                expected=f"0 <= dbref < {database.object_count}",
+                actual=line_text,
+            )
+        objects[dbref] = read_object_record(reader, dbref)
+
+    raise reader.error("missing end marker")
 
 
 def read_main_header_and_global_lists(
@@ -35,6 +92,10 @@ def read_main_header_and_global_lists_text(
     source: str = "<string>",
 ) -> PennMainDatabase:
     reader = LineReader(text, source=source)
+    return _read_main_header_and_global_lists(reader)
+
+
+def _read_main_header_and_global_lists(reader: LineReader) -> PennMainDatabase:
     raw_dbflags = decode_db_header(
         reader.read_line(),
         source=reader.source,
@@ -93,6 +154,85 @@ def read_main_header_and_global_lists_text(
             )
 
     raise reader.error("missing object capacity", expected="~<count>")
+
+
+def read_object_record(reader: LineReader, dbref: int) -> PennObject:
+    name = _read_quoted(reader, "name")
+    location = _read_dbref(reader, "location")
+    contents = _read_dbref(reader, "contents")
+    exits = _read_dbref(reader, "exits")
+    next_dbref = _read_dbref(reader, "next")
+    parent = _read_dbref(reader, "parent")
+    locks = read_locks(reader)
+    owner = _read_dbref(reader, "owner")
+    zone = _read_dbref(reader, "zone")
+    pennies = _read_int(reader, "pennies")
+    object_type = _read_int(reader, "type")
+    flags = _read_quoted_words(reader, "flags")
+    powers = _read_quoted_words(reader, "powers")
+    warnings = _read_quoted_words(reader, "warnings")
+    created = _read_int(reader, "created")
+    modified = _read_int(reader, "modified")
+    attributes = read_object_attributes(reader)
+
+    return PennObject(
+        dbref=dbref,
+        name=name,
+        location=location,
+        contents=contents,
+        exits=exits,
+        next=next_dbref,
+        parent=parent,
+        locks=locks,
+        owner=owner,
+        zone=zone,
+        pennies=pennies,
+        type=object_type,
+        flags=flags,
+        powers=powers,
+        warnings=warnings,
+        created=created,
+        modified=modified,
+        attributes=attributes,
+    )
+
+
+def read_locks(reader: LineReader) -> dict[str, PennLock]:
+    lock_count = _read_int(reader, "lockcount")
+    locks: dict[str, PennLock] = {}
+
+    for _ in range(lock_count):
+        lock_type = _read_quoted(reader, "type")
+        if lock_type in locks:
+            raise reader.error("duplicate lock type", actual=lock_type)
+        locks[lock_type] = PennLock(
+            type=lock_type,
+            creator=_read_dbref(reader, "creator"),
+            flags=_read_quoted_words(reader, "flags"),
+            derefs=_read_int(reader, "derefs"),
+            key=_read_quoted(reader, "key"),
+        )
+
+    return locks
+
+
+def read_object_attributes(reader: LineReader) -> dict[str, PennAttribute]:
+    attr_count = _read_int(reader, "attrcount")
+    attributes: dict[str, PennAttribute] = {}
+
+    for _ in range(attr_count):
+        name = _read_quoted(reader, "name")
+        if name in attributes:
+            raise reader.error("duplicate object attribute", actual=name)
+        attributes[name] = PennAttribute(
+            name=name,
+            creator=_read_dbref(reader, "owner"),
+            flags=_read_quoted_words(reader, "flags"),
+            derefs=_read_int(reader, "derefs"),
+            data=_read_quoted(reader, "value"),
+        )
+
+    return attributes
 
 
 def read_flags_list(reader: LineReader) -> dict[str, PennFlag]:
@@ -246,5 +386,18 @@ def _parse_capacity(line_text: str, reader: LineReader) -> int:
             source=reader.source,
             line=reader.line_number,
             expected="~<count>",
+            actual=line_text,
+        ) from exc
+
+
+def _parse_object_record_header(line_text: str, reader: LineReader) -> int:
+    try:
+        return int(line_text[1:])
+    except ValueError as exc:
+        raise ParseError(
+            "invalid object record header",
+            source=reader.source,
+            line=reader.line_number,
+            expected="!<dbref>",
             actual=line_text,
         ) from exc
