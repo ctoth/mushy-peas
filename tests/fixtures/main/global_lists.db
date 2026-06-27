@@ -1,0 +1,33 @@
++V1282
+dbversion 6
+savedtime "Fri Jan 01 00:00:00 2026"
++FLAGS LIST
+flagcount 1
+ name "WIZARD"
+  letter "W"
+  type "ROOM PLAYER"
+  perms "trusted"
+  negate_perms "guest"
+flagaliascount 1
+ name "WIZARD"
+  alias "ROYALTY"
++POWER LIST
+flagcount 1
+ name "BOOT"
+  letter "B"
+  type "PLAYER"
+  perms "wizard"
+  negate_perms ""
+flagaliascount 1
+ name "BOOT"
+  alias "KICK"
++ATTRIBUTES LIST
+attrcount 1
+ name "DESCRIBE"
+  flags "wizard visual"
+  creator #1
+  data ""
+attraliascount 1
+ name "DESCRIBE"
+  alias "DESC"
+~0
