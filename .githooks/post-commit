@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+echo "post-commit: running strict typing and tests"
+uv run ruff check .
+uv run mypy mushy_peas tests
+uv run pyright
+uv run pytest
