@@ -6,6 +6,12 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
 
+[project.scripts]
+mush-inspect = "mushy_peas.cli:mush_inspect"
+mush-roundtrip = "mushy_peas.cli:mush_roundtrip"
+mush-dump-json = "mushy_peas.cli:mush_dump_json"
+mush-upgrade = "mushy_peas.cli:mush_upgrade"
+
 [dependency-groups]
 dev = [
     "hypothesis>=6.100",
