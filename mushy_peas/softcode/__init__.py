@@ -1,5 +1,6 @@
 """Lossless PennMUSH softcode parsing support."""
 
+from mushy_peas.softcode.actions import ActionList, CommandStmt, parse_action_list
 from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
@@ -18,8 +19,10 @@ from mushy_peas.softcode.parser import ParseMode, parse_expression
 from mushy_peas.softcode.render import render
 
 __all__ = [
+    "ActionList",
     "Argument",
     "BraceGroup",
+    "CommandStmt",
     "Document",
     "DollarSub",
     "Escape",
@@ -31,6 +34,7 @@ __all__ = [
     "Span",
     "Terminator",
     "Text",
+    "parse_action_list",
     "parse_expression",
     "render",
 ]

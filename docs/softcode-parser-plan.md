@@ -702,9 +702,10 @@ Implementation target:
 
 First action slice:
 
-- split top-level semicolon-separated commands;
-- preserve exact whitespace and separators;
-- do not split inside braces, eval groups, or function args.
+- Done: split top-level semicolon-separated commands;
+- Done: preserve exact whitespace and separators as statement/separator spans;
+- Done: do not split inside braces, eval groups, escaped semicolons, or known
+  function args.
 
 Second action slice:
 
@@ -1029,6 +1030,8 @@ As of 2026-06-28, the project has:
 - an initial handwritten parser for text, escapes, percent substitutions,
   context-gated dollar substitutions, brace/eval groups, known function calls,
   arguments, and function argument terminators;
+- a first action-list CST slice for top-level semicolon splitting that respects
+  expression CST protected spans;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1066,7 +1069,7 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - a full expression CST;
-- action-list CST;
+- full action-list CST beyond top-level semicolon splitting;
 - profile-aware unit classification;
 - semantic AST views;
 - semantic graph extraction;
@@ -1074,4 +1077,4 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue expression CST expansion tied to the hardened oracle coverage.
+should continue action-list CST classification and nested action block parsing.
