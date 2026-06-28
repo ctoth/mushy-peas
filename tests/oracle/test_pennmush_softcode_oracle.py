@@ -348,6 +348,46 @@ def test_live_softcode_trace_reports_denied_disabled_function() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_function_invocation_limit() -> None:
+    trace = run_softcode_trace(
+        "add(add(1,2),add(3,4))",
+        config_lines=("function_invocation_limit 1",),
+    )
+    limit_events = _events_by_kind(trace, "function_limit")
+
+    assert trace.result == "#-1 ARGUMENTS MUST BE NUMBERS"
+    assert [
+        (
+            event.depth,
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.min_args,
+            event.max_args,
+            event.reason,
+            event.raw,
+            event.value,
+        )
+        for event in limit_events
+    ] == [
+        (
+            1,
+            13,
+            21,
+            "ADD",
+            2,
+            2147483647,
+            "invocation",
+            "add(3,4)",
+            "#-1 FUNCTION INVOCATION LIMIT EXCEEDED",
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)

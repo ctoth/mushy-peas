@@ -29,6 +29,7 @@ TraceEventKind: TypeAlias = Literal[
     "brace_group",
     "eval_group",
     "function",
+    "function_limit",
     "argument",
     "terminator",
     "unknown_function",
@@ -76,15 +77,14 @@ def run_softcode_trace(
     *,
     eflags: str = "PE_DEFAULT",
     tflags: str = "PT_DEFAULT",
+    config_lines: tuple[str, ...] = (),
     restrict_lines: tuple[str, ...] = (),
 ) -> SoftcodeTrace:
     game_dir = prepare_oracle_game_dir(TRACE_GAME_NAME, compression="none")
+    if config_lines:
+        _append_wsl_lines(f"{game_dir}/mush.cnf", config_lines)
     if restrict_lines:
-        payload = "\n" + "\n".join(restrict_lines) + "\n"
-        run_wsl_command(
-            f"printf %s {shlex.quote(payload)} >> "
-            f"{shlex.quote(game_dir)}/restrict.cnf"
-        )
+        _append_wsl_lines(f"{game_dir}/restrict.cnf", restrict_lines)
     command = (
         f"cd {shlex.quote(game_dir)} && "
         f"{shlex.quote(DEFAULT_WSL_CHECKOUT)}/src/netmud "
@@ -169,6 +169,7 @@ def _expect_kind(payload: dict[str, Any]) -> TraceEventKind:
             | "brace_group"
             | "eval_group"
             | "function"
+            | "function_limit"
             | "argument"
             | "terminator"
             | "unknown_function"
@@ -197,6 +198,11 @@ def _expect_optional_bool(payload: dict[str, Any], key: str) -> bool | None:
     if value is None or isinstance(value, bool):
         return value
     raise ValueError(f"{key} must be a bool or null")
+
+
+def _append_wsl_lines(path: str, lines: tuple[str, ...]) -> None:
+    payload = "\n" + "\n".join(lines) + "\n"
+    run_wsl_command(f"printf %s {shlex.quote(payload)} >> {shlex.quote(path)}")
 
 
 def _expect_optional_str(payload: dict[str, Any], key: str) -> str | None:
