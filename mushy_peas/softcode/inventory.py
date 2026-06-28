@@ -11,6 +11,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
+from mushy_peas.softcode.model import Span
+
 FileKind = Literal["softcode", "source_code", "data", "documentation", "unknown"]
 UnitKind = Literal[
     "cmd",
@@ -64,6 +66,7 @@ DATA_SUFFIXES = frozenset({".json", ".sql", ".xml", ".yaml", ".yml"})
 class CandidateSoftcodeUnit:
     source_path: Path
     line_number: int
+    source_span: Span
     attribute_name: str
     object_ref: str
     body: str
@@ -255,22 +258,80 @@ def _read_text_if_candidate(path: Path) -> str | None:
 
 def _candidate_units(path: Path, text: str) -> tuple[CandidateSoftcodeUnit, ...]:
     units: list[CandidateSoftcodeUnit] = []
-    for line_number, line in enumerate(text.splitlines(), start=1):
+    offset = 0
+    for line_number, line_with_ending in enumerate(
+        text.splitlines(keepends=True),
+        start=1,
+    ):
+        line = line_with_ending.rstrip("\r\n")
         match = ATTRIBUTE_RE.match(line)
-        if match is None:
-            continue
-        attribute_name = match.group("name")
-        units.append(
-            CandidateSoftcodeUnit(
-                source_path=path,
-                line_number=line_number,
-                attribute_name=attribute_name,
-                object_ref=match.group("object").strip(),
-                body=match.group("body"),
-                kind=_classify_attribute(attribute_name),
+        if match is not None:
+            attribute_name = match.group("name")
+            units.append(
+                CandidateSoftcodeUnit(
+                    source_path=path,
+                    line_number=line_number,
+                    source_span=Span(offset, offset + len(line)),
+                    attribute_name=attribute_name,
+                    object_ref=match.group("object").strip(),
+                    body=match.group("body"),
+                    kind=_classify_attribute(attribute_name),
+                )
             )
-        )
+        offset += len(line_with_ending)
     return tuple(units)
+
+
+def line_spans(text: str) -> tuple[Span, ...]:
+    spans: list[Span] = []
+    offset = 0
+    for line_with_ending in text.splitlines(keepends=True):
+        line = line_with_ending.rstrip("\r\n")
+        spans.append(Span(offset, offset + len(line)))
+        offset += len(line_with_ending)
+    if text == "":
+        return ()
+    if text.endswith(("\n", "\r")):
+        return tuple(spans)
+    return tuple(spans)
+
+
+def classify_attribute_name(attribute_name: str) -> UnitKind:
+    return _classify_attribute(attribute_name)
+
+
+def classify_file_path(path: Path, text: str | None) -> FileKind:
+    units = _candidate_units(path, text) if text is not None else ()
+    return _classify_file(path, text, units)
+
+
+def read_text_if_candidate(path: Path) -> str | None:
+    return _read_text_if_candidate(path)
+
+
+def is_attribute_install_line(line: str) -> bool:
+    return ATTRIBUTE_RE.match(line) is not None
+
+
+def parse_attribute_install_line(
+    path: Path,
+    line_number: int,
+    source_span: Span,
+    line: str,
+) -> CandidateSoftcodeUnit | None:
+    match = ATTRIBUTE_RE.match(line)
+    if match is None:
+        return None
+    attribute_name = match.group("name")
+    return CandidateSoftcodeUnit(
+        source_path=path,
+        line_number=line_number,
+        source_span=source_span,
+        attribute_name=attribute_name,
+        object_ref=match.group("object").strip(),
+        body=match.group("body"),
+        kind=_classify_attribute(attribute_name),
+    )
 
 
 def _classify_attribute(attribute_name: str) -> UnitKind:

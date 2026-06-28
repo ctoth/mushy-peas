@@ -361,6 +361,21 @@ First implementation slice:
 Not complete until WCNH `.mush` files produce stable unit IDs and a reproducible
 count report.
 
+Current status:
+
+- Done: `mushy_peas/softcode/units.py` extracts JSON-serializable
+  `SoftcodeUnit` records from inventory softcode files.
+- Done: install-script attribute lines become typed units with stable IDs,
+  source paths, line numbers, exact source spans, object refs, attribute names,
+  command patterns where visible, and bodies.
+- Done: non-empty unrecognized softcode lines are preserved as `raw` units.
+- Done: `reports/softcode-units.md` records current count totals, and
+  `reports/softcode-units.json` records the current ordered unit ledger.
+- Current local corpus total: 14,841 units, including 7,446 recognized
+  attribute install units and 7,400 raw preserved lines.
+- Limitation: multi-line install bodies are not yet coalesced; continuation
+  lines are preserved separately as `raw` units.
+
 ## Stage 4: Core Lossless CST
 
 Implement a handwritten parser over source text.
@@ -919,6 +934,8 @@ As of 2026-06-28, the project has:
 - source-slice rendering;
 - an initial handwritten parser for text, known function calls, and arguments;
 - a generated PennMUSH function metadata fixture with commit provenance;
+- stable, JSON-serializable softcode units and a reproducible unit ledger for
+  the first corpus roots;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -932,6 +949,7 @@ The project does not yet have:
 - complete trace coverage for literals, terminators, braces, eval groups,
   substitutions, denied functions, and arity errors;
 - expression-level seed extraction from PennMUSH `.t` tests;
+- coalesced multi-line softcode install bodies;
 - a full expression CST;
 - action-list CST;
 - profile-aware unit classification;
