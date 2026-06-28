@@ -271,7 +271,8 @@ Current status:
   Because PennMUSH evaluates copied replacement argument buffers, those events
   currently report `-1` source offsets instead of original-input spans.
 - Done: the trace includes `escape` events with source spans, raw source text,
-  and produced value for evaluated backslash escapes.
+  and produced value for evaluated backslash escapes, literal-mode backslashes,
+  and trailing backslashes.
 - Done: the trace includes `arity_error` events with source spans, raw call
   text, function metadata, actual argument count, and produced error value.
 - Done: the trace includes `unknown_function` events with source spans,
@@ -287,8 +288,7 @@ Current status:
   and recursion limit failures, with source spans, function metadata, raw call
   text, limit reason, and produced error value.
 - Limitation: trace coverage is still missing original-input spans for
-  copied-buffer dollar substitutions, escape edge cases, and literal copy path
-  completeness.
+  copied-buffer dollar substitutions and literal copy path completeness.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
@@ -1021,7 +1021,8 @@ As of 2026-06-28, the project has:
 - PennMUSH trace percent-substitution events with raw and produced values;
 - PennMUSH trace dollar-substitution events with raw and produced values, but
   not original-input spans for copied replacement buffers yet;
-- PennMUSH trace escape events with raw and produced values;
+- PennMUSH trace escape events with raw and produced values, including
+  trailing and literal-mode backslash edges;
 - PennMUSH trace function arity-error events with raw call text and produced
   error values;
 - PennMUSH trace unknown-function events for both literal fallback and
@@ -1042,8 +1043,8 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- complete trace coverage for all literal copy paths, original-input spans for
-  copied-buffer dollar substitutions, and escape edge cases;
+- complete trace coverage for all literal copy paths and original-input spans
+  for copied-buffer dollar substitutions;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;

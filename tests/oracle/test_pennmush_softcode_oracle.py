@@ -222,6 +222,36 @@ def test_live_softcode_trace_reports_escape_span() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_trailing_escape() -> None:
+    trace = run_softcode_trace("abc\\")
+    escape_events = _events_by_kind(trace, "escape")
+
+    assert trace.result == "abc"
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in escape_events
+    ] == [(3, 4, "\\", "")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_literal_mode_escape() -> None:
+    trace = run_softcode_trace(r"lit(\%)")
+    escape_events = _events_by_kind(trace, "escape")
+
+    assert trace.result == r"\%"
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in escape_events
+    ] == [(4, 5, "\\", "\\")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_function_arity_errors() -> None:
     trace = run_softcode_trace("add(1)")
     arity_events = _events_by_kind(trace, "arity_error")
