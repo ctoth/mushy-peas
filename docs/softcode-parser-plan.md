@@ -246,8 +246,23 @@ PennMUSH verification:
 wsl -u q -- bash -lc "cd /mnt/c/Users/Q/src/pennmush && make -j4"
 ```
 
-Not complete until the trace includes raw and evaluated argument data for
-ordinary, `FN_NOPARSE`, and `FN_LITERAL` functions.
+Current status:
+
+- Done: the trace includes recursive `enter` and `exit` events.
+- Done: the trace includes function lookup events with function name, flags,
+  minimum args, and maximum args.
+- Done: the trace includes raw and evaluated argument data for ordinary,
+  `FN_NOPARSE`, and `FN_LITERAL` functions.
+- Done: the trace includes `terminator` events with delimiter spans,
+  delimiter text, and active `tflags` when `process_expression()` exits on a
+  tflag-selected terminator.
+- Limitation: trace coverage is still missing copied literal spans, complete
+  brace/eval group spans, percent substitutions, dollar substitutions, escape
+  handling, denied function paths, unknown function handling details, and
+  function arity errors.
+
+Not complete until every required event family above is either emitted with
+spans or documented as unsupported with a test fixture.
 
 ## Stage 2: Function Metadata Export
 
@@ -971,6 +986,7 @@ As of 2026-06-28, the project has:
   the first corpus roots;
 - bounded corpus seed extraction from WCNH attrs, mushcode command attrs, and
   PennMUSH `.t` expressions;
+- PennMUSH trace terminator events for tflag-selected delimiters;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -981,8 +997,8 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- complete trace coverage for literals, terminators, braces, eval groups,
-  substitutions, denied functions, and arity errors;
+- complete trace coverage for literals, brace and eval group spans,
+  substitutions, denied functions, unknown functions, and arity errors;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;

@@ -23,6 +23,8 @@ def test_parse_trace_output_accepts_jsonl_contract() -> None:
                 '"min_args":2,"max_args":2147483647}',
                 '{"kind":"argument","depth":1,"argument_index":0,'
                 '"source_start":4,"source_end":5,"raw":"1","value":"1"}',
+                '{"kind":"terminator","depth":1,"source_start":5,'
+                '"source_end":6,"terminator":",","tflags":12}',
                 '{"kind":"argument","depth":1,"argument_index":1,'
                 '"source_start":6,"source_end":7,"raw":"2","value":"2"}',
                 '{"kind":"exit","depth":0,"source_start":0,'
@@ -61,6 +63,14 @@ def test_parse_trace_output_accepts_jsonl_contract() -> None:
             argument_index=0,
             raw="1",
             value="1",
+        ),
+        SoftcodeTraceEvent(
+            kind="terminator",
+            depth=1,
+            source_start=5,
+            source_end=6,
+            terminator=",",
+            tflags=12,
         ),
         SoftcodeTraceEvent(
             kind="argument",
@@ -103,6 +113,7 @@ def test_live_softcode_trace_oracle_smoke() -> None:
     trace = run_softcode_trace("add(1,2)")
     function_event = _function_events(trace, "ADD")[0]
     argument_events = _argument_events(trace)
+    terminator_events = _terminator_events(trace)
 
     assert trace.result == "3"
     assert function_event.source_start == 0
@@ -113,6 +124,10 @@ def test_live_softcode_trace_oracle_smoke() -> None:
         ("1", "1"),
         ("2", "2"),
     ]
+    assert [
+        (event.source_start, event.source_end, event.terminator, event.tflags)
+        for event in terminator_events
+    ] == [(5, 6, ",", 12), (7, 8, ")", 12)]
 
 
 @pytest.mark.skipif(
@@ -193,3 +208,7 @@ def _function_events(
 
 def _argument_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
     return [event for event in trace.events if event.kind == "argument"]
+
+
+def _terminator_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
+    return [event for event in trace.events if event.kind == "terminator"]
