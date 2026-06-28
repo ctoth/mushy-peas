@@ -256,10 +256,15 @@ Current status:
 - Done: the trace includes `terminator` events with delimiter spans,
   delimiter text, and active `tflags` when `process_expression()` exits on a
   tflag-selected terminator.
-- Limitation: trace coverage is still missing copied literal spans, complete
-  brace/eval group spans, percent substitutions, dollar substitutions, escape
-  handling, denied function paths, unknown function handling details, and
-  function arity errors.
+- Done: the trace includes `literal` events with source spans, raw text, and
+  copied value for non-speculative literal chunks.
+- Limitation: literal tracing is not complete for every copy path yet. The
+  scanner still suppresses speculative function-name copies, and single
+  interesting characters copied by the default path are not all represented as
+  literal events.
+- Limitation: trace coverage is still missing complete brace/eval group spans,
+  percent substitutions, dollar substitutions, escape handling, denied function
+  paths, unknown function handling details, and function arity errors.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
@@ -986,6 +991,7 @@ As of 2026-06-28, the project has:
   the first corpus roots;
 - bounded corpus seed extraction from WCNH attrs, mushcode command attrs, and
   PennMUSH `.t` expressions;
+- PennMUSH trace literal events for non-speculative copied literal chunks;
 - PennMUSH trace terminator events for tflag-selected delimiters;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
@@ -997,7 +1003,7 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- complete trace coverage for literals, brace and eval group spans,
+- complete trace coverage for all literal copy paths, brace and eval group spans,
   substitutions, denied functions, unknown functions, and arity errors;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;

@@ -134,6 +134,21 @@ def test_live_softcode_trace_oracle_smoke() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_copied_literal_span() -> None:
+    trace = run_softcode_trace("abc")
+    literal_events = _literal_events(trace)
+
+    assert trace.result == "abc"
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in literal_events
+    ] == [(0, 3, "abc", "abc")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)
@@ -208,6 +223,10 @@ def _function_events(
 
 def _argument_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
     return [event for event in trace.events if event.kind == "argument"]
+
+
+def _literal_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
+    return [event for event in trace.events if event.kind == "literal"]
 
 
 def _terminator_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
