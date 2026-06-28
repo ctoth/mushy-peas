@@ -34,6 +34,12 @@ from mushy_peas.softcode.ast_views import (
     build_action_ast_view,
     build_ast_view,
 )
+from mushy_peas.softcode.graph import (
+    Definition,
+    Reference,
+    SemanticGraph,
+    build_semantic_graph,
+)
 from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
@@ -66,6 +72,7 @@ __all__ = [
     "CommandName",
     "CommandPattern",
     "CommandStmt",
+    "Definition",
     "Document",
     "DolistCommand",
     "DolistStmt",
@@ -81,7 +88,9 @@ __all__ = [
     "ParseMode",
     "PercentSub",
     "ProfileClassification",
+    "Reference",
     "RegexCommandPattern",
+    "SemanticGraph",
     "Span",
     "SubstitutionExpr",
     "SwitchCase",
@@ -95,6 +104,7 @@ __all__ = [
     "UnknownExpr",
     "build_action_ast_view",
     "build_ast_view",
+    "build_semantic_graph",
     "classify_profile",
     "parse_action_list",
     "parse_command_attribute_body",

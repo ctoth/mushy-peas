@@ -873,9 +873,9 @@ Implementation target:
 
 First graph slice:
 
-- definitions for WCNH `fn.*` and `cmd.*` units;
-- references for literal `u(fn.name,...)` calls;
-- unresolved dynamic `u(...)` calls represented explicitly.
+- Done: definitions for WCNH `fn.*` and `cmd.*` units;
+- Done: references for literal `u(fn.name,...)` calls;
+- Done: unresolved dynamic `u(...)` calls represented explicitly.
 
 ## Stage 11: Semantic Conformance
 
@@ -1069,6 +1069,8 @@ As of 2026-06-28, the project has:
 - first command-specific `@switch` CST classification;
 - action-level AST projections for assignment, trigger, dolist, switch, and
   empty dynamic statements;
+- first semantic graph slice for WCNH command/function definitions and literal
+  or dynamic `u(...)` references;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1108,7 +1110,7 @@ The project does not yet have:
 - a full expression CST;
 - richer command-specific action CST for `@switch`, `@dolist`, and `@trigger`;
 - complete semantic AST views;
-- semantic graph extraction;
+- complete semantic graph extraction;
 - maturity and coverage gates.
 
 Therefore the project is past the first parser skeleton, but it is still not
