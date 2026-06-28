@@ -78,6 +78,7 @@ def run_softcode_trace(
     *,
     eflags: str = "PE_DEFAULT",
     tflags: str = "PT_DEFAULT",
+    executor: Literal["GOD", "NOTHING"] = "GOD",
     config_lines: tuple[str, ...] = (),
     restrict_lines: tuple[str, ...] = (),
 ) -> SoftcodeTrace:
@@ -90,6 +91,7 @@ def run_softcode_trace(
         f"cd {shlex.quote(game_dir)} && "
         f"{shlex.quote(DEFAULT_WSL_CHECKOUT)}/src/netmud "
         f"--no-session --softcode-trace-jsonl "
+        f"--softcode-trace-executor {shlex.quote(executor)} "
         f"--eflags {shlex.quote(eflags)} --tflags {shlex.quote(tflags)} "
         "mush.cnf"
     )

@@ -363,6 +363,43 @@ def test_live_softcode_trace_reports_denied_disabled_function() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_permission_denied_function() -> None:
+    trace = run_softcode_trace("html(x)", executor="NOTHING")
+    denied_events = _events_by_kind(trace, "denied_function")
+
+    assert trace.result == "#-1 PERMISSION DENIED"
+    assert [
+        (
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.min_args,
+            event.max_args,
+            event.actual_args,
+            event.reason,
+            event.raw,
+            event.value,
+        )
+        for event in denied_events
+    ] == [
+        (
+            0,
+            7,
+            "HTML",
+            1,
+            1,
+            1,
+            "permission",
+            "html(x)",
+            trace.result,
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_function_invocation_limit() -> None:
     trace = run_softcode_trace(
         "add(add(1,2),add(3,4))",
