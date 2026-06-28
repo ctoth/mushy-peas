@@ -4,7 +4,11 @@ from pathlib import Path
 from hypothesis import given, settings
 
 from mushy_peas.softcode.seeds import collect_corpus_seeds
-from tests.softcode.strategies import corpus_seed_texts
+from tests.softcode.strategies import (
+    corpus_seed_mutations,
+    corpus_seed_texts,
+    mutate_seed_text,
+)
 
 
 def test_collect_corpus_seeds_records_source_provenance(tmp_path: Path) -> None:
@@ -145,6 +149,23 @@ def test_corpus_seed_collection_is_json_serializable(tmp_path: Path) -> None:
     payload = collection.to_json()
 
     assert json.loads(json.dumps(payload)) == payload
+
+
+def test_mutate_seed_text_returns_bounded_structural_variants() -> None:
+    assert set(mutate_seed_text("add(1,2)")) == {
+        " add(1,2) ",
+        "add(0,2)",
+        "add(1,2",
+        "lit(add(1,2))",
+        "[add(1,2)]",
+        "{add(1,2)}",
+    }
+
+
+@settings(max_examples=3)
+@given(corpus_seed_mutations())
+def test_corpus_seed_mutation_strategy_loads_generated_fixture(seed: str) -> None:
+    assert isinstance(seed, str)
 
 
 @settings(max_examples=3)

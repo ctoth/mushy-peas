@@ -21,6 +21,36 @@ def corpus_seed_texts(
     return st.sampled_from(seeds)
 
 
+def corpus_seed_mutations(
+    fixture: Path = DEFAULT_CORPUS_SEED_FIXTURE,
+) -> SearchStrategy[str]:
+    seeds = _load_seed_texts(fixture)
+    mutations = tuple(
+        mutation
+        for seed in seeds
+        for mutation in mutate_seed_text(seed)
+        if mutation != seed
+    )
+    if not mutations:
+        return st.just("")
+    return st.sampled_from(mutations)
+
+
+def mutate_seed_text(seed: str) -> tuple[str, ...]:
+    if seed == "":
+        return ()
+    variants = {
+        f"{{{seed}}}",
+        f"[{seed}]",
+        f" {seed} ",
+        _replace_first_digit(seed),
+        _drop_final_character(seed),
+        _wrap_in_nested_call(seed),
+    }
+    variants.discard("")
+    return tuple(sorted(variants))
+
+
 def _load_seed_texts(fixture: Path) -> list[str]:
     payload_any: Any = json.loads(fixture.read_text(encoding="utf-8"))
     if not isinstance(payload_any, dict):
@@ -40,3 +70,19 @@ def _load_seed_texts(fixture: Path) -> list[str]:
             raise ValueError("corpus seed text must be a string")
         texts.append(text)
     return texts
+
+
+def _replace_first_digit(seed: str) -> str:
+    for index, char in enumerate(seed):
+        if char.isdigit():
+            replacement = "0" if char != "0" else "1"
+            return f"{seed[:index]}{replacement}{seed[index + 1:]}"
+    return seed
+
+
+def _drop_final_character(seed: str) -> str:
+    return seed[:-1]
+
+
+def _wrap_in_nested_call(seed: str) -> str:
+    return f"lit({seed})"

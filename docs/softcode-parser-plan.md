@@ -643,8 +643,9 @@ Current status:
   object attribute seed.
 - Done: `tests/softcode/strategies.py` exposes a bounded Hypothesis strategy
   over the checked seed fixture.
-- Limitation: mutation strategies are still limited to sampling existing seed
-  text.
+- Done: `tests/softcode/strategies.py` exposes bounded corpus mutation
+  strategies for braces, eval brackets, whitespace, numeric edits, final
+  delimiter deletion, and nested `lit(...)` wrapping.
 
 ## Stage 7: Action-List CST
 
@@ -1022,6 +1023,7 @@ As of 2026-06-28, the project has:
   the first corpus roots;
 - bounded corpus seed extraction from WCNH attrs, mushcode command attrs,
   PennMUSH `.t` expressions, and current PennMUSH main DB object attributes;
+- bounded corpus mutation strategies beyond fixture sampling;
 - PennMUSH trace terminator events for tflag-selected delimiters;
 - PennMUSH trace literal events for non-speculative literal chunks,
   literal-mode delimiters, default-path punctuation, copied spaces, ANSI
@@ -1052,7 +1054,6 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- corpus mutation strategies beyond fixture sampling;
 - a full expression CST;
 - action-list CST;
 - profile-aware unit classification;
@@ -1062,5 +1063,4 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should add corpus mutation strategies; parser syntax expansion should remain
-tied to oracle coverage.
+should continue expression CST expansion tied to the hardened oracle coverage.
