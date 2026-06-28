@@ -507,6 +507,7 @@ Document(span, children)
 Text(span)
 Escape(span, raw)
 PercentSub(span, raw)
+DollarSub(span, raw)
 FunctionCall(span, name_span, name, open_paren, arguments, close_paren)
 Argument(span, children)
 BraceGroup(span, open_brace, children, close_brace)
@@ -531,6 +532,7 @@ Initial scope:
 - literal text;
 - escapes;
 - percent substitutions;
+- dollar substitutions when `ParseMode.dollar_substitutions` is enabled;
 - known function calls;
 - comma-separated arguments;
 - nested known function calls;
@@ -540,7 +542,6 @@ Initial scope:
 
 Out of first slice:
 
-- dollar substitutions;
 - terminator nodes;
 - action lists;
 - semantic graph.
@@ -1025,7 +1026,8 @@ As of 2026-06-28, the project has:
 - initial lossless CST model dataclasses;
 - source-slice rendering;
 - an initial handwritten parser for text, escapes, percent substitutions,
-  brace/eval groups, known function calls, and arguments;
+  context-gated dollar substitutions, brace/eval groups, known function calls,
+  and arguments;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;

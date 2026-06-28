@@ -39,6 +39,13 @@ class PercentSub:
 
 
 @dataclass(frozen=True)
+class DollarSub:
+    span: Span
+    raw: str
+    kind: Literal["dollar_sub"] = "dollar_sub"
+
+
+@dataclass(frozen=True)
 class Argument:
     span: Span
     children: tuple[Node, ...]
@@ -85,6 +92,7 @@ Node: TypeAlias = (
     Text
     | Escape
     | PercentSub
+    | DollarSub
     | FunctionCall
     | Argument
     | BraceGroup

@@ -2,9 +2,11 @@ from pathlib import Path
 
 from mushy_peas.softcode import (
     BraceGroup,
+    DollarSub,
     Escape,
     EvalGroup,
     FunctionCall,
+    ParseMode,
     PercentSub,
     parse_expression,
     render,
@@ -148,4 +150,27 @@ def test_trailing_escape_parses_as_cst_node() -> None:
     assert escape.span.start == 3
     assert escape.span.end == 4
     assert escape.raw == "\\"
+    assert render(document, source) == source
+
+
+def test_dollar_substitution_is_text_by_default() -> None:
+    source = "$look:@emit hi"
+    document = parse_expression(source)
+
+    assert render(document, source) == source
+    assert len(document.children) == 1
+
+
+def test_dollar_substitution_parses_when_enabled() -> None:
+    source = "<$1> <$<name>>"
+    document = parse_expression(source, mode=ParseMode(dollar_substitutions=True))
+
+    assert isinstance(document.children[1], DollarSub)
+    assert document.children[1].span.start == 1
+    assert document.children[1].span.end == 3
+    assert document.children[1].raw == "$1"
+    assert isinstance(document.children[3], DollarSub)
+    assert document.children[3].span.start == 6
+    assert document.children[3].span.end == 13
+    assert document.children[3].raw == "$<name>"
     assert render(document, source) == source

@@ -9,6 +9,7 @@ from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
     Document,
+    DollarSub,
     Escape,
     EvalGroup,
     FunctionCall,
@@ -22,6 +23,7 @@ from mushy_peas.softcode.model import (
 @dataclass(frozen=True)
 class ParseMode:
     function_mandatory: bool = False
+    dollar_substitutions: bool = False
 
 
 def parse_expression(
@@ -73,6 +75,14 @@ class _Parser:
                     children.append(Text(span=Span(text_start, index)))
                 children.append(percent_sub)
                 index = percent_sub.span.end
+                text_start = index
+                continue
+            dollar_sub = self._parse_dollar_sub_at(index)
+            if dollar_sub is not None:
+                if text_start < index:
+                    children.append(Text(span=Span(text_start, index)))
+                children.append(dollar_sub)
+                index = dollar_sub.span.end
                 text_start = index
                 continue
             group = self._parse_group_at(index)
@@ -178,6 +188,26 @@ class _Parser:
                 return None
             end += 1
         return PercentSub(
+            span=Span(position, end),
+            raw=self.source[position:end],
+        )
+
+    def _parse_dollar_sub_at(self, position: int) -> DollarSub | None:
+        if not self.mode.dollar_substitutions:
+            return None
+        if self.source[position] != "$" or position + 1 >= len(self.source):
+            return None
+        next_char = self.source[position + 1]
+        if next_char.isdigit():
+            end = position + 2
+        elif next_char == "<":
+            close = self.source.find(">", position + 2)
+            if close == -1:
+                return None
+            end = close + 1
+        else:
+            return None
+        return DollarSub(
             span=Span(position, end),
             raw=self.source[position:end],
         )

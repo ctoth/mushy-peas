@@ -4,6 +4,7 @@ from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
     Document,
+    DollarSub,
     Escape,
     EvalGroup,
     FunctionCall,
@@ -12,17 +13,19 @@ from mushy_peas.softcode.model import (
     Span,
     Text,
 )
-from mushy_peas.softcode.parser import parse_expression
+from mushy_peas.softcode.parser import ParseMode, parse_expression
 from mushy_peas.softcode.render import render
 
 __all__ = [
     "Argument",
     "BraceGroup",
     "Document",
+    "DollarSub",
     "Escape",
     "EvalGroup",
     "FunctionCall",
     "Node",
+    "ParseMode",
     "PercentSub",
     "Span",
     "Text",
