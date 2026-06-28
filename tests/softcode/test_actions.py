@@ -4,6 +4,7 @@ from mushy_peas.softcode import (
     Assignment,
     CommandName,
     CommandPattern,
+    DolistCommand,
     NestedActionBlock,
     RegexCommandPattern,
     TriggerCommand,
@@ -165,3 +166,37 @@ def test_action_list_classifies_trigger_without_arguments() -> None:
     assert trigger.target.span.end == len(source)
     assert trigger.equals is None
     assert trigger.arguments is None
+
+
+def test_action_list_classifies_dolist_command() -> None:
+    source = "@dolist one two three=@emit ##"
+    action_list = parse_action_list(source)
+    statement = action_list.statements[0]
+
+    assert isinstance(statement.dolist, DolistCommand)
+    dolist = statement.dolist
+    assert dolist.span.start == 0
+    assert dolist.span.end == len(source)
+    assert dolist.command_name.text == "@dolist"
+    assert dolist.list_expr.span.start == 8
+    assert dolist.list_expr.span.end == 21
+    assert dolist.equals == 21
+    assert dolist.body.span.start == 22
+    assert dolist.body.span.end == len(source)
+    assert dolist.nested_action_block is None
+
+
+def test_action_list_classifies_dolist_nested_action_body() -> None:
+    source = "@dol one two={@emit ##;@emit done}"
+    action_list = parse_action_list(source)
+    dolist = action_list.statements[0].dolist
+
+    assert isinstance(dolist, DolistCommand)
+    assert isinstance(dolist.nested_action_block, NestedActionBlock)
+    block = dolist.nested_action_block
+    assert block.span.start == 13
+    assert block.span.end == len(source)
+    assert [(stmt.span.start, stmt.span.end) for stmt in block.actions.statements] == [
+        (14, 22),
+        (23, 33),
+    ]

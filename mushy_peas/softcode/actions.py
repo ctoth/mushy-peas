@@ -59,11 +59,22 @@ class TriggerCommand:
 
 
 @dataclass(frozen=True)
+class DolistCommand:
+    span: Span
+    command_name: CommandName
+    list_expr: CommandArg
+    equals: int
+    body: CommandArg
+    nested_action_block: NestedActionBlock | None = None
+
+
+@dataclass(frozen=True)
 class CommandStmt:
     span: Span
     command_name: CommandName | None = None
     argument: CommandArg | None = None
     assignment: Assignment | None = None
+    dolist: DolistCommand | None = None
     trigger: TriggerCommand | None = None
 
 
@@ -186,6 +197,7 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
         command_name=command_name,
         argument=argument,
         assignment=assignment,
+        dolist=_parse_dolist_command(span, command_name, assignment),
         trigger=_parse_trigger_command(
             span,
             command_name,
@@ -223,6 +235,23 @@ def _parse_trigger_command(
         target=target,
         equals=assignment.equals,
         arguments=assignment.rhs,
+    )
+
+
+def _parse_dolist_command(
+    span: Span,
+    command_name: CommandName,
+    assignment: Assignment,
+) -> DolistCommand | None:
+    if command_name.text.casefold() not in {"@dolist", "@dol"}:
+        return None
+    return DolistCommand(
+        span=span,
+        command_name=command_name,
+        list_expr=assignment.lhs,
+        equals=assignment.equals,
+        body=assignment.rhs,
+        nested_action_block=assignment.nested_action_block,
     )
 
 
