@@ -92,7 +92,7 @@ uv run mush-softcode-functions C:\Users\Q\src\pennmush --output tests\fixtures\s
 
 uv run python -m mushy_peas.softcode.units C:\Users\Q\src\wcnh\systems\softcode C:\Users\Q\src\mushcode C:\Users\Q\src\pennmush\test --report reports\softcode-units.md --json reports\softcode-units.json
 
-uv run python -m mushy_peas.softcode.seeds C:\Users\Q\src\wcnh\systems\softcode C:\Users\Q\src\mushcode C:\Users\Q\src\pennmush\test --output tests\fixtures\softcode\corpus-seeds.json --max-per-kind 50
+uv run python -m mushy_peas.softcode.seeds C:\Users\Q\src\wcnh\systems\softcode C:\Users\Q\src\mushcode C:\Users\Q\src\pennmush\test tests\fixtures\main --output tests\fixtures\softcode\corpus-seeds.json --max-per-kind 50
 ```
 
 These commands are executable today. The broader Stage 13 CLI names are still
@@ -637,13 +637,14 @@ Current status:
 
 - Done: `mushy_peas/softcode/seeds.py` extracts bounded deterministic corpus
   seeds from softcode units and PennMUSH `.t` files.
-- Done: `tests/fixtures/softcode/corpus-seeds.json` records 200 current seeds:
-  50 WCNH command attrs, 50 WCNH function attrs, 50 mushcode command attrs, and
-  50 PennMUSH `think ...` test expressions.
+- Done: `tests/fixtures/softcode/corpus-seeds.json` records 201 current seeds:
+  50 WCNH command attrs, 50 WCNH function attrs, 50 mushcode command attrs,
+  50 PennMUSH `think ...` test expressions, and 1 current PennMUSH main DB
+  object attribute seed.
 - Done: `tests/softcode/strategies.py` exposes a bounded Hypothesis strategy
   over the checked seed fixture.
-- Limitation: real DB attribute seeds are not included yet, and mutation
-  strategies are still limited to sampling existing seed text.
+- Limitation: mutation strategies are still limited to sampling existing seed
+  text.
 
 ## Stage 7: Action-List CST
 
@@ -1019,8 +1020,8 @@ As of 2026-06-28, the project has:
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
-- bounded corpus seed extraction from WCNH attrs, mushcode command attrs, and
-  PennMUSH `.t` expressions;
+- bounded corpus seed extraction from WCNH attrs, mushcode command attrs,
+  PennMUSH `.t` expressions, and current PennMUSH main DB object attributes;
 - PennMUSH trace terminator events for tflag-selected delimiters;
 - PennMUSH trace literal events for non-speculative literal chunks,
   literal-mode delimiters, default-path punctuation, copied spaces, ANSI
@@ -1051,7 +1052,6 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;
 - action-list CST;
@@ -1062,5 +1062,5 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should add real DB attribute seeds or corpus mutation strategies; parser syntax
-expansion should remain tied to oracle coverage.
+should add corpus mutation strategies; parser syntax expansion should remain
+tied to oracle coverage.

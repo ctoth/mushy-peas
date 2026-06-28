@@ -13,6 +13,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
+from mushy_peas.errors import ParseError
+from mushy_peas.main_reader import read_main_database_text
+from mushy_peas.primitives import parse_labeled_line
 from mushy_peas.softcode.inventory import line_spans, read_text_if_candidate
 from mushy_peas.softcode.model import Span
 from mushy_peas.softcode.units import extract_softcode_units
@@ -22,6 +25,7 @@ SeedKind = Literal[
     "wcnh_function_attr",
     "mushcode_command_attr",
     "pennmush_test_expression",
+    "pennmush_db_attribute",
 ]
 
 THINK_TEST_RE = re.compile(
@@ -99,6 +103,7 @@ def collect_corpus_seeds(
             )
         )
     seeds.extend(_pennmush_test_expression_seeds(path_tuple))
+    seeds.extend(_pennmush_db_attribute_seeds(path_tuple))
     return CorpusSeedCollection(
         seeds=_bounded_by_kind(seeds, max_per_kind),
         max_per_kind=max_per_kind,
@@ -182,6 +187,96 @@ def _pennmush_test_expression_seeds(paths: tuple[Path, ...]) -> list[CorpusSeed]
                 )
             )
     return seeds
+
+
+def _pennmush_db_attribute_seeds(paths: tuple[Path, ...]) -> list[CorpusSeed]:
+    seeds: list[CorpusSeed] = []
+    for path in _iter_files(paths):
+        text = _read_current_main_db_text(path)
+        if text is None:
+            continue
+        spans = line_spans(text)
+        current_dbref: int | None = None
+        remaining_attrs = 0
+        pending_attr_name: str | None = None
+        for line_number, (line, span) in enumerate(
+            zip(text.splitlines(), spans, strict=True),
+            start=1,
+        ):
+            stripped = line.lstrip(" ")
+            if line.startswith("!"):
+                current_dbref = _parse_dbref_header(line)
+                remaining_attrs = 0
+                pending_attr_name = None
+                continue
+            if current_dbref is None:
+                continue
+            if stripped.startswith("attrcount "):
+                remaining_attrs = _parse_attrcount(line)
+                pending_attr_name = None
+                continue
+            if remaining_attrs <= 0:
+                continue
+            if pending_attr_name is None and stripped.startswith("name "):
+                pending_attr_name = _parse_quoted_label(line, "name")
+                continue
+            if pending_attr_name is not None and stripped.startswith("value "):
+                value = _parse_quoted_label(line, "value")
+                label = f"#{current_dbref}/{pending_attr_name}"
+                seeds.append(
+                    CorpusSeed(
+                        id=_seed_id(
+                            "pennmush_db_attribute",
+                            path,
+                            line_number,
+                            value,
+                        ),
+                        kind="pennmush_db_attribute",
+                        text=value,
+                        source_path=path,
+                        line_number=line_number,
+                        source_span=span,
+                        label=label,
+                    )
+                )
+                remaining_attrs -= 1
+                pending_attr_name = None
+    return seeds
+
+
+def _read_current_main_db_text(path: Path) -> str | None:
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return None
+    if not text.startswith("+V"):
+        return None
+    try:
+        read_main_database_text(text, source=str(path))
+    except ParseError:
+        return None
+    return text
+
+
+def _parse_dbref_header(line: str) -> int:
+    try:
+        return int(line[1:])
+    except ValueError:
+        return -1
+
+
+def _parse_attrcount(line: str) -> int:
+    label, value = parse_labeled_line(line, "int")
+    if label != "attrcount":
+        return 0
+    return value
+
+
+def _parse_quoted_label(line: str, expected_label: str) -> str:
+    label, value = parse_labeled_line(line, "quoted")
+    if label != expected_label:
+        return ""
+    return value
 
 
 def _iter_files(paths: tuple[Path, ...]) -> Iterable[Path]:

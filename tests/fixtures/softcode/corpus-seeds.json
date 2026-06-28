@@ -605,6 +605,18 @@
       "text": "$^(?s)(?\\:\\+)?(groups|group|gwho|gadmin|gmember|gperm|grank|grecall|gtier|gtitle|gfocus|gooc|gic|gradio|gemit)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+GROUP`MAIN"
     },
     {
+      "id": "seed:a1384da565f88e28",
+      "kind": "pennmush_db_attribute",
+      "label": "#2/DESCRIBE",
+      "line_number": 64,
+      "source_path": "C:\\Users\\Q\\code\\mushy-peas\\tests\\fixtures\\main\\current_objects.db",
+      "source_span": {
+        "end": 791,
+        "start": 773
+      },
+      "text": "A player"
+    },
+    {
       "id": "seed:373e419198f61acd",
       "kind": "pennmush_test_expression",
       "label": "atree.matching.18",
