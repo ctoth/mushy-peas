@@ -192,6 +192,21 @@ def test_live_softcode_trace_reports_percent_substitutions() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_escape_span() -> None:
+    trace = run_softcode_trace(r"\%")
+    escape_events = _events_by_kind(trace, "escape")
+
+    assert trace.result == "%"
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in escape_events
+    ] == [(0, 2, r"\%", "%")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)

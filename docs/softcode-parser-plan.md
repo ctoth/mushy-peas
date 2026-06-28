@@ -266,8 +266,10 @@ Current status:
   after their recursive parses consume the closing delimiter.
 - Done: the trace includes `percent_sub` events with source spans, raw source
   text, and produced value for evaluated percent substitutions.
+- Done: the trace includes `escape` events with source spans, raw source text,
+  and produced value for evaluated backslash escapes.
 - Limitation: trace coverage is still missing dollar substitutions, escape
-  handling, denied function paths, unknown function handling details, and
+  edge cases, denied function paths, unknown function handling details, and
   function arity errors.
 
 Not complete until every required event family above is either emitted with
@@ -999,6 +1001,7 @@ As of 2026-06-28, the project has:
 - PennMUSH trace terminator events for tflag-selected delimiters;
 - PennMUSH trace brace/eval group events with complete source spans;
 - PennMUSH trace percent-substitution events with raw and produced values;
+- PennMUSH trace escape events with raw and produced values;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -1010,7 +1013,7 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - complete trace coverage for all literal copy paths, dollar substitutions,
-  escape handling, denied functions, unknown functions, and arity errors;
+  escape edge cases, denied functions, unknown functions, and arity errors;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;

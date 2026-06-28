@@ -21,6 +21,7 @@ from tests.oracle.pennmush_oracle import (
 TraceEventKind: TypeAlias = Literal[
     "enter",
     "exit",
+    "escape",
     "literal",
     "percent_sub",
     "brace_group",
@@ -144,6 +145,7 @@ def _expect_kind(payload: dict[str, Any]) -> TraceEventKind:
         case (
             "enter"
             | "exit"
+            | "escape"
             | "literal"
             | "percent_sub"
             | "brace_group"
