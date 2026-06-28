@@ -1,6 +1,13 @@
 from pathlib import Path
 
-from mushy_peas.softcode import Assignment, CommandName, parse_action_list
+from mushy_peas.softcode import (
+    Assignment,
+    CommandName,
+    CommandPattern,
+    RegexCommandPattern,
+    parse_action_list,
+    parse_command_attribute_body,
+)
 from mushy_peas.softcode.function_metadata import load_function_registry
 
 FIXTURE = Path("tests/fixtures/softcode/pennmush-functions.json")
@@ -78,3 +85,31 @@ def test_action_list_classifies_simple_assignment() -> None:
     assert statement.assignment.equals == 9
     assert statement.assignment.rhs.span.start == 10
     assert statement.assignment.rhs.span.end == len(source)
+
+
+def test_command_attribute_body_classifies_pattern_and_actions() -> None:
+    source = "$test *:@pemit %#=ok;@emit done"
+    body = parse_command_attribute_body(source)
+
+    assert body is not None
+    assert isinstance(body.pattern, CommandPattern)
+    assert body.pattern.text == "$test *"
+    assert body.pattern.span.start == 0
+    assert body.pattern.span.end == 7
+    assert body.separator.start == 7
+    assert body.separator.end == 8
+    assert [(stmt.span.start, stmt.span.end) for stmt in body.actions.statements] == [
+        (8, 20),
+        (21, len(source)),
+    ]
+
+
+def test_command_attribute_body_classifies_regex_pattern() -> None:
+    source = "$^look (.+)$:@pemit %#=%1"
+    body = parse_command_attribute_body(source)
+
+    assert body is not None
+    assert isinstance(body.pattern, RegexCommandPattern)
+    assert body.pattern.text == "$^look (.+)$"
+    assert body.separator.start == 12
+    assert body.actions.statements[0].span.start == 13

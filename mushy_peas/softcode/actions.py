@@ -24,6 +24,18 @@ class CommandName:
 
 
 @dataclass(frozen=True)
+class CommandPattern:
+    span: Span
+    text: str
+
+
+@dataclass(frozen=True)
+class RegexCommandPattern:
+    span: Span
+    text: str
+
+
+@dataclass(frozen=True)
 class CommandArg:
     span: Span
 
@@ -51,26 +63,66 @@ class ActionList:
     separators: tuple[Span, ...]
 
 
+@dataclass(frozen=True)
+class CommandAttributeBody:
+    span: Span
+    pattern: CommandPattern | RegexCommandPattern
+    separator: Span
+    actions: ActionList
+
+
 def parse_action_list(
     source: str,
     *,
     metadata: FunctionRegistry | None = None,
+    start: int = 0,
+    end: int | None = None,
 ) -> ActionList:
-    document = parse_expression(source, metadata=metadata)
-    protected = _protected_offsets(document, len(source))
+    action_end = len(source) if end is None else end
+    segment = source[start:action_end]
+    document = parse_expression(segment, metadata=metadata)
+    protected = _protected_offsets(document, len(segment))
     statements: list[CommandStmt] = []
     separators: list[Span] = []
-    start = 0
-    for index, char in enumerate(source):
-        if char == ";" and not protected[index]:
-            statements.append(_parse_statement(source, start, index))
+    statement_start = start
+    for local_index, char in enumerate(segment):
+        index = start + local_index
+        if char == ";" and not protected[local_index]:
+            statements.append(_parse_statement(source, statement_start, index))
             separators.append(Span(index, index + 1))
-            start = index + 1
-    statements.append(_parse_statement(source, start, len(source)))
+            statement_start = index + 1
+    statements.append(_parse_statement(source, statement_start, action_end))
     return ActionList(
-        span=Span(0, len(source)),
+        span=Span(start, action_end),
         statements=tuple(statements),
         separators=tuple(separators),
+    )
+
+
+def parse_command_attribute_body(
+    source: str,
+    *,
+    metadata: FunctionRegistry | None = None,
+) -> CommandAttributeBody | None:
+    if not source.startswith("$"):
+        return None
+    separator = source.find(":")
+    if separator == -1:
+        return None
+    pattern_text = source[:separator]
+    pattern_span = Span(0, separator)
+    if pattern_text.startswith("$^"):
+        pattern: CommandPattern | RegexCommandPattern = RegexCommandPattern(
+            span=pattern_span,
+            text=pattern_text,
+        )
+    else:
+        pattern = CommandPattern(span=pattern_span, text=pattern_text)
+    return CommandAttributeBody(
+        span=Span(0, len(source)),
+        pattern=pattern,
+        separator=Span(separator, separator + 1),
+        actions=parse_action_list(source, metadata=metadata, start=separator + 1),
     )
 
 
