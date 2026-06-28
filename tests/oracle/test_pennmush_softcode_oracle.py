@@ -308,6 +308,46 @@ def test_live_softcode_trace_reports_mandatory_unknown_function_error() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_denied_disabled_function() -> None:
+    trace = run_softcode_trace(
+        "add(1,2)",
+        restrict_lines=("restrict_function add nobody",),
+    )
+    denied_events = _events_by_kind(trace, "denied_function")
+
+    assert trace.result == "#-1 FUNCTION DISABLED"
+    assert [
+        (
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.min_args,
+            event.max_args,
+            event.actual_args,
+            event.reason,
+            event.raw,
+            event.value,
+        )
+        for event in denied_events
+    ] == [
+        (
+            0,
+            8,
+            "ADD",
+            2,
+            2147483647,
+            2,
+            "disabled",
+            "add(1,2)",
+            trace.result,
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)

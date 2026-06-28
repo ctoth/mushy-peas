@@ -273,8 +273,12 @@ Current status:
 - Done: the trace includes `unknown_function` events with source spans,
   normalized function names, raw call text, produced values, and a mandatory
   mode flag that distinguishes literal fallback from eval-bracket errors.
+- Done: the trace includes `denied_function` events for config-disabled
+  functions, with source spans, function metadata, actual argument count, raw
+  call text, denial reason, and produced error value.
 - Limitation: trace coverage is still missing dollar substitutions, escape
-  edge cases, denied function paths, and some function-limit error paths.
+  edge cases, non-disabled permission-denied function paths, and some
+  function-limit error paths.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
@@ -1010,6 +1014,8 @@ As of 2026-06-28, the project has:
   error values;
 - PennMUSH trace unknown-function events for both literal fallback and
   mandatory-function error paths;
+- PennMUSH trace disabled-function denial events using per-run oracle
+  restrictions;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -1021,7 +1027,8 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - complete trace coverage for all literal copy paths, dollar substitutions,
-  escape edge cases, denied functions, and function-limit error paths;
+  escape edge cases, non-disabled permission-denied functions, and
+  function-limit error paths;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;

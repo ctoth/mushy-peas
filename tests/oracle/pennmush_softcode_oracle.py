@@ -20,6 +20,7 @@ from tests.oracle.pennmush_oracle import (
 
 TraceEventKind: TypeAlias = Literal[
     "arity_error",
+    "denied_function",
     "enter",
     "exit",
     "escape",
@@ -53,6 +54,7 @@ class SoftcodeTraceEvent:
     actual_args: int | None = None
     argument_index: int | None = None
     mandatory: bool | None = None
+    reason: str | None = None
     terminator: str | None = None
     raw: str | None = None
     value: str | None = None
@@ -74,8 +76,15 @@ def run_softcode_trace(
     *,
     eflags: str = "PE_DEFAULT",
     tflags: str = "PT_DEFAULT",
+    restrict_lines: tuple[str, ...] = (),
 ) -> SoftcodeTrace:
     game_dir = prepare_oracle_game_dir(TRACE_GAME_NAME, compression="none")
+    if restrict_lines:
+        payload = "\n" + "\n".join(restrict_lines) + "\n"
+        run_wsl_command(
+            f"printf %s {shlex.quote(payload)} >> "
+            f"{shlex.quote(game_dir)}/restrict.cnf"
+        )
     command = (
         f"cd {shlex.quote(game_dir)} && "
         f"{shlex.quote(DEFAULT_WSL_CHECKOUT)}/src/netmud "
@@ -139,6 +148,7 @@ def _parse_event(payload: dict[str, Any]) -> SoftcodeTraceEvent:
         actual_args=_expect_optional_int(payload, "actual_args"),
         argument_index=_expect_optional_int(payload, "argument_index"),
         mandatory=_expect_optional_bool(payload, "mandatory"),
+        reason=_expect_optional_str(payload, "reason"),
         terminator=_expect_optional_str(payload, "terminator"),
         raw=_expect_optional_str(payload, "raw"),
         value=_expect_optional_str(payload, "value"),
@@ -150,6 +160,7 @@ def _expect_kind(payload: dict[str, Any]) -> TraceEventKind:
     match value:
         case (
             "arity_error"
+            | "denied_function"
             | "enter"
             | "exit"
             | "escape"
