@@ -162,6 +162,19 @@ Acceptance:
 - The test suite uses temporary fixtures for parser behavior and marks external
   corpus inventory tests as skipped unless those paths exist.
 
+Current status:
+
+- Done: `mushy_peas/softcode/inventory.py` provides a read-only
+  `collect_softcode_inventory(paths)` API.
+- Done: `reports/softcode-inventory.md` records current local counts for WCNH
+  softcode, `mushcode`, and PennMUSH tests.
+- Done: tests use temporary fixtures and cover missing roots, skipped
+  directories, file-kind classification, unit-kind classification, and report
+  determinism.
+- Limitation: the first unit counter recognizes PennMUSH-style attribute
+  install-script lines. PennMUSH `.t` tests are classified as softcode files,
+  but they do not yet produce expression-level seed units.
+
 ## Stage 1: Harden The PennMUSH Trace Oracle
 
 The current oracle proves the path works. It must become rich enough to compare
@@ -887,6 +900,8 @@ As of 2026-06-28, the project has:
 - live oracle tests;
 - Hypothesis available;
 - known corpora to inventory;
+- a reproducible Stage 0 inventory report for the first three local corpus
+  roots;
 - initial lossless CST model dataclasses;
 - source-slice rendering;
 - an initial handwritten parser for text, known function calls, and arguments;
@@ -903,8 +918,7 @@ The project does not yet have:
 
 - complete trace coverage for literals, terminators, braces, eval groups,
   substitutions, denied functions, and arity errors;
-- a softcode unit inventory;
-- corpus coverage reports;
+- expression-level seed extraction from PennMUSH `.t` tests;
 - a generated PennMUSH function metadata export path;
 - a full expression CST;
 - action-list CST;
