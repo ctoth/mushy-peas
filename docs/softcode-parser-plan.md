@@ -289,6 +289,19 @@ First acceptance tests:
 - at least one `FN_LITERAL` function is present.
 - fixture provenance includes PennMUSH commit SHA.
 
+Current status:
+
+- Done: `mush-softcode-functions` regenerates
+  `tests/fixtures/softcode/pennmush-functions.json` from the PennMUSH source
+  table.
+- Done: the generated fixture records PennMUSH commit
+  `4d1d4a9e5cfc3c227b213de242721092a970ad41`.
+- Done: the fixture currently contains 527 non-debug built-in source-table
+  entries and parser tests consume it.
+- Limitation: this source-table fixture does not include runtime user-defined
+  `@function` entries, `@function/alias` additions, or config-time function
+  restrictions.
+
 ## Stage 3: Softcode Unit Extraction
 
 Create a neutral source-unit model before parsing expressions.
@@ -905,7 +918,7 @@ As of 2026-06-28, the project has:
 - initial lossless CST model dataclasses;
 - source-slice rendering;
 - an initial handwritten parser for text, known function calls, and arguments;
-- a temporary PennMUSH function metadata fixture with commit provenance;
+- a generated PennMUSH function metadata fixture with commit provenance;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -919,7 +932,6 @@ The project does not yet have:
 - complete trace coverage for literals, terminators, braces, eval groups,
   substitutions, denied functions, and arity errors;
 - expression-level seed extraction from PennMUSH `.t` tests;
-- a generated PennMUSH function metadata export path;
 - a full expression CST;
 - action-list CST;
 - profile-aware unit classification;
@@ -929,5 +941,5 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should either continue Stage 1 trace hardening or begin Stage 0 inventory, but
-parser syntax expansion should remain tied to oracle coverage.
+should continue Stage 1 trace hardening or move into expression-level corpus
+seed extraction; parser syntax expansion should remain tied to oracle coverage.

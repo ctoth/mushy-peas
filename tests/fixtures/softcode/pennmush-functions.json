@@ -1,17 +1,35 @@
 {
   "provenance": {
-    "pennmush_commit": "3bff8ce292fc14bdb0cee8575fbff0628a2b1ea5",
+    "pennmush_commit": "4d1d4a9e5cfc3c227b213de242721092a970ad41",
     "source_files": [
       "C:/Users/Q/src/pennmush/hdrs/function.h",
+      "C:/Users/Q/src/pennmush/hdrs/conf.h",
       "C:/Users/Q/src/pennmush/src/function.c"
     ],
-    "notes": "Temporary checked fixture for the first CST parser milestone; generated from the PennMUSH function table by inspection."
+    "notes": "Generated from PennMUSH function table source."
   },
   "flag_values": {
-    "FN_REG": 0,
-    "FN_NOPARSE": 1,
+    "FN_ADMIN": 128,
+    "FN_ARG_MASK": 3,
+    "FN_BUILTIN": 512,
+    "FN_CLONE": 262144,
+    "FN_DEPRECATED": 131072,
+    "FN_DISABLED": 4,
+    "FN_GOD": 256,
     "FN_LITERAL": 2,
-    "FN_STRIPANSI": 65536
+    "FN_LOCALIZE": 16384,
+    "FN_LOGARGS": 8192,
+    "FN_LOGNAME": 4096,
+    "FN_NOFIXED": 32,
+    "FN_NOGAGGED": 8,
+    "FN_NOGUEST": 16,
+    "FN_NOPARSE": 1,
+    "FN_NOSIDEFX": 2048,
+    "FN_OVERRIDE": 1024,
+    "FN_REG": 0,
+    "FN_STRIPANSI": 65536,
+    "FN_USERFN": 32768,
+    "FN_WIZARD": 64
   },
   "functions": [
     {
@@ -19,7 +37,51 @@
       "min_args": 1,
       "max_args": 2147483647,
       "flags": 1,
-      "flag_names": ["FN_NOPARSE"],
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ABS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ACCENT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ACCNAME",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ACOS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
       "is_builtin": true
     },
     {
@@ -27,7 +89,2085 @@
       "min_args": 2,
       "max_args": 2147483647,
       "flags": 65536,
-      "flag_names": ["FN_REG", "FN_STRIPANSI"],
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ADDRLOG",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "AFTER",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ALIAS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ALIGN",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ALLOF",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ALPHAMAX",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ALPHAMIN",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "AND",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ANDFLAGS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ANDLFLAGS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ANDLPOWERS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ANSI",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "APOSS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ART",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ASIN",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ATAN",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ATAN2",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ATRLOCK",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ATTRIB_SET",
+      "min_args": 1,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BAND",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BASECONV",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BEEP",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65664,
+      "flag_names": [
+        "FN_REG",
+        "FN_ADMIN",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BEFORE",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BENCHMARK",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BNAND",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BNOT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BOR",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BOUND",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BRACKETS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "BXOR",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CAND",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65537,
+      "flag_names": [
+        "FN_NOPARSE",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CAPSTR",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CASE",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CASEALL",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CAT",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CBUFFER",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CBUFFERADD",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CDESC",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CEIL",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CEMIT",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CENTER",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CFLAGS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CHANNELS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CHECKPASS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65600,
+      "flag_names": [
+        "FN_REG",
+        "FN_WIZARD",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CHILDREN",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CHR",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CLFLAGS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CLOCK",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CLONE",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CMDS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CMOGRIFIER",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CMSGS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "COLORS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "COMP",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CON",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "COND",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONDALL",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONFIG",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONN",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONNLOG",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 64,
+      "flag_names": [
+        "FN_REG",
+        "FN_WIZARD"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONNRECORD",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 64,
+      "flag_names": [
+        "FN_REG",
+        "FN_WIZARD"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONTROLS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONVSECS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONVTIME",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONVUTCSECS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CONVUTCTIME",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "COR",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65537,
+      "flag_names": [
+        "FN_NOPARSE",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "COS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "COWNER",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CREATE",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CRECALL",
+      "min_args": 1,
+      "max_args": 5,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CSECS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CSTATUS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CTIME",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CTITLE",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CTU",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CUSERS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "CWHO",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DEC",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DECODE64",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DECOMPOSE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DECRYPT",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DEFAULT",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DIE",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DIG",
+      "min_args": 1,
+      "max_args": 6,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DIGEST",
+      "min_args": 1,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DIST2D",
+      "min_args": 4,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DIST3D",
+      "min_args": 6,
+      "max_args": 6,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DIV",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "DOING",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "E",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EDEFAULT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EDIT",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ELEMENTS",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ELIST",
+      "min_args": 1,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ELOCK",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EMIT",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ENCODE64",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ENCRYPT",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ENDTAG",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ENTRANCES",
+      "min_args": 0,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EQ",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ESCAPE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ETIME",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ETIMEFMT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EVAL",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EXIT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "EXTRACT",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FDIV",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FILTER",
+      "min_args": 2,
+      "max_args": 33,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FILTERBOOL",
+      "min_args": 2,
+      "max_args": 33,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FINDABLE",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FIRST",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FIRSTOF",
+      "min_args": 0,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FLAGS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FLIP",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FLOOR",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FLOORDIV",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FMOD",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FN",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FOLD",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FOLDERSTATS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FOLLOWERS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FOLLOWING",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FOREACH",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FORMDECODE",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FRACTION",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FULLALIAS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FULLNAME",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "FUNCTIONS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GET",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GETPIDS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GET_EVAL",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GRAB",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GRABALL",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GREP",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GREPI",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GT",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "GTE",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASATTR",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASATTRP",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASATTRPVAL",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASATTRVAL",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASFLAG",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASPOWER",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HASTYPE",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HEIGHT",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HIDDEN",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HMAC",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HOME",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HOST",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "HTML",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 64,
+      "flag_names": [
+        "FN_REG",
+        "FN_WIZARD"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "IBREAK",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "IDLE",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "IF",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "IFELSE",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ILEV",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "INAME",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "INC",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "INDEX",
+      "min_args": 4,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "INUM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "IPADDR",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISDAYLIGHT",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISDBREF",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISINT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISJSON",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISNUM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISOBJID",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISREGEXP",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ISWORD",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ITEMIZE",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ITEMS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ITER",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ITEXT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "JSON",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "JSON_MAP",
+      "min_args": 2,
+      "max_args": 31,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "JSON_MOD",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "JSON_QUERY",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LALIGN",
+      "min_args": 2,
+      "max_args": 6,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LAST",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LATTR",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LATTRP",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LCON",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LCSTR",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LCSTR2",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LDELETE",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LEFT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LEMIT",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LETQ",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LEXITS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LFLAGS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LINK",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LINSERT",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LIST",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LISTQ",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
       "is_builtin": true
     },
     {
@@ -35,7 +2175,3445 @@
       "min_args": 1,
       "max_args": -1,
       "flags": 2,
-      "flag_names": ["FN_LITERAL"],
+      "flag_names": [
+        "FN_LITERAL"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LJUST",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LLOCKFLAGS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LLOCKS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LMATH",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LN",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LNUM",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOC",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCALIZE",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCATE",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCK",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCKFILTER",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCKFLAGS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCKOWNER",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOCKS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LOG",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LPARENT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LPIDS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LPLAYERS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LPORTS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LPOS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LREPLACE",
+      "min_args": 3,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LSEARCH",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LSEARCHR",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LSET",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LSTATS",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LT",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LTE",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LTHINGS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LVCON",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LVEXITS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LVPLAYERS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LVTHINGS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LWHO",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "LWHOID",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAIL",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILDSTATS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILFROM",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILFSTATS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILLIST",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILSEND",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILSTATS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILSTATUS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILSUBJECT",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAILTIME",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MALIAS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAP",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAPSQL",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MATCH",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MATCHALL",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MAX",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MEAN",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MEDIAN",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MEMBER",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MERGE",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MESSAGE",
+      "min_args": 3,
+      "max_args": 14,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MID",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MIN",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MIX",
+      "min_args": 3,
+      "max_args": 33,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MODULO",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MONEY",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MONIKER",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MSECS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MTIME",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MUDNAME",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MUDURL",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MUL",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MUNGE",
+      "min_args": 3,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MWHO",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "MWHOID",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NAME",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NAMEGRAB",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NAMEGRABALL",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NAMELIST",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NAND",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NATTR",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NATTRP",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NCAND",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65537,
+      "flag_names": [
+        "FN_NOPARSE",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NCHILDREN",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NCON",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NCOND",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NCONDALL",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NCOR",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65537,
+      "flag_names": [
+        "FN_NOPARSE",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NEARBY",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NEQ",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NEXITS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NEXT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NEXTDBREF",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NLSEARCH",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NMWHO",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NOR",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NOT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NPLAYERS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSCEMIT",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSEARCH",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSEMIT",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSLEMIT",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSOEMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSPEMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSPROMPT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSREMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NSZEMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NTHINGS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NULL",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NUM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NUMVERSION",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NVCON",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NVEXITS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NVPLAYERS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NVTHINGS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "NWHO",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OBJ",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OBJEVAL",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OBJID",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OBJMEM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OEMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OOB",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OPEN",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OR",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ORD",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ORDINAL",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ORFLAGS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ORLFLAGS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ORLPOWERS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "OWNER",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PARENT",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PCREATE",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PEMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PFUN",
+      "min_args": 1,
+      "max_args": 31,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PGREP",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PI",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PIDINFO",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PLAYER",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PLAYERMEM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PMATCH",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "POLL",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PORTS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "POS",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "POSS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "POWER",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "POWERS",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PROMPT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "PUEBLO",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "QUOTA",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "R",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RAND",
+      "min_args": 0,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RANDEXTRACT",
+      "min_args": 1,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RANDWORD",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RECV",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGEDIT",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGEDITALL",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGEDITALLI",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGEDITI",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGISTERS",
+      "min_args": 0,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGLATTR",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGLATTRP",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGLMATCH",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGLMATCHALL",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGLMATCHALLI",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGLMATCHI",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGMATCH",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGMATCHI",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGNATTR",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGNATTRP",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGRAB",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGRABALL",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGRABALLI",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGRABI",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGREP",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGREPI",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGXATTR",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REGXATTRP",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REMAINDER",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REMOVE",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RENDER",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REPEAT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REST",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RESTARTS",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RESTARTTIME",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RESWITCH",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RESWITCHALL",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RESWITCHALLI",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RESWITCHI",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "REVWORDS",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RIGHT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RJUST",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RLOC",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "RNUM",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 196608,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI",
+        "FN_DEPRECATED"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ROOM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ROOT",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ROUND",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "S",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SCAN",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SCRAMBLE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SECS",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SECSCALC",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SECURE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SENT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SET",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SETDIFF",
+      "min_args": 2,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SETINTER",
+      "min_args": 2,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SETQ",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SETR",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SETSYMDIFF",
+      "min_args": 2,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SETUNION",
+      "min_args": 2,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SHA0",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 131072,
+      "flag_names": [
+        "FN_REG",
+        "FN_DEPRECATED"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SHL",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SHR",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SHUFFLE",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SIGN",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SIN",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SLEV",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SORT",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SORTBY",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SORTKEY",
+      "min_args": 2,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SOUNDEX",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SOUNDSLIKE",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SPACE",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SPEAK",
+      "min_args": 2,
+      "max_args": 7,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SPELLNUM",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SPLICE",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SQL",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SQLESCAPE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SQRT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SQUISH",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SSL",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STARTTIME",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STDDEV",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STEP",
+      "min_args": 3,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STEXT",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRALLOF",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRCAT",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRDELETE",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRFIRSTOF",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRINGSECS",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRINSERT",
+      "min_args": 3,
+      "max_args": -3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRIPACCENTS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRIPANSI",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRLEN",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRMATCH",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "STRREPLACE",
+      "min_args": 4,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SUB",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SUBJ",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SUGGEST",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SWITCH",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "SWITCHALL",
+      "min_args": 3,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "T",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TABLE",
+      "min_args": 1,
+      "max_args": 5,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TAG",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TAGWRAP",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TAN",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TEL",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TERMINFO",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TESTLOCK",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TEXTENTRIES",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TEXTFILE",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TEXTSEARCH",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TIME",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TIMECALC",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TIMEFMT",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TIMESTRING",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TR",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TRIM",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TRIMPENN",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TRIMTINY",
+      "min_args": 1,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TRUNC",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "TYPE",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UCSTR",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UCSTR2",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UDEFAULT",
+      "min_args": 2,
+      "max_args": 32,
+      "flags": 1,
+      "flag_names": [
+        "FN_NOPARSE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UFUN",
+      "min_args": 1,
+      "max_args": 31,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ULAMBDA",
+      "min_args": 1,
+      "max_args": 31,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ULDEFAULT",
+      "min_args": 1,
+      "max_args": 32,
+      "flags": 16385,
+      "flag_names": [
+        "FN_NOPARSE",
+        "FN_LOCALIZE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ULOCAL",
+      "min_args": 1,
+      "max_args": 31,
+      "flags": 16384,
+      "flag_names": [
+        "FN_REG",
+        "FN_LOCALIZE"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UNIQUE",
+      "min_args": 1,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UNSETQ",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UPTIME",
+      "min_args": 0,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "URLDECODE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "URLENCODE",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "UTCTIME",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "V",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VADD",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VALID",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VCROSS",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VDIM",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VDOT",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VERSION",
+      "min_args": 0,
+      "max_args": 0,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VISIBLE",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VMAG",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VMAX",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VMIN",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VMUL",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VSUB",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "VUNIT",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WHERE",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WIDTH",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WILDGREP",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WILDGREPI",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WIPE",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WORDPOS",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WORDS",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WRAP",
+      "min_args": 2,
+      "max_args": 4,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WSHTML",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "WSJSON",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XATTR",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XATTRP",
+      "min_args": 3,
+      "max_args": 4,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XCON",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XEXITS",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XGET",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XMWHO",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XMWHOID",
+      "min_args": 2,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XOR",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XPLAYERS",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XTHINGS",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XVCON",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XVEXITS",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XVPLAYERS",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XVTHINGS",
+      "min_args": 3,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XWHO",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "XWHOID",
+      "min_args": 2,
+      "max_args": 3,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ZEMIT",
+      "min_args": 2,
+      "max_args": -2,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ZFUN",
+      "min_args": 1,
+      "max_args": 31,
+      "flags": 0,
+      "flag_names": [
+        "FN_REG"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ZMWHO",
+      "min_args": 1,
+      "max_args": 1,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ZONE",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
+      "is_builtin": true
+    },
+    {
+      "name": "ZWHO",
+      "min_args": 1,
+      "max_args": 2,
+      "flags": 65536,
+      "flag_names": [
+        "FN_REG",
+        "FN_STRIPANSI"
+      ],
       "is_builtin": true
     }
   ]
