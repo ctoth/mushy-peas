@@ -1,6 +1,14 @@
 from pathlib import Path
 
-from mushy_peas.softcode import FunctionCall, FunctionExpr, UnknownExpr
+from mushy_peas.softcode import (
+    BraceExpr,
+    EvalExpr,
+    FunctionCall,
+    FunctionExpr,
+    ParseMode,
+    SubstitutionExpr,
+    UnknownExpr,
+)
 from mushy_peas.softcode.ast_views import build_ast_view
 from mushy_peas.softcode.function_metadata import load_function_registry
 from mushy_peas.softcode.model import Document, Span, Text, Unknown
@@ -41,6 +49,45 @@ def test_unknown_cst_projects_to_unknown_expr() -> None:
     assert expr.span == unknown.span
     assert expr.cst is unknown
     assert expr.reason == "oracle-only edge"
+
+
+def test_substitutions_project_to_substitution_expr() -> None:
+    source = "%n $1"
+    document = parse_expression(source, mode=ParseMode(dollar_substitutions=True))
+
+    ast = build_ast_view(document)
+    percent = ast.expressions[0]
+    dollar = ast.expressions[2]
+
+    assert isinstance(percent, SubstitutionExpr)
+    assert percent.span == document.children[0].span
+    assert percent.cst is document.children[0]
+    assert percent.substitution_kind == "percent"
+    assert percent.raw == "%n"
+    assert isinstance(dollar, SubstitutionExpr)
+    assert dollar.span == document.children[2].span
+    assert dollar.cst is document.children[2]
+    assert dollar.substitution_kind == "dollar"
+    assert dollar.raw == "$1"
+
+
+def test_groups_project_recursive_ast_children() -> None:
+    source = "{%n}[add(1,2)]"
+    registry = load_function_registry(FIXTURE)
+    document = parse_expression(source, metadata=registry)
+
+    ast = build_ast_view(document)
+    brace = ast.expressions[0]
+    eval_group = ast.expressions[1]
+
+    assert isinstance(brace, BraceExpr)
+    assert brace.span == document.children[0].span
+    assert brace.cst is document.children[0]
+    assert isinstance(brace.expressions[0], SubstitutionExpr)
+    assert isinstance(eval_group, EvalExpr)
+    assert eval_group.span == document.children[1].span
+    assert eval_group.cst is document.children[1]
+    assert isinstance(eval_group.expressions[0], FunctionExpr)
 
 
 def test_ast_projection_is_total_over_unsupported_cst_nodes() -> None:

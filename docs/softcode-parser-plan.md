@@ -801,6 +801,13 @@ First AST projection:
 - Done: total fallback to `UnknownExpr` for unsupported CST nodes;
 - Done: no semantic claims beyond node shape.
 
+Second AST projection:
+
+- Done: `SubstitutionExpr` from `PercentSub` and `DollarSub`;
+- Done: `BraceExpr` from `BraceGroup`;
+- Done: `EvalExpr` from `EvalGroup`;
+- Done: recursive child projection for brace and eval groups.
+
 ## Stage 10: Semantic Graph
 
 Build a graph of definitions, references, and effects.
@@ -1042,6 +1049,7 @@ As of 2026-06-28, the project has:
 - brace-wrapped nested action block parsing with exact inner action spans;
 - WCNH profile-aware unit classification independent from CST success;
 - first semantic AST projection for function calls and unknown CST nodes;
+- semantic AST projection for substitutions, brace groups, and eval groups;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;

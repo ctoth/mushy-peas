@@ -15,7 +15,10 @@ from mushy_peas.softcode.actions import (
 )
 from mushy_peas.softcode.ast_views import (
     AstDocument,
+    BraceExpr,
+    EvalExpr,
     FunctionExpr,
+    SubstitutionExpr,
     UnknownExpr,
     build_ast_view,
 )
@@ -42,6 +45,7 @@ __all__ = [
     "Argument",
     "Assignment",
     "AstDocument",
+    "BraceExpr",
     "BraceGroup",
     "CommandArg",
     "CommandAttributeBody",
@@ -51,6 +55,7 @@ __all__ = [
     "Document",
     "DollarSub",
     "Escape",
+    "EvalExpr",
     "EvalGroup",
     "FunctionCall",
     "FunctionExpr",
@@ -61,6 +66,7 @@ __all__ = [
     "ProfileClassification",
     "RegexCommandPattern",
     "Span",
+    "SubstitutionExpr",
     "Terminator",
     "Text",
     "UnknownExpr",
