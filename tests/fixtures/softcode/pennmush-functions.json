@@ -1,0 +1,42 @@
+{
+  "provenance": {
+    "pennmush_commit": "3bff8ce292fc14bdb0cee8575fbff0628a2b1ea5",
+    "source_files": [
+      "C:/Users/Q/src/pennmush/hdrs/function.h",
+      "C:/Users/Q/src/pennmush/src/function.c"
+    ],
+    "notes": "Temporary checked fixture for the first CST parser milestone; generated from the PennMUSH function table by inspection."
+  },
+  "flag_values": {
+    "FN_REG": 0,
+    "FN_NOPARSE": 1,
+    "FN_LITERAL": 2,
+    "FN_STRIPANSI": 65536
+  },
+  "functions": [
+    {
+      "name": "@@",
+      "min_args": 1,
+      "max_args": 2147483647,
+      "flags": 1,
+      "flag_names": ["FN_NOPARSE"],
+      "is_builtin": true
+    },
+    {
+      "name": "ADD",
+      "min_args": 2,
+      "max_args": 2147483647,
+      "flags": 65536,
+      "flag_names": ["FN_REG", "FN_STRIPANSI"],
+      "is_builtin": true
+    },
+    {
+      "name": "LIT",
+      "min_args": 1,
+      "max_args": -1,
+      "flags": 2,
+      "flag_names": ["FN_LITERAL"],
+      "is_builtin": true
+    }
+  ]
+}
