@@ -432,7 +432,9 @@ Compare CST output to PennMUSH trace output.
 
 Properties:
 
-- function call spans agree;
+- function call spans agree, using the matching `exit` event for the full call
+  span when the current trace's `function` event reports only the call prefix
+  through the opening parenthesis;
 - function names agree after PennMUSH uppercasing rules;
 - argument spans agree;
 - group spans agree;

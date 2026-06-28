@@ -24,7 +24,32 @@ class Text:
     kind: Literal["text"] = "text"
 
 
-Node: TypeAlias = Text
+@dataclass(frozen=True)
+class Argument:
+    span: Span
+    children: tuple[Node, ...]
+    kind: Literal["argument"] = "argument"
+
+
+@dataclass(frozen=True)
+class FunctionCall:
+    span: Span
+    name_span: Span
+    name: str
+    open_paren: int
+    arguments: tuple[Argument, ...]
+    close_paren: int
+    kind: Literal["function_call"] = "function_call"
+
+
+@dataclass(frozen=True)
+class Unknown:
+    span: Span
+    reason: str
+    kind: Literal["unknown"] = "unknown"
+
+
+Node: TypeAlias = Text | FunctionCall | Argument | Unknown
 
 
 @dataclass(frozen=True)

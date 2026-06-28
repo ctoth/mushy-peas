@@ -1,10 +1,105 @@
 """Handwritten PennMUSH softcode parser."""
 
-from mushy_peas.softcode.model import Document, Span, Text
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from mushy_peas.softcode.function_metadata import FunctionMetadata, FunctionRegistry
+from mushy_peas.softcode.model import Argument, Document, FunctionCall, Node, Span, Text
 
 
-def parse_expression(source: str) -> Document:
+@dataclass(frozen=True)
+class ParseMode:
+    function_mandatory: bool = False
+
+
+def parse_expression(
+    source: str,
+    metadata: FunctionRegistry | None = None,
+    mode: ParseMode | None = None,
+) -> Document:
+    parser = _Parser(
+        source=source,
+        metadata=metadata,
+        mode=mode or ParseMode(),
+    )
+    children, end = parser.parse_until(0, terminators=frozenset())
     span = Span(0, len(source))
-    if not source:
-        return Document(span=span, children=())
-    return Document(span=span, children=(Text(span=span),))
+    if end != len(source):
+        raise AssertionError("top-level softcode parse stopped early")
+    return Document(span=span, children=children)
+
+
+@dataclass(frozen=True)
+class _Parser:
+    source: str
+    metadata: FunctionRegistry | None
+    mode: ParseMode
+
+    def parse_until(
+        self,
+        position: int,
+        *,
+        terminators: frozenset[str],
+    ) -> tuple[tuple[Node, ...], int]:
+        children: list[Node] = []
+        text_start = position
+        index = position
+        while index < len(self.source):
+            if self.source[index] in terminators:
+                break
+            function = self._parse_function_at(index)
+            if function is not None:
+                if text_start < index:
+                    children.append(Text(span=Span(text_start, index)))
+                children.append(function)
+                index = function.span.end
+                text_start = index
+                continue
+            index += 1
+        if text_start < index:
+            children.append(Text(span=Span(text_start, index)))
+        return tuple(children), index
+
+    def _parse_function_at(self, position: int) -> FunctionCall | None:
+        metadata = self._match_function_at(position)
+        if metadata is None:
+            return None
+        open_paren = position + len(metadata.name)
+        if open_paren >= len(self.source) or self.source[open_paren] != "(":
+            return None
+        arguments, close_paren = self._parse_arguments(open_paren + 1)
+        if close_paren >= len(self.source) or self.source[close_paren] != ")":
+            return None
+        return FunctionCall(
+            span=Span(position, close_paren + 1),
+            name_span=Span(position, open_paren),
+            name=metadata.name,
+            open_paren=open_paren,
+            arguments=arguments,
+            close_paren=close_paren,
+        )
+
+    def _match_function_at(self, position: int) -> FunctionMetadata | None:
+        if self.metadata is None:
+            return None
+        for name in sorted(self.metadata.functions, key=len, reverse=True):
+            end = position + len(name)
+            if self.source[position:end].upper() == name:
+                return self.metadata.functions[name]
+        return None
+
+    def _parse_arguments(self, position: int) -> tuple[tuple[Argument, ...], int]:
+        arguments: list[Argument] = []
+        index = position
+        while True:
+            children, end = self.parse_until(index, terminators=frozenset({",", ")"}))
+            arguments.append(
+                Argument(
+                    span=Span(index, end),
+                    children=children,
+                )
+            )
+            if end >= len(self.source) or self.source[end] == ")":
+                return tuple(arguments), end
+            index = end + 1
