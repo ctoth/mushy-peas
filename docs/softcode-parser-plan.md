@@ -750,7 +750,9 @@ Implementation target:
 
 First profile:
 
-- WCNH prefix classification for `cmd.`, `fn.`, `map.`, `filter.`.
+- Done: WCNH prefix classification for `cmd.`, `fn.`, `map.`, `filter.`;
+- Done: profile classification runs on `SoftcodeUnit` metadata without
+  depending on CST parse success.
 
 Not complete until profile output is independent from CST success/failure.
 
@@ -1037,6 +1039,7 @@ As of 2026-06-28, the project has:
 - action-list command-name and simple assignment classification;
 - command-pattern attribute classification for plain and regex command attrs;
 - brace-wrapped nested action block parsing with exact inner action spans;
+- WCNH profile-aware unit classification independent from CST success;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1076,12 +1079,11 @@ The project does not yet have:
 - a full expression CST;
 - command-specific action CST for forms such as `@switch`, `@dolist`, and
   `@trigger`;
-- profile-aware unit classification;
 - semantic AST views;
 - semantic graph extraction;
 - maturity and coverage gates.
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue profile-aware unit classification or command-specific action
-body parsing.
+should continue semantic AST view construction or command-specific action body
+parsing.

@@ -28,6 +28,7 @@ from mushy_peas.softcode.model import (
     Text,
 )
 from mushy_peas.softcode.parser import ParseMode, parse_expression
+from mushy_peas.softcode.profiles import ProfileClassification, classify_profile
 from mushy_peas.softcode.render import render
 
 __all__ = [
@@ -49,10 +50,12 @@ __all__ = [
     "Node",
     "ParseMode",
     "PercentSub",
+    "ProfileClassification",
     "RegexCommandPattern",
     "Span",
     "Terminator",
     "Text",
+    "classify_profile",
     "parse_action_list",
     "parse_command_attribute_body",
     "parse_expression",
