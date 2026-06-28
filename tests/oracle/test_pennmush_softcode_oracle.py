@@ -403,6 +403,46 @@ def test_live_softcode_trace_reports_function_invocation_limit() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_function_recursion_limit() -> None:
+    trace = run_softcode_trace(
+        "add(add(1,2),3)",
+        config_lines=("function_recursion_limit 1",),
+    )
+    limit_events = _events_by_kind(trace, "function_limit")
+
+    assert trace.result == "#-1 FUNCTION RECURSION LIMIT EXCEEDED"
+    assert [
+        (
+            event.depth,
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.min_args,
+            event.max_args,
+            event.reason,
+            event.raw,
+            event.value,
+        )
+        for event in limit_events
+    ] == [
+        (
+            0,
+            0,
+            15,
+            "ADD",
+            2,
+            2147483647,
+            "recursion",
+            "add(add(1,2),3)",
+            trace.result,
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)
