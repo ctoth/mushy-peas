@@ -149,6 +149,34 @@ def test_live_softcode_trace_reports_copied_literal_span() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_brace_group_span() -> None:
+    trace = run_softcode_trace("{abc}")
+    brace_events = _events_by_kind(trace, "brace_group")
+
+    assert trace.result == "abc"
+    assert [(event.source_start, event.source_end) for event in brace_events] == [
+        (0, 5)
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_eval_group_span() -> None:
+    trace = run_softcode_trace("[add(1,2)]")
+    eval_events = _events_by_kind(trace, "eval_group")
+
+    assert trace.result == "3"
+    assert [(event.source_start, event.source_end) for event in eval_events] == [
+        (0, 10)
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)
@@ -223,6 +251,13 @@ def _function_events(
 
 def _argument_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
     return [event for event in trace.events if event.kind == "argument"]
+
+
+def _events_by_kind(
+    trace: SoftcodeTrace,
+    kind: str,
+) -> list[SoftcodeTraceEvent]:
+    return [event for event in trace.events if event.kind == kind]
 
 
 def _literal_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
