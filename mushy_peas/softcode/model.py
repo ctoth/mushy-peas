@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal, TypeAlias
 
 
@@ -46,6 +46,13 @@ class DollarSub:
 
 
 @dataclass(frozen=True)
+class Terminator:
+    span: Span
+    value: str
+    kind: Literal["terminator"] = "terminator"
+
+
+@dataclass(frozen=True)
 class Argument:
     span: Span
     children: tuple[Node, ...]
@@ -60,6 +67,7 @@ class FunctionCall:
     open_paren: int
     arguments: tuple[Argument, ...]
     close_paren: int
+    argument_terminators: tuple[Terminator, ...] = field(default_factory=tuple)
     kind: Literal["function_call"] = "function_call"
 
 
@@ -93,6 +101,7 @@ Node: TypeAlias = (
     | Escape
     | PercentSub
     | DollarSub
+    | Terminator
     | FunctionCall
     | Argument
     | BraceGroup

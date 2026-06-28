@@ -11,6 +11,7 @@ from mushy_peas.softcode.model import (
     Node,
     PercentSub,
     Span,
+    Terminator,
     Text,
 )
 from mushy_peas.softcode.parser import ParseMode, parse_expression
@@ -28,6 +29,7 @@ __all__ = [
     "ParseMode",
     "PercentSub",
     "Span",
+    "Terminator",
     "Text",
     "parse_expression",
     "render",

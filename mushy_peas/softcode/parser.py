@@ -16,6 +16,7 @@ from mushy_peas.softcode.model import (
     Node,
     PercentSub,
     Span,
+    Terminator,
     Text,
 )
 
@@ -113,7 +114,9 @@ class _Parser:
         open_paren = position + len(metadata.name)
         if open_paren >= len(self.source) or self.source[open_paren] != "(":
             return None
-        arguments, close_paren = self._parse_arguments(open_paren + 1)
+        arguments, argument_terminators, close_paren = self._parse_arguments(
+            open_paren + 1
+        )
         if close_paren >= len(self.source) or self.source[close_paren] != ")":
             return None
         return FunctionCall(
@@ -123,6 +126,7 @@ class _Parser:
             open_paren=open_paren,
             arguments=arguments,
             close_paren=close_paren,
+            argument_terminators=argument_terminators,
         )
 
     def _match_function_at(self, position: int) -> FunctionMetadata | None:
@@ -134,8 +138,12 @@ class _Parser:
                 return self.metadata.functions[name]
         return None
 
-    def _parse_arguments(self, position: int) -> tuple[tuple[Argument, ...], int]:
+    def _parse_arguments(
+        self,
+        position: int,
+    ) -> tuple[tuple[Argument, ...], tuple[Terminator, ...], int]:
         arguments: list[Argument] = []
+        terminators: list[Terminator] = []
         index = position
         while True:
             children, end = self.parse_until(index, terminators=frozenset({",", ")"}))
@@ -145,8 +153,16 @@ class _Parser:
                     children=children,
                 )
             )
-            if end >= len(self.source) or self.source[end] == ")":
-                return tuple(arguments), end
+            if end >= len(self.source):
+                return tuple(arguments), tuple(terminators), end
+            terminators.append(
+                Terminator(
+                    span=Span(end, end + 1),
+                    value=self.source[end],
+                )
+            )
+            if self.source[end] == ")":
+                return tuple(arguments), tuple(terminators), end
             index = end + 1
 
     def _parse_group_at(self, position: int) -> BraceGroup | EvalGroup | None:

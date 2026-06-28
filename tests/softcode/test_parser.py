@@ -8,6 +8,7 @@ from mushy_peas.softcode import (
     FunctionCall,
     ParseMode,
     PercentSub,
+    Terminator,
     parse_expression,
     render,
 )
@@ -39,6 +40,14 @@ def test_known_function_call_parses_arguments() -> None:
         (4, 5),
         (6, 7),
     ]
+    assert [
+        (terminator.span.start, terminator.span.end, terminator.value)
+        for terminator in call.argument_terminators
+    ] == [(5, 6, ","), (7, 8, ")")]
+    assert all(
+        isinstance(terminator, Terminator)
+        for terminator in call.argument_terminators
+    )
     assert render(document, source) == source
 
 

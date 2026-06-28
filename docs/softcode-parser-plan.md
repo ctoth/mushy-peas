@@ -512,6 +512,7 @@ FunctionCall(span, name_span, name, open_paren, arguments, close_paren)
 Argument(span, children)
 BraceGroup(span, open_brace, children, close_brace)
 EvalGroup(span, open_bracket, children, close_bracket)
+Terminator(span, value)
 Unknown(span, reason)
 ```
 
@@ -535,6 +536,7 @@ Initial scope:
 - dollar substitutions when `ParseMode.dollar_substitutions` is enabled;
 - known function calls;
 - comma-separated arguments;
+- function argument terminators;
 - nested known function calls;
 - brace groups;
 - eval groups;
@@ -542,7 +544,6 @@ Initial scope:
 
 Out of first slice:
 
-- terminator nodes;
 - action lists;
 - semantic graph.
 
@@ -1027,7 +1028,7 @@ As of 2026-06-28, the project has:
 - source-slice rendering;
 - an initial handwritten parser for text, escapes, percent substitutions,
   context-gated dollar substitutions, brace/eval groups, known function calls,
-  and arguments;
+  arguments, and function argument terminators;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
