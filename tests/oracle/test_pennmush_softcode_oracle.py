@@ -514,6 +514,7 @@ def test_live_softcode_trace_reports_literal_argument_without_inner_function() -
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)
     argument_events = _argument_events(trace)
+    literal_events = _literal_events(trace)
 
     assert trace.result == "add(1,2)"
     assert [event.function_name for event in function_events] == ["LIT"]
@@ -523,6 +524,17 @@ def test_live_softcode_trace_reports_literal_argument_without_inner_function() -
         (event.source_start, event.source_end, event.raw, event.value)
         for event in argument_events
     ] == [(4, 12, "add(1,2)", "add(1,2)")]
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in literal_events
+    ] == [
+        (4, 7, "add", "add"),
+        (7, 8, "(", "("),
+        (8, 9, "1", "1"),
+        (9, 10, ",", ","),
+        (10, 11, "2", "2"),
+        (11, 12, ")", ")"),
+    ]
 
 
 @pytest.mark.skipif(

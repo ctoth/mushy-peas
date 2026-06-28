@@ -257,11 +257,12 @@ Current status:
   delimiter text, and active `tflags` when `process_expression()` exits on a
   tflag-selected terminator.
 - Done: the trace includes `literal` events with source spans, raw text, and
-  copied value for non-speculative literal chunks.
+  copied value for non-speculative literal chunks, literal-mode delimiters,
+  copied default-path punctuation, and compressed/uncompressed space copies.
 - Limitation: literal tracing is not complete for every copy path yet. The
-  scanner still suppresses speculative function-name copies, and single
-  interesting characters copied by the default path are not all represented as
-  literal events.
+  scanner still suppresses speculative function-name copies, and preservation
+  paths such as ANSI/tag passthrough and non-evaluating percent copies still
+  need either emitted literal events or explicit unsupported fixtures.
 - Done: the trace includes complete `brace_group` and `eval_group` source spans
   after their recursive parses consume the closing delimiter.
 - Done: the trace includes `percent_sub` events with source spans, raw source
@@ -288,7 +289,8 @@ Current status:
   and recursion limit failures, with source spans, function metadata, raw call
   text, limit reason, and produced error value.
 - Limitation: trace coverage is still missing original-input spans for
-  copied-buffer dollar substitutions and literal copy path completeness.
+  copied-buffer dollar substitutions and the last literal preservation copy
+  paths.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
@@ -1017,6 +1019,8 @@ As of 2026-06-28, the project has:
   PennMUSH `.t` expressions;
 - PennMUSH trace literal events for non-speculative copied literal chunks;
 - PennMUSH trace terminator events for tflag-selected delimiters;
+- PennMUSH trace literal events for non-speculative literal chunks,
+  literal-mode delimiters, default-path punctuation, and copied spaces;
 - PennMUSH trace brace/eval group events with complete source spans;
 - PennMUSH trace percent-substitution events with raw and produced values;
 - PennMUSH trace dollar-substitution events with raw and produced values, but
@@ -1043,8 +1047,8 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- complete trace coverage for all literal copy paths and original-input spans
-  for copied-buffer dollar substitutions;
+- complete trace coverage for the last literal preservation copy paths and
+  original-input spans for copied-buffer dollar substitutions;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;
