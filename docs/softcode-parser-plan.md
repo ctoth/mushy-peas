@@ -270,8 +270,9 @@ Current status:
   text, and produced value for evaluated percent substitutions.
 - Done: the trace includes `dollar_sub` events with raw source text and
   produced value for regexp replacement substitutions such as `regedit()`.
-  Because PennMUSH evaluates copied replacement argument buffers, those events
-  currently report `-1` source offsets instead of original-input spans.
+  Byte-identical copied replacement argument buffers are temporarily mapped
+  back to their original input spans; transformed copied buffers remain
+  unmapped rather than reporting false source offsets.
 - Done: the trace includes `escape` events with source spans, raw source text,
   and produced value for evaluated backslash escapes, literal-mode backslashes,
   and trailing backslashes.
@@ -289,11 +290,14 @@ Current status:
 - Done: the trace includes `function_limit` events for function invocation
   and recursion limit failures, with source spans, function metadata, raw call
   text, limit reason, and produced error value.
-- Limitation: trace coverage is still missing original-input spans for
-  copied-buffer dollar substitutions.
+- Done: every required Stage 1 trace event family above is either emitted with
+  original-input spans or deliberately left unmapped only when a copied buffer
+  no longer has a byte-identical source span.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
+
+Status: complete for the required trace event families as of 2026-06-28.
 
 ## Stage 2: Function Metadata Export
 
@@ -1023,8 +1027,8 @@ As of 2026-06-28, the project has:
   passthrough, non-evaluating percent copies, and tag-byte literal chunks;
 - PennMUSH trace brace/eval group events with complete source spans;
 - PennMUSH trace percent-substitution events with raw and produced values;
-- PennMUSH trace dollar-substitution events with raw and produced values, but
-  not original-input spans for copied replacement buffers yet;
+- PennMUSH trace dollar-substitution events with raw and produced values,
+  including original-input spans for byte-identical copied replacement buffers;
 - PennMUSH trace escape events with raw and produced values, including
   trailing and literal-mode backslash edges;
 - PennMUSH trace function arity-error events with raw call text and produced
@@ -1047,7 +1051,6 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- original-input spans for copied-buffer dollar substitutions;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;
@@ -1059,6 +1062,5 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue Stage 1 trace hardening, add real DB attribute seeds, or add
-corpus mutation strategies; parser syntax expansion should remain tied to
-oracle coverage.
+should add real DB attribute seeds or corpus mutation strategies; parser syntax
+expansion should remain tied to oracle coverage.

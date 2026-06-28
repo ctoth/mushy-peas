@@ -247,7 +247,7 @@ def test_live_softcode_trace_reports_regedit_dollar_substitutions() -> None:
     assert [
         (event.source_start, event.source_end, event.raw, event.value)
         for event in dollar_events
-    ] == [(-1, -1, "$1", "123")]
+    ] == [(25, 27, "$1", "123")]
 
 
 @pytest.mark.skipif(
