@@ -709,8 +709,8 @@ First action slice:
 
 Second action slice:
 
-- classify command name;
-- parse simple `command lhs=rhs`;
+- Done: classify command name;
+- Done: parse simple `command lhs=rhs`;
 - classify command pattern attrs.
 
 ## Stage 8: Profiles
@@ -1032,6 +1032,7 @@ As of 2026-06-28, the project has:
   arguments, and function argument terminators;
 - a first action-list CST slice for top-level semicolon splitting that respects
   expression CST protected spans;
+- action-list command-name and simple assignment classification;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1077,4 +1078,4 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue action-list CST classification and nested action block parsing.
+should continue command-pattern classification and nested action block parsing.

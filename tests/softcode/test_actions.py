@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from mushy_peas.softcode import parse_action_list
+from mushy_peas.softcode import Assignment, CommandName, parse_action_list
 from mushy_peas.softcode.function_metadata import load_function_registry
 
 FIXTURE = Path("tests/fixtures/softcode/pennmush-functions.json")
@@ -49,3 +49,32 @@ def test_action_list_does_not_split_escaped_semicolon() -> None:
         (21, len(source)),
     ]
     assert [(span.start, span.end) for span in action_list.separators] == [(20, 21)]
+
+
+def test_action_list_classifies_command_name() -> None:
+    source = "  think add(1,2)"
+    action_list = parse_action_list(source)
+    statement = action_list.statements[0]
+
+    assert isinstance(statement.command_name, CommandName)
+    assert statement.command_name.text == "think"
+    assert statement.command_name.span.start == 2
+    assert statement.command_name.span.end == 7
+    assert statement.argument is not None
+    assert statement.argument.span.start == 8
+    assert statement.argument.span.end == len(source)
+
+
+def test_action_list_classifies_simple_assignment() -> None:
+    source = "@pemit %#=hello"
+    action_list = parse_action_list(source)
+    statement = action_list.statements[0]
+
+    assert statement.command_name is not None
+    assert statement.command_name.text == "@pemit"
+    assert isinstance(statement.assignment, Assignment)
+    assert statement.assignment.lhs.span.start == 7
+    assert statement.assignment.lhs.span.end == 9
+    assert statement.assignment.equals == 9
+    assert statement.assignment.rhs.span.start == 10
+    assert statement.assignment.rhs.span.end == len(source)

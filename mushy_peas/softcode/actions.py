@@ -18,8 +18,30 @@ from mushy_peas.softcode.parser import parse_expression
 
 
 @dataclass(frozen=True)
+class CommandName:
+    span: Span
+    text: str
+
+
+@dataclass(frozen=True)
+class CommandArg:
+    span: Span
+
+
+@dataclass(frozen=True)
+class Assignment:
+    span: Span
+    lhs: CommandArg
+    equals: int
+    rhs: CommandArg
+
+
+@dataclass(frozen=True)
 class CommandStmt:
     span: Span
+    command_name: CommandName | None = None
+    argument: CommandArg | None = None
+    assignment: Assignment | None = None
 
 
 @dataclass(frozen=True)
@@ -41,15 +63,59 @@ def parse_action_list(
     start = 0
     for index, char in enumerate(source):
         if char == ";" and not protected[index]:
-            statements.append(CommandStmt(span=Span(start, index)))
+            statements.append(_parse_statement(source, start, index))
             separators.append(Span(index, index + 1))
             start = index + 1
-    statements.append(CommandStmt(span=Span(start, len(source))))
+    statements.append(_parse_statement(source, start, len(source)))
     return ActionList(
         span=Span(0, len(source)),
         statements=tuple(statements),
         separators=tuple(separators),
     )
+
+
+def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
+    span = Span(start, end)
+    command_start = _skip_spaces(source, start, end)
+    if command_start >= end:
+        return CommandStmt(span=span)
+    command_end = command_start
+    while command_end < end and not source[command_end].isspace():
+        command_end += 1
+    command_name = CommandName(
+        span=Span(command_start, command_end),
+        text=source[command_start:command_end],
+    )
+    argument_start = _skip_spaces(source, command_end, end)
+    if argument_start >= end:
+        return CommandStmt(span=span, command_name=command_name)
+    argument = CommandArg(span=Span(argument_start, end))
+    equals = source.find("=", argument_start, end)
+    if equals == -1:
+        return CommandStmt(
+            span=span,
+            command_name=command_name,
+            argument=argument,
+        )
+    assignment = Assignment(
+        span=Span(argument_start, end),
+        lhs=CommandArg(span=Span(argument_start, equals)),
+        equals=equals,
+        rhs=CommandArg(span=Span(equals + 1, end)),
+    )
+    return CommandStmt(
+        span=span,
+        command_name=command_name,
+        argument=argument,
+        assignment=assignment,
+    )
+
+
+def _skip_spaces(source: str, start: int, end: int) -> int:
+    index = start
+    while index < end and source[index].isspace():
+        index += 1
+    return index
 
 
 def _protected_offsets(document: Document, length: int) -> list[bool]:
