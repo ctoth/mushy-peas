@@ -268,9 +268,11 @@ Current status:
   text, and produced value for evaluated percent substitutions.
 - Done: the trace includes `escape` events with source spans, raw source text,
   and produced value for evaluated backslash escapes.
+- Done: the trace includes `arity_error` events with source spans, raw call
+  text, function metadata, actual argument count, and produced error value.
 - Limitation: trace coverage is still missing dollar substitutions, escape
   edge cases, denied function paths, unknown function handling details, and
-  function arity errors.
+  some function-limit error paths.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
@@ -1002,6 +1004,8 @@ As of 2026-06-28, the project has:
 - PennMUSH trace brace/eval group events with complete source spans;
 - PennMUSH trace percent-substitution events with raw and produced values;
 - PennMUSH trace escape events with raw and produced values;
+- PennMUSH trace function arity-error events with raw call text and produced
+  error values;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -1013,7 +1017,8 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - complete trace coverage for all literal copy paths, dollar substitutions,
-  escape edge cases, denied functions, unknown functions, and arity errors;
+  escape edge cases, denied functions, unknown functions, and function-limit
+  error paths;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;

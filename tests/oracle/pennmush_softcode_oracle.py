@@ -19,6 +19,7 @@ from tests.oracle.pennmush_oracle import (
 )
 
 TraceEventKind: TypeAlias = Literal[
+    "arity_error",
     "enter",
     "exit",
     "escape",
@@ -48,6 +49,7 @@ class SoftcodeTraceEvent:
     function_flags: int | None = None
     min_args: int | None = None
     max_args: int | None = None
+    actual_args: int | None = None
     argument_index: int | None = None
     terminator: str | None = None
     raw: str | None = None
@@ -132,6 +134,7 @@ def _parse_event(payload: dict[str, Any]) -> SoftcodeTraceEvent:
         function_flags=_expect_optional_int(payload, "function_flags"),
         min_args=_expect_optional_int(payload, "min_args"),
         max_args=_expect_optional_int(payload, "max_args"),
+        actual_args=_expect_optional_int(payload, "actual_args"),
         argument_index=_expect_optional_int(payload, "argument_index"),
         terminator=_expect_optional_str(payload, "terminator"),
         raw=_expect_optional_str(payload, "raw"),
@@ -143,7 +146,8 @@ def _expect_kind(payload: dict[str, Any]) -> TraceEventKind:
     value = payload.get("kind")
     match value:
         case (
-            "enter"
+            "arity_error"
+            | "enter"
             | "exit"
             | "escape"
             | "literal"

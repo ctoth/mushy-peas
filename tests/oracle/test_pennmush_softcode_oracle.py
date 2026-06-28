@@ -207,6 +207,41 @@ def test_live_softcode_trace_reports_escape_span() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_function_arity_errors() -> None:
+    trace = run_softcode_trace("add(1)")
+    arity_events = _events_by_kind(trace, "arity_error")
+
+    assert trace.result == "#-1 FUNCTION (ADD) EXPECTS AT LEAST 2 ARGUMENTS BUT GOT 1"
+    assert [
+        (
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.min_args,
+            event.max_args,
+            event.actual_args,
+            event.raw,
+            event.value,
+        )
+        for event in arity_events
+    ] == [
+        (
+            0,
+            6,
+            "ADD",
+            2,
+            2147483647,
+            1,
+            "add(1)",
+            trace.result,
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)
