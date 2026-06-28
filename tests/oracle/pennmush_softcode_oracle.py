@@ -30,6 +30,7 @@ TraceEventKind: TypeAlias = Literal[
     "function",
     "argument",
     "terminator",
+    "unknown_function",
 ]
 
 TRACE_GAME_NAME = "softcode-trace"
@@ -51,6 +52,7 @@ class SoftcodeTraceEvent:
     max_args: int | None = None
     actual_args: int | None = None
     argument_index: int | None = None
+    mandatory: bool | None = None
     terminator: str | None = None
     raw: str | None = None
     value: str | None = None
@@ -136,6 +138,7 @@ def _parse_event(payload: dict[str, Any]) -> SoftcodeTraceEvent:
         max_args=_expect_optional_int(payload, "max_args"),
         actual_args=_expect_optional_int(payload, "actual_args"),
         argument_index=_expect_optional_int(payload, "argument_index"),
+        mandatory=_expect_optional_bool(payload, "mandatory"),
         terminator=_expect_optional_str(payload, "terminator"),
         raw=_expect_optional_str(payload, "raw"),
         value=_expect_optional_str(payload, "value"),
@@ -157,6 +160,7 @@ def _expect_kind(payload: dict[str, Any]) -> TraceEventKind:
             | "function"
             | "argument"
             | "terminator"
+            | "unknown_function"
         ):
             return cast(TraceEventKind, value)
         case _:
@@ -175,6 +179,13 @@ def _expect_optional_int(payload: dict[str, Any], key: str) -> int | None:
     if value is None or isinstance(value, int):
         return value
     raise ValueError(f"{key} must be an int or null")
+
+
+def _expect_optional_bool(payload: dict[str, Any], key: str) -> bool | None:
+    value = payload.get(key)
+    if value is None or isinstance(value, bool):
+        return value
+    raise ValueError(f"{key} must be a bool or null")
 
 
 def _expect_optional_str(payload: dict[str, Any], key: str) -> str | None:

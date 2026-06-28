@@ -242,6 +242,72 @@ def test_live_softcode_trace_reports_function_arity_errors() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_unknown_function_literal_fallback() -> None:
+    trace = run_softcode_trace("qznotafunc(1,2)")
+    unknown_events = _events_by_kind(trace, "unknown_function")
+
+    assert trace.result == "qznotafunc(1,2)"
+    assert [
+        (
+            event.depth,
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.mandatory,
+            event.raw,
+            event.value,
+        )
+        for event in unknown_events
+    ] == [
+        (
+            0,
+            0,
+            15,
+            "QZNOTAFUNC",
+            False,
+            "qznotafunc(1,2)",
+            "qznotafunc(1,2)",
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_mandatory_unknown_function_error() -> None:
+    trace = run_softcode_trace("[qznotafunc(1,2)]")
+    unknown_events = _events_by_kind(trace, "unknown_function")
+
+    assert trace.result == "#-1 FUNCTION (QZNOTAFUNC) NOT FOUND"
+    assert [
+        (
+            event.depth,
+            event.source_start,
+            event.source_end,
+            event.function_name,
+            event.mandatory,
+            event.raw,
+            event.value,
+        )
+        for event in unknown_events
+    ] == [
+        (
+            1,
+            1,
+            16,
+            "QZNOTAFUNC",
+            True,
+            "qznotafunc(1,2)",
+            trace.result,
+        )
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
     trace = run_softcode_trace("lit(add(1,2))")
     function_events = _function_events(trace)
