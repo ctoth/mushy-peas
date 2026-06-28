@@ -50,11 +50,21 @@ class Assignment:
 
 
 @dataclass(frozen=True)
+class TriggerCommand:
+    span: Span
+    command_name: CommandName
+    target: CommandArg
+    equals: int | None = None
+    arguments: CommandArg | None = None
+
+
+@dataclass(frozen=True)
 class CommandStmt:
     span: Span
     command_name: CommandName | None = None
     argument: CommandArg | None = None
     assignment: Assignment | None = None
+    trigger: TriggerCommand | None = None
 
 
 @dataclass(frozen=True)
@@ -157,6 +167,12 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
             span=span,
             command_name=command_name,
             argument=argument,
+            trigger=_parse_trigger_command(
+                span,
+                command_name,
+                target=argument,
+                assignment=None,
+            ),
         )
     assignment = Assignment(
         span=Span(argument_start, end),
@@ -170,6 +186,12 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
         command_name=command_name,
         argument=argument,
         assignment=assignment,
+        trigger=_parse_trigger_command(
+            span,
+            command_name,
+            target=assignment.lhs,
+            assignment=assignment,
+        ),
     )
 
 
@@ -178,6 +200,30 @@ def _skip_spaces(source: str, start: int, end: int) -> int:
     while index < end and source[index].isspace():
         index += 1
     return index
+
+
+def _parse_trigger_command(
+    span: Span,
+    command_name: CommandName,
+    *,
+    target: CommandArg,
+    assignment: Assignment | None,
+) -> TriggerCommand | None:
+    if command_name.text.casefold() not in {"@trigger", "@tr"}:
+        return None
+    if assignment is None:
+        return TriggerCommand(
+            span=span,
+            command_name=command_name,
+            target=target,
+        )
+    return TriggerCommand(
+        span=span,
+        command_name=command_name,
+        target=target,
+        equals=assignment.equals,
+        arguments=assignment.rhs,
+    )
 
 
 def _parse_nested_action_block(

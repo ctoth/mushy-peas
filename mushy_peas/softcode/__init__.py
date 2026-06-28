@@ -10,6 +10,7 @@ from mushy_peas.softcode.actions import (
     CommandStmt,
     NestedActionBlock,
     RegexCommandPattern,
+    TriggerCommand,
     parse_action_list,
     parse_command_attribute_body,
 )
@@ -69,6 +70,7 @@ __all__ = [
     "SubstitutionExpr",
     "Terminator",
     "Text",
+    "TriggerCommand",
     "UnknownExpr",
     "build_ast_view",
     "classify_profile",

@@ -714,6 +714,8 @@ Second action slice:
 - Done: classify command pattern attrs, including `$pattern:action-list` and
   `$^regex:action-list` forms.
 - Done: classify brace-wrapped nested action blocks on assignment RHS values.
+- Done: first command-specific `@trigger` CST classification with target and
+  argument spans.
 
 ## Stage 8: Profiles
 
@@ -1050,6 +1052,7 @@ As of 2026-06-28, the project has:
 - WCNH profile-aware unit classification independent from CST success;
 - first semantic AST projection for function calls and unknown CST nodes;
 - semantic AST projection for substitutions, brace groups, and eval groups;
+- first command-specific `@trigger` CST classification;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1087,8 +1090,8 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - a full expression CST;
-- command-specific action CST for forms such as `@switch`, `@dolist`, and
-  `@trigger`;
+- complete command-specific action CST for forms such as `@switch`, `@dolist`,
+  and richer `@trigger` semantics;
 - complete semantic AST views;
 - semantic graph extraction;
 - maturity and coverage gates.

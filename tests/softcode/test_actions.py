@@ -6,6 +6,7 @@ from mushy_peas.softcode import (
     CommandPattern,
     NestedActionBlock,
     RegexCommandPattern,
+    TriggerCommand,
     parse_action_list,
     parse_command_attribute_body,
 )
@@ -133,3 +134,34 @@ def test_assignment_classifies_nested_action_block() -> None:
         (19, 28),
     ]
     assert [(span.start, span.end) for span in block.actions.separators] == [(18, 19)]
+
+
+def test_action_list_classifies_trigger_command() -> None:
+    source = "@trigger #10/ATTR=one,two"
+    action_list = parse_action_list(source)
+    statement = action_list.statements[0]
+
+    assert isinstance(statement.trigger, TriggerCommand)
+    trigger = statement.trigger
+    assert trigger.span.start == 0
+    assert trigger.span.end == len(source)
+    assert trigger.command_name.text == "@trigger"
+    assert trigger.target.span.start == 9
+    assert trigger.target.span.end == 17
+    assert trigger.equals == 17
+    assert trigger.arguments is not None
+    assert trigger.arguments.span.start == 18
+    assert trigger.arguments.span.end == len(source)
+
+
+def test_action_list_classifies_trigger_without_arguments() -> None:
+    source = "@tr #10/ATTR"
+    action_list = parse_action_list(source)
+    trigger = action_list.statements[0].trigger
+
+    assert isinstance(trigger, TriggerCommand)
+    assert trigger.command_name.text == "@tr"
+    assert trigger.target.span.start == 4
+    assert trigger.target.span.end == len(source)
+    assert trigger.equals is None
+    assert trigger.arguments is None
