@@ -149,6 +149,53 @@ def test_live_softcode_trace_reports_copied_literal_span() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_ansi_literal_passthrough() -> None:
+    source = "\x1b[31mX"
+    trace = run_softcode_trace(source)
+    literal_events = _literal_events(trace)
+
+    assert trace.result == source
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in literal_events
+    ] == [(0, 5, "\x1b[31m", "\x1b[31m"), (5, 6, "X", "X")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_tag_literal_passthrough() -> None:
+    source = "\x02tag\x03X"
+    trace = run_softcode_trace(source)
+    literal_events = _literal_events(trace)
+
+    assert trace.result == source
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in literal_events
+    ] == [(0, 6, source, source)]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_non_evaluating_percent_literal() -> None:
+    trace = run_softcode_trace("%N", eflags="PE_NOTHING")
+    literal_events = _literal_events(trace)
+
+    assert trace.result == "%N"
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in literal_events
+    ] == [(0, 2, "%N", "%N")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_brace_group_span() -> None:
     trace = run_softcode_trace("{abc}")
     brace_events = _events_by_kind(trace, "brace_group")
