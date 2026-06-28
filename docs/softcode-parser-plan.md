@@ -718,6 +718,8 @@ Second action slice:
   argument spans.
 - Done: first command-specific `@dolist` CST classification with list/body
   spans and nested action block reuse.
+- Done: first command-specific `@switch` CST classification with subject span
+  and top-level comma case splitting.
 
 ## Stage 8: Profiles
 
@@ -1056,6 +1058,7 @@ As of 2026-06-28, the project has:
 - semantic AST projection for substitutions, brace groups, and eval groups;
 - first command-specific `@trigger` CST classification;
 - first command-specific `@dolist` CST classification;
+- first command-specific `@switch` CST classification;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1093,8 +1096,7 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - a full expression CST;
-- complete command-specific action CST for forms such as `@switch` plus richer
-  `@dolist` and `@trigger` semantics;
+- richer command-specific action CST for `@switch`, `@dolist`, and `@trigger`;
 - complete semantic AST views;
 - semantic graph extraction;
 - maturity and coverage gates.

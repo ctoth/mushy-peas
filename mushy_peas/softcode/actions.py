@@ -69,12 +69,31 @@ class DolistCommand:
 
 
 @dataclass(frozen=True)
+class SwitchCase:
+    span: Span
+    pattern: CommandArg
+    separator: Span | None = None
+    action: CommandArg | None = None
+    nested_action_block: NestedActionBlock | None = None
+
+
+@dataclass(frozen=True)
+class SwitchCommand:
+    span: Span
+    command_name: CommandName
+    subject: CommandArg
+    equals: int
+    cases: tuple[SwitchCase, ...]
+
+
+@dataclass(frozen=True)
 class CommandStmt:
     span: Span
     command_name: CommandName | None = None
     argument: CommandArg | None = None
     assignment: Assignment | None = None
     dolist: DolistCommand | None = None
+    switch: SwitchCommand | None = None
     trigger: TriggerCommand | None = None
 
 
@@ -198,6 +217,7 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
         argument=argument,
         assignment=assignment,
         dolist=_parse_dolist_command(span, command_name, assignment),
+        switch=_parse_switch_command(source, span, command_name, assignment),
         trigger=_parse_trigger_command(
             span,
             command_name,
@@ -253,6 +273,71 @@ def _parse_dolist_command(
         body=assignment.rhs,
         nested_action_block=assignment.nested_action_block,
     )
+
+
+def _parse_switch_command(
+    source: str,
+    span: Span,
+    command_name: CommandName,
+    assignment: Assignment,
+) -> SwitchCommand | None:
+    command_base = command_name.text.casefold().split("/", maxsplit=1)[0]
+    if command_base not in {"@switch", "@sw"}:
+        return None
+    return SwitchCommand(
+        span=span,
+        command_name=command_name,
+        subject=assignment.lhs,
+        equals=assignment.equals,
+        cases=_parse_switch_cases(
+            source,
+            assignment.rhs.span.start,
+            assignment.rhs.span.end,
+        ),
+    )
+
+
+def _parse_switch_cases(source: str, start: int, end: int) -> tuple[SwitchCase, ...]:
+    parts = _split_top_level_commas(source, start, end)
+    cases: list[SwitchCase] = []
+    index = 0
+    while index < len(parts):
+        pattern = parts[index]
+        if index + 1 >= len(parts):
+            cases.append(SwitchCase(span=pattern, pattern=CommandArg(span=pattern)))
+            break
+        separator = Span(pattern.end, pattern.end + 1)
+        action = parts[index + 1]
+        cases.append(
+            SwitchCase(
+                span=Span(pattern.start, action.end),
+                pattern=CommandArg(span=pattern),
+                separator=separator,
+                action=CommandArg(span=action),
+                nested_action_block=_parse_nested_action_block(
+                    source,
+                    action.start,
+                    action.end,
+                ),
+            )
+        )
+        index += 2
+    return tuple(cases)
+
+
+def _split_top_level_commas(source: str, start: int, end: int) -> tuple[Span, ...]:
+    segment = source[start:end]
+    document = parse_expression(segment)
+    protected = _protected_offsets(document, len(segment))
+    spans: list[Span] = []
+    part_start = start
+    for local_index, char in enumerate(segment):
+        index = start + local_index
+        if char == "," and not protected[local_index]:
+            spans.append(Span(part_start, index))
+            part_start = index + 1
+    spans.append(Span(part_start, end))
+    return tuple(spans)
 
 
 def _parse_nested_action_block(

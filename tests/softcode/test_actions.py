@@ -7,6 +7,8 @@ from mushy_peas.softcode import (
     DolistCommand,
     NestedActionBlock,
     RegexCommandPattern,
+    SwitchCase,
+    SwitchCommand,
     TriggerCommand,
     parse_action_list,
     parse_command_attribute_body,
@@ -200,3 +202,65 @@ def test_action_list_classifies_dolist_nested_action_body() -> None:
         (14, 22),
         (23, 33),
     ]
+
+
+def test_action_list_classifies_switch_command_cases() -> None:
+    source = "@switch foo=bar,@emit yes,baz,@emit no"
+    action_list = parse_action_list(source)
+    statement = action_list.statements[0]
+
+    assert isinstance(statement.switch, SwitchCommand)
+    switch = statement.switch
+    assert switch.command_name.text == "@switch"
+    assert switch.subject.span.start == 8
+    assert switch.subject.span.end == 11
+    assert switch.equals == 11
+    assert len(switch.cases) == 2
+    first = switch.cases[0]
+    assert isinstance(first, SwitchCase)
+    assert first.pattern.span.start == 12
+    assert first.pattern.span.end == 15
+    assert first.separator is not None
+    assert first.separator.start == 15
+    assert first.action is not None
+    assert first.action.span.start == 16
+    assert first.action.span.end == 25
+    second = switch.cases[1]
+    assert second.pattern.span.start == 26
+    assert second.pattern.span.end == 29
+    assert second.action is not None
+    assert second.action.span.start == 30
+    assert second.action.span.end == len(source)
+
+
+def test_switch_cases_do_not_split_commas_inside_braced_actions() -> None:
+    source = "@sw foo=bar,{@emit one,two;@emit done},baz,@emit no"
+    action_list = parse_action_list(source)
+    switch = action_list.statements[0].switch
+
+    assert isinstance(switch, SwitchCommand)
+    assert len(switch.cases) == 2
+    first = switch.cases[0]
+    assert first.action is not None
+    assert first.action.span.start == 12
+    assert first.action.span.end == 38
+    assert isinstance(first.nested_action_block, NestedActionBlock)
+    block = first.nested_action_block
+    assert [(stmt.span.start, stmt.span.end) for stmt in block.actions.statements] == [
+        (13, 26),
+        (27, 37),
+    ]
+
+
+def test_switch_cases_preserve_odd_trailing_pattern() -> None:
+    source = "@switch foo=bar,@emit yes,default"
+    action_list = parse_action_list(source)
+    switch = action_list.statements[0].switch
+
+    assert isinstance(switch, SwitchCommand)
+    assert len(switch.cases) == 2
+    trailing = switch.cases[1]
+    assert trailing.pattern.span.start == 26
+    assert trailing.pattern.span.end == len(source)
+    assert trailing.separator is None
+    assert trailing.action is None
