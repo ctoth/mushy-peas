@@ -7,6 +7,7 @@ from mushy_peas.softcode.model import (
     EvalGroup,
     FunctionCall,
     Node,
+    PercentSub,
     Span,
     Text,
 )
@@ -20,6 +21,7 @@ __all__ = [
     "EvalGroup",
     "FunctionCall",
     "Node",
+    "PercentSub",
     "Span",
     "Text",
     "parse_expression",

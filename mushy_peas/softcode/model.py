@@ -25,6 +25,13 @@ class Text:
 
 
 @dataclass(frozen=True)
+class PercentSub:
+    span: Span
+    raw: str
+    kind: Literal["percent_sub"] = "percent_sub"
+
+
+@dataclass(frozen=True)
 class Argument:
     span: Span
     children: tuple[Node, ...]
@@ -67,7 +74,9 @@ class Unknown:
     kind: Literal["unknown"] = "unknown"
 
 
-Node: TypeAlias = Text | FunctionCall | Argument | BraceGroup | EvalGroup | Unknown
+Node: TypeAlias = (
+    Text | PercentSub | FunctionCall | Argument | BraceGroup | EvalGroup | Unknown
+)
 
 
 @dataclass(frozen=True)

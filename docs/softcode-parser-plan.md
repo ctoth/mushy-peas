@@ -505,6 +505,7 @@ First node dataclasses:
 ```text
 Document(span, children)
 Text(span)
+PercentSub(span, raw)
 FunctionCall(span, name_span, name, open_paren, arguments, close_paren)
 Argument(span, children)
 BraceGroup(span, open_brace, children, close_brace)
@@ -527,6 +528,7 @@ render(node: Node, source: str) -> str
 Initial scope:
 
 - literal text;
+- percent substitutions;
 - known function calls;
 - comma-separated arguments;
 - nested known function calls;
@@ -536,7 +538,6 @@ Initial scope:
 
 Out of first slice:
 
-- percent substitutions;
 - dollar substitutions;
 - escapes;
 - terminator nodes;
@@ -1022,8 +1023,8 @@ As of 2026-06-28, the project has:
   roots;
 - initial lossless CST model dataclasses;
 - source-slice rendering;
-- an initial handwritten parser for text, brace/eval groups, known function
-  calls, and arguments;
+- an initial handwritten parser for text, percent substitutions, brace/eval
+  groups, known function calls, and arguments;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;

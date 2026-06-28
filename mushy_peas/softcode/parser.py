@@ -12,6 +12,7 @@ from mushy_peas.softcode.model import (
     EvalGroup,
     FunctionCall,
     Node,
+    PercentSub,
     Span,
     Text,
 )
@@ -57,6 +58,14 @@ class _Parser:
         while index < len(self.source):
             if self.source[index] in terminators:
                 break
+            percent_sub = self._parse_percent_sub_at(index)
+            if percent_sub is not None:
+                if text_start < index:
+                    children.append(Text(span=Span(text_start, index)))
+                children.append(percent_sub)
+                index = percent_sub.span.end
+                text_start = index
+                continue
             group = self._parse_group_at(index)
             if group is not None:
                 if text_start < index:
@@ -142,3 +151,24 @@ class _Parser:
                     close_bracket=end,
                 )
         return None
+
+    def _parse_percent_sub_at(self, position: int) -> PercentSub | None:
+        if self.source[position] != "%" or position + 1 >= len(self.source):
+            return None
+        code = self.source[position + 1]
+        end = position + 2
+        if code in {"Q", "q"} and end < len(self.source):
+            if self.source[end] == "<":
+                close = self.source.find(">", end + 1)
+                if close != -1:
+                    end = close + 1
+            else:
+                end += 1
+        elif code in {"I", "i", "$", "V", "v", "W", "w", "X", "x"}:
+            if end >= len(self.source):
+                return None
+            end += 1
+        return PercentSub(
+            span=Span(position, end),
+            raw=self.source[position:end],
+        )

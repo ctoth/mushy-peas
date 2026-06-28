@@ -4,6 +4,7 @@ from mushy_peas.softcode import (
     BraceGroup,
     EvalGroup,
     FunctionCall,
+    PercentSub,
     parse_expression,
     render,
 )
@@ -86,4 +87,40 @@ def test_eval_group_parses_recursive_children() -> None:
     call = group.children[0]
     assert isinstance(call, FunctionCall)
     assert call.name == "ADD"
+    assert render(document, source) == source
+
+
+def test_percent_substitution_parses_as_cst_node() -> None:
+    source = "say %n"
+    document = parse_expression(source)
+    percent = document.children[1]
+
+    assert isinstance(percent, PercentSub)
+    assert percent.span.start == 4
+    assert percent.span.end == 6
+    assert percent.raw == "%n"
+    assert render(document, source) == source
+
+
+def test_percent_substitution_parses_three_character_family() -> None:
+    source = "%vx"
+    document = parse_expression(source)
+    percent = document.children[0]
+
+    assert isinstance(percent, PercentSub)
+    assert percent.span.start == 0
+    assert percent.span.end == 3
+    assert percent.raw == "%vx"
+    assert render(document, source) == source
+
+
+def test_percent_substitution_parses_named_q_register() -> None:
+    source = "%q<name>"
+    document = parse_expression(source)
+    percent = document.children[0]
+
+    assert isinstance(percent, PercentSub)
+    assert percent.span.start == 0
+    assert percent.span.end == 8
+    assert percent.raw == "%q<name>"
     assert render(document, source) == source
