@@ -713,6 +713,7 @@ Second action slice:
 - Done: parse simple `command lhs=rhs`;
 - Done: classify command pattern attrs, including `$pattern:action-list` and
   `$^regex:action-list` forms.
+- Done: classify brace-wrapped nested action blocks on assignment RHS values.
 
 ## Stage 8: Profiles
 
@@ -1035,6 +1036,7 @@ As of 2026-06-28, the project has:
   expression CST protected spans;
 - action-list command-name and simple assignment classification;
 - command-pattern attribute classification for plain and regex command attrs;
+- brace-wrapped nested action block parsing with exact inner action spans;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1072,7 +1074,8 @@ scan events inside their argument text, but they do not produce nested
 The project does not yet have:
 
 - a full expression CST;
-- full action-list CST beyond top-level semicolon splitting;
+- command-specific action CST for forms such as `@switch`, `@dolist`, and
+  `@trigger`;
 - profile-aware unit classification;
 - semantic AST views;
 - semantic graph extraction;
@@ -1080,4 +1083,5 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue nested action block parsing.
+should continue profile-aware unit classification or command-specific action
+body parsing.

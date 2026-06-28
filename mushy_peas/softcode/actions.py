@@ -46,6 +46,7 @@ class Assignment:
     lhs: CommandArg
     equals: int
     rhs: CommandArg
+    nested_action_block: NestedActionBlock | None = None
 
 
 @dataclass(frozen=True)
@@ -61,6 +62,14 @@ class ActionList:
     span: Span
     statements: tuple[CommandStmt, ...]
     separators: tuple[Span, ...]
+
+
+@dataclass(frozen=True)
+class NestedActionBlock:
+    span: Span
+    open_brace: int
+    actions: ActionList
+    close_brace: int
 
 
 @dataclass(frozen=True)
@@ -154,6 +163,7 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
         lhs=CommandArg(span=Span(argument_start, equals)),
         equals=equals,
         rhs=CommandArg(span=Span(equals + 1, end)),
+        nested_action_block=_parse_nested_action_block(source, equals + 1, end),
     )
     return CommandStmt(
         span=span,
@@ -168,6 +178,27 @@ def _skip_spaces(source: str, start: int, end: int) -> int:
     while index < end and source[index].isspace():
         index += 1
     return index
+
+
+def _parse_nested_action_block(
+    source: str,
+    start: int,
+    end: int,
+) -> NestedActionBlock | None:
+    rhs_start = _skip_spaces(source, start, end)
+    rhs_end = end
+    while rhs_end > rhs_start and source[rhs_end - 1].isspace():
+        rhs_end -= 1
+    if rhs_end - rhs_start < 2:
+        return None
+    if source[rhs_start] != "{" or source[rhs_end - 1] != "}":
+        return None
+    return NestedActionBlock(
+        span=Span(rhs_start, rhs_end),
+        open_brace=rhs_start,
+        actions=parse_action_list(source, start=rhs_start + 1, end=rhs_end - 1),
+        close_brace=rhs_end - 1,
+    )
 
 
 def _protected_offsets(document: Document, length: int) -> list[bool]:

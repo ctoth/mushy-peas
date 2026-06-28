@@ -4,6 +4,7 @@ from mushy_peas.softcode import (
     Assignment,
     CommandName,
     CommandPattern,
+    NestedActionBlock,
     RegexCommandPattern,
     parse_action_list,
     parse_command_attribute_body,
@@ -113,3 +114,22 @@ def test_command_attribute_body_classifies_regex_pattern() -> None:
     assert body.pattern.text == "$^look (.+)$"
     assert body.separator.start == 12
     assert body.actions.statements[0].span.start == 13
+
+
+def test_assignment_classifies_nested_action_block() -> None:
+    source = "@wait 1={@emit one;@emit two}"
+    action_list = parse_action_list(source)
+    assignment = action_list.statements[0].assignment
+
+    assert assignment is not None
+    assert isinstance(assignment.nested_action_block, NestedActionBlock)
+    block = assignment.nested_action_block
+    assert block.span.start == 8
+    assert block.span.end == len(source)
+    assert block.open_brace == 8
+    assert block.close_brace == len(source) - 1
+    assert [(stmt.span.start, stmt.span.end) for stmt in block.actions.statements] == [
+        (9, 18),
+        (19, 28),
+    ]
+    assert [(span.start, span.end) for span in block.actions.separators] == [(18, 19)]
