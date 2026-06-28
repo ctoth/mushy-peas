@@ -1,14 +1,21 @@
 from pathlib import Path
 
 from mushy_peas.softcode import (
+    AssignmentStmt,
     BraceExpr,
+    DolistStmt,
+    DynamicExpr,
     EvalExpr,
     FunctionCall,
     FunctionExpr,
     ParseMode,
     SubstitutionExpr,
+    SwitchStmt,
+    TriggerStmt,
     UnknownExpr,
+    build_action_ast_view,
 )
+from mushy_peas.softcode.actions import parse_action_list
 from mushy_peas.softcode.ast_views import build_ast_view
 from mushy_peas.softcode.function_metadata import load_function_registry
 from mushy_peas.softcode.model import Document, Span, Text, Unknown
@@ -101,3 +108,65 @@ def test_ast_projection_is_total_over_unsupported_cst_nodes() -> None:
     assert expr.span == text.span
     assert expr.cst is text
     assert expr.reason == "unsupported CST node: text"
+
+
+def test_action_ast_projects_assignment_statement() -> None:
+    source = "@pemit %#=hello"
+    action_list = parse_action_list(source)
+
+    ast = build_action_ast_view(action_list)
+    stmt = ast.statements[0]
+    assignment = action_list.statements[0].assignment
+
+    assert isinstance(stmt, AssignmentStmt)
+    assert assignment is not None
+    assert ast.span == action_list.span
+    assert ast.cst is action_list
+    assert stmt.span == assignment.span
+    assert stmt.cst is assignment
+    assert stmt.lhs == Span(7, 9)
+    assert stmt.rhs == Span(10, len(source))
+
+
+def test_action_ast_projects_trigger_dolist_and_switch_statements() -> None:
+    source = (
+        "@trigger #10/A=one;"
+        "@dolist one two={@emit ##};"
+        "@switch foo=bar,@emit yes"
+    )
+    action_list = parse_action_list(source)
+
+    ast = build_action_ast_view(action_list)
+    trigger = ast.statements[0]
+    dolist = ast.statements[1]
+    switch = ast.statements[2]
+
+    assert isinstance(trigger, TriggerStmt)
+    assert action_list.statements[0].trigger is not None
+    assert trigger.cst is action_list.statements[0].trigger
+    assert trigger.target == Span(9, 14)
+    assert trigger.arguments == Span(15, 18)
+    assert isinstance(dolist, DolistStmt)
+    assert action_list.statements[1].dolist is not None
+    assert dolist.cst is action_list.statements[1].dolist
+    assert dolist.list_expr == Span(27, 34)
+    assert dolist.body == Span(35, 45)
+    assert isinstance(switch, SwitchStmt)
+    assert action_list.statements[2].switch is not None
+    assert switch.cst is action_list.statements[2].switch
+    assert switch.subject == Span(54, 57)
+    assert len(switch.cases) == 1
+    assert switch.cases[0].pattern == Span(58, 61)
+    assert switch.cases[0].action == Span(62, len(source))
+
+
+def test_action_ast_projects_empty_statement_to_dynamic_expr() -> None:
+    action_list = parse_action_list("")
+
+    ast = build_action_ast_view(action_list)
+    stmt = ast.statements[0]
+
+    assert isinstance(stmt, DynamicExpr)
+    assert stmt.span == Span(0, 0)
+    assert stmt.cst is action_list.statements[0]
+    assert stmt.reason == "empty command statement"

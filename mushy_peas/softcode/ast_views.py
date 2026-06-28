@@ -5,6 +5,17 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal, TypeAlias
 
+from mushy_peas.softcode.actions import (
+    ActionList,
+    Assignment,
+    DolistCommand,
+    SwitchCase,
+    SwitchCommand,
+    TriggerCommand,
+)
+from mushy_peas.softcode.actions import (
+    CommandStmt as CstCommandStmt,
+)
 from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
@@ -66,11 +77,92 @@ class UnknownExpr:
 Expr: TypeAlias = FunctionExpr | SubstitutionExpr | BraceExpr | EvalExpr | UnknownExpr
 
 
+@dataclass(frozen=True)
+class AstActionList:
+    span: Span
+    cst: ActionList
+    statements: tuple[ActionStmt, ...]
+
+
+@dataclass(frozen=True)
+class CommandStmt:
+    span: Span
+    cst: CstCommandStmt
+    command_name: str | None
+
+
+@dataclass(frozen=True)
+class AssignmentStmt:
+    span: Span
+    cst: Assignment
+    lhs: Span
+    rhs: Span
+
+
+@dataclass(frozen=True)
+class TriggerStmt:
+    span: Span
+    cst: TriggerCommand
+    target: Span
+    arguments: Span | None
+
+
+@dataclass(frozen=True)
+class DolistStmt:
+    span: Span
+    cst: DolistCommand
+    list_expr: Span
+    body: Span
+
+
+@dataclass(frozen=True)
+class SwitchCaseView:
+    span: Span
+    cst: SwitchCase
+    pattern: Span
+    action: Span | None
+
+
+@dataclass(frozen=True)
+class SwitchStmt:
+    span: Span
+    cst: SwitchCommand
+    subject: Span
+    cases: tuple[SwitchCaseView, ...]
+
+
+@dataclass(frozen=True)
+class DynamicExpr:
+    span: Span
+    cst: CstCommandStmt
+    reason: str
+
+
+ActionStmt: TypeAlias = (
+    CommandStmt
+    | AssignmentStmt
+    | TriggerStmt
+    | DolistStmt
+    | SwitchStmt
+    | DynamicExpr
+)
+
+
 def build_ast_view(document: Document) -> AstDocument:
     return AstDocument(
         span=document.span,
         cst=document,
         expressions=tuple(_project_node(child) for child in document.children),
+    )
+
+
+def build_action_ast_view(action_list: ActionList) -> AstActionList:
+    return AstActionList(
+        span=action_list.span,
+        cst=action_list,
+        statements=tuple(
+            _project_action_statement(stmt) for stmt in action_list.statements
+        ),
     )
 
 
@@ -119,3 +211,59 @@ def _project_node(node: Node) -> Expr:
 
 def _project_argument(argument: Argument) -> tuple[Expr, ...]:
     return tuple(_project_node(child) for child in argument.children)
+
+
+def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
+    if statement.switch is not None:
+        return SwitchStmt(
+            span=statement.switch.span,
+            cst=statement.switch,
+            subject=statement.switch.subject.span,
+            cases=tuple(_project_switch_case(case) for case in statement.switch.cases),
+        )
+    if statement.dolist is not None:
+        return DolistStmt(
+            span=statement.dolist.span,
+            cst=statement.dolist,
+            list_expr=statement.dolist.list_expr.span,
+            body=statement.dolist.body.span,
+        )
+    if statement.trigger is not None:
+        arguments = (
+            None
+            if statement.trigger.arguments is None
+            else statement.trigger.arguments.span
+        )
+        return TriggerStmt(
+            span=statement.trigger.span,
+            cst=statement.trigger,
+            target=statement.trigger.target.span,
+            arguments=arguments,
+        )
+    if statement.assignment is not None:
+        return AssignmentStmt(
+            span=statement.assignment.span,
+            cst=statement.assignment,
+            lhs=statement.assignment.lhs.span,
+            rhs=statement.assignment.rhs.span,
+        )
+    if statement.command_name is not None:
+        return CommandStmt(
+            span=statement.span,
+            cst=statement,
+            command_name=statement.command_name.text,
+        )
+    return DynamicExpr(
+        span=statement.span,
+        cst=statement,
+        reason="empty command statement",
+    )
+
+
+def _project_switch_case(case: SwitchCase) -> SwitchCaseView:
+    return SwitchCaseView(
+        span=case.span,
+        cst=case,
+        pattern=case.pattern.span,
+        action=None if case.action is None else case.action.span,
+    )

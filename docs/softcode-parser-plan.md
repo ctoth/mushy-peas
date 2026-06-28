@@ -814,6 +814,14 @@ Second AST projection:
 - Done: `EvalExpr` from `EvalGroup`;
 - Done: recursive child projection for brace and eval groups.
 
+Action AST projection:
+
+- Done: action-list AST projection retains the action CST;
+- Done: `AssignmentStmt` from generic assignment CST;
+- Done: `TriggerStmt`, `DolistStmt`, and `SwitchStmt` from the first
+  command-specific action CST nodes;
+- Done: empty action statements project to `DynamicExpr`.
+
 ## Stage 10: Semantic Graph
 
 Build a graph of definitions, references, and effects.
@@ -1059,6 +1067,8 @@ As of 2026-06-28, the project has:
 - first command-specific `@trigger` CST classification;
 - first command-specific `@dolist` CST classification;
 - first command-specific `@switch` CST classification;
+- action-level AST projections for assignment, trigger, dolist, switch, and
+  empty dynamic statements;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
