@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from collections import Counter
 from collections.abc import Iterable
 from dataclasses import dataclass
@@ -21,6 +22,10 @@ from mushy_peas.softcode.inventory import (
     read_text_if_candidate,
 )
 from mushy_peas.softcode.model import Span
+
+INSTALL_COMMAND_RE = re.compile(
+    r"^\s*@(?P<name>[A-Za-z][A-Za-z0-9_+/-]*)\s+(?P<object>[^=]+?)=(?P<body>.*)$"
+)
 
 
 @dataclass(frozen=True)
@@ -182,25 +187,53 @@ def _extract_file_units(path: Path, text: str) -> tuple[SoftcodeUnit, ...]:
                 )
             )
             index = next_index
-        elif line.strip():
-            units.append(
-                SoftcodeUnit(
-                    id=_unit_id(path, line_number, None),
-                    source_path=path,
-                    source_kind=source_kind,
-                    profile_hint=profile_hint,
-                    object_ref=None,
-                    attribute_name=None,
-                    attribute_kind="raw",
-                    command_pattern=None,
-                    body=line,
-                    source_span=span,
-                    line_number=line_number,
-                )
-            )
-            index += 1
         else:
-            index += 1
+            install_command = _parse_install_command_line(line)
+            if install_command is not None:
+                command_name, object_ref, command_body = install_command
+                body, source_span, next_index = _coalesce_install_command_body(
+                    lines,
+                    spans,
+                    index,
+                    command_body,
+                    span,
+                    path,
+                )
+                units.append(
+                    SoftcodeUnit(
+                        id=_unit_id(path, line_number, f"@{command_name}"),
+                        source_path=path,
+                        source_kind=source_kind,
+                        profile_hint=profile_hint,
+                        object_ref=object_ref,
+                        attribute_name=f"@{command_name.upper()}",
+                        attribute_kind="cmd",
+                        command_pattern=None,
+                        body=body,
+                        source_span=source_span,
+                        line_number=line_number,
+                    )
+                )
+                index = next_index
+            elif line.strip():
+                units.append(
+                    SoftcodeUnit(
+                        id=_unit_id(path, line_number, None),
+                        source_path=path,
+                        source_kind=source_kind,
+                        profile_hint=profile_hint,
+                        object_ref=None,
+                        attribute_name=None,
+                        attribute_kind="raw",
+                        command_pattern=None,
+                        body=line,
+                        source_span=span,
+                        line_number=line_number,
+                    )
+                )
+                index += 1
+            else:
+                index += 1
     return tuple(units)
 
 
@@ -236,6 +269,28 @@ def _coalesce_attribute_body(
         continuation.append(line)
         scan_index += 1
     return body, source_span, next_index
+
+
+def _parse_install_command_line(line: str) -> tuple[str, str, str] | None:
+    match = INSTALL_COMMAND_RE.match(line)
+    if match is None:
+        return None
+    return (
+        match.group("name"),
+        match.group("object").strip(),
+        match.group("body"),
+    )
+
+
+def _coalesce_install_command_body(
+    lines: list[str],
+    spans: tuple[Span, ...],
+    index: int,
+    body: str,
+    source_span: Span,
+    path: Path,
+) -> tuple[str, Span, int]:
+    return _coalesce_attribute_body(lines, spans, index, body, source_span, path)
 
 
 def _unit_id(path: Path, line_number: int, attribute_name: str | None) -> str:

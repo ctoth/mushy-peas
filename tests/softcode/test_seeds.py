@@ -65,6 +65,27 @@ def test_collect_corpus_seeds_is_bounded_per_kind(tmp_path: Path) -> None:
     assert {seed.kind for seed in collection.seeds} == {"wcnh_function_attr"}
 
 
+def test_collect_corpus_seeds_ignores_typed_install_commands(
+    tmp_path: Path,
+) -> None:
+    wcnh = tmp_path / "wcnh" / "systems" / "softcode"
+    wcnh.mkdir(parents=True)
+    (wcnh / "system.mush").write_text(
+        "\n".join(
+            (
+                "@desc #10=",
+                "  add(1,2)",
+                "-",
+            )
+        ),
+        encoding="utf-8",
+    )
+
+    collection = collect_corpus_seeds([wcnh])
+
+    assert collection.seeds == ()
+
+
 def test_corpus_seed_collection_is_json_serializable(tmp_path: Path) -> None:
     wcnh = tmp_path / "wcnh" / "systems" / "softcode"
     wcnh.mkdir(parents=True)

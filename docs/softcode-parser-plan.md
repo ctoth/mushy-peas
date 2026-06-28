@@ -83,6 +83,21 @@ uv run pytest
 Targeted commands should be added per stage, but the full gate above remains the
 authority before declaring a stage complete.
 
+Current artifact regeneration commands:
+
+```powershell
+uv run python -m mushy_peas.softcode.inventory C:\Users\Q\src\wcnh\systems\softcode C:\Users\Q\src\mushcode C:\Users\Q\src\pennmush\test --report reports\softcode-inventory.md
+
+uv run mush-softcode-functions C:\Users\Q\src\pennmush --output tests\fixtures\softcode\pennmush-functions.json --pennmush-commit 4d1d4a9e5cfc3c227b213de242721092a970ad41
+
+uv run python -m mushy_peas.softcode.units C:\Users\Q\src\wcnh\systems\softcode C:\Users\Q\src\mushcode C:\Users\Q\src\pennmush\test --report reports\softcode-units.md --json reports\softcode-units.json
+
+uv run python -m mushy_peas.softcode.seeds C:\Users\Q\src\wcnh\systems\softcode C:\Users\Q\src\mushcode C:\Users\Q\src\pennmush\test --output tests\fixtures\softcode\corpus-seeds.json --max-per-kind 50
+```
+
+These commands are executable today. The broader Stage 13 CLI names are still
+future tooling targets, not current entry points.
+
 ## Execution Order
 
 The stages below are ordered. Do not start broad semantic graph work before the
@@ -373,10 +388,14 @@ Current status:
   `reports/softcode-units.json` records the current ordered unit ledger.
 - Done: dash-terminated multi-line attribute install bodies are coalesced into
   their owning units.
-- Current local corpus total: 12,233 units, including 7,446 recognized
-  attribute install units and 4,792 raw preserved lines.
-- Limitation: non-attribute install commands such as `@desc` are still preserved
-  as raw lines, not command units.
+- Done: non-attribute `@name target=body` install commands such as `@desc` and
+  `@set` become typed `cmd` units, including dash-terminated multi-line
+  command bodies.
+- Current local corpus total: 11,451 units, including 1,948 `cmd` units and
+  2,766 raw preserved lines.
+- Limitation: non-attribute install command extraction currently recognizes
+  `@name target=body` line forms. It does not yet model command-specific
+  semantics such as `@set` switches or `@lock` lock syntax.
 
 ## Stage 4: Core Lossless CST
 
@@ -966,7 +985,6 @@ The project does not yet have:
   substitutions, denied functions, and arity errors;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
-- typed extraction for non-attribute install commands such as `@desc`;
 - a full expression CST;
 - action-list CST;
 - profile-aware unit classification;
@@ -976,6 +994,6 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue Stage 1 trace hardening or add typed extraction for
-non-attribute install commands such as `@desc`; parser syntax expansion should
-remain tied to oracle coverage.
+should continue Stage 1 trace hardening, add real DB attribute seeds, or add
+corpus mutation strategies; parser syntax expansion should remain tied to
+oracle coverage.

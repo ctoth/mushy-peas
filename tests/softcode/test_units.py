@@ -86,6 +86,52 @@ def test_extract_softcode_units_coalesces_dash_terminated_attribute_bodies(
     assert units[0].source_span.end == len("&FN.MULTI #10=\n  add(1,\n      2)\n-")
 
 
+def test_extract_softcode_units_types_multiline_install_commands(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "system.mush"
+    source.write_text(
+        "\n".join(
+            (
+                "@desc #10=",
+                "  [center(Test,79,-)]%r",
+                "  Done",
+                "-",
+            )
+        ),
+        encoding="utf-8",
+    )
+
+    collection = extract_softcode_units([tmp_path])
+    unit = collection.units[0]
+
+    assert len(collection.units) == 1
+    assert unit.attribute_kind == "cmd"
+    assert unit.attribute_name == "@DESC"
+    assert unit.object_ref == "#10"
+    assert unit.body == "  [center(Test,79,-)]%r\n  Done"
+    assert unit.command_pattern is None
+    assert unit.source_span.start == 0
+    assert unit.source_span.end == len(
+        "@desc #10=\n  [center(Test,79,-)]%r\n  Done\n-"
+    )
+
+
+def test_extract_softcode_units_types_single_line_install_commands(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "system.mush"
+    source.write_text("@set #10/DESC=no_command", encoding="utf-8")
+
+    collection = extract_softcode_units([tmp_path])
+    unit = collection.units[0]
+
+    assert unit.attribute_kind == "cmd"
+    assert unit.attribute_name == "@SET"
+    assert unit.object_ref == "#10/DESC"
+    assert unit.body == "no_command"
+
+
 def test_extract_softcode_units_has_stable_ids(tmp_path: Path) -> None:
     source = tmp_path / "system.mush"
     source.write_text("&FN.VALUE #10=add(1,2)", encoding="utf-8")

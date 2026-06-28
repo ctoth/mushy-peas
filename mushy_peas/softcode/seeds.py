@@ -79,7 +79,12 @@ def collect_corpus_seeds(
     units = extract_softcode_units(path_tuple).units
     seeds: list[CorpusSeed] = []
     for unit in units:
-        kind = _unit_seed_kind(unit.profile_hint, unit.attribute_kind)
+        kind = _unit_seed_kind(
+            unit.profile_hint,
+            unit.attribute_kind,
+            unit.attribute_name,
+            unit.command_pattern,
+        )
         if kind is None:
             continue
         seeds.append(
@@ -120,12 +125,24 @@ def main(argv: list[str] | None = None) -> int:
     return 0
 
 
-def _unit_seed_kind(profile_hint: str, attribute_kind: str) -> SeedKind | None:
-    if profile_hint == "wcnh" and attribute_kind == "cmd":
+def _unit_seed_kind(
+    profile_hint: str,
+    attribute_kind: str,
+    attribute_name: str | None,
+    command_pattern: str | None,
+) -> SeedKind | None:
+    is_command_attribute = (
+        attribute_name is not None and attribute_name.upper().startswith("CMD")
+    )
+    if profile_hint == "wcnh" and attribute_kind == "cmd" and is_command_attribute:
         return "wcnh_command_attr"
     if profile_hint == "wcnh" and attribute_kind == "fn":
         return "wcnh_function_attr"
-    if profile_hint == "volund-mushcode" and attribute_kind == "cmd":
+    if (
+        profile_hint == "volund-mushcode"
+        and attribute_kind == "cmd"
+        and (is_command_attribute or command_pattern is not None)
+    ):
         return "mushcode_command_attr"
     return None
 
