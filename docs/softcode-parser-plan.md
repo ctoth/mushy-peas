@@ -266,6 +266,10 @@ Current status:
   after their recursive parses consume the closing delimiter.
 - Done: the trace includes `percent_sub` events with source spans, raw source
   text, and produced value for evaluated percent substitutions.
+- Done: the trace includes `dollar_sub` events with raw source text and
+  produced value for regexp replacement substitutions such as `regedit()`.
+  Because PennMUSH evaluates copied replacement argument buffers, those events
+  currently report `-1` source offsets instead of original-input spans.
 - Done: the trace includes `escape` events with source spans, raw source text,
   and produced value for evaluated backslash escapes.
 - Done: the trace includes `arity_error` events with source spans, raw call
@@ -279,9 +283,10 @@ Current status:
 - Done: the trace includes `function_limit` events for function invocation
   limit failures, with source spans, function metadata, raw call text, limit
   reason, and produced error value.
-- Limitation: trace coverage is still missing dollar substitutions, escape
-  edge cases, non-disabled permission-denied function paths, and some
-  function-limit error paths such as recursion-limit failures.
+- Limitation: trace coverage is still missing original-input spans for
+  copied-buffer dollar substitutions, escape edge cases, non-disabled
+  permission-denied function paths, and some function-limit error paths such
+  as recursion-limit failures.
 
 Not complete until every required event family above is either emitted with
 spans or documented as unsupported with a test fixture.
@@ -1012,6 +1017,8 @@ As of 2026-06-28, the project has:
 - PennMUSH trace terminator events for tflag-selected delimiters;
 - PennMUSH trace brace/eval group events with complete source spans;
 - PennMUSH trace percent-substitution events with raw and produced values;
+- PennMUSH trace dollar-substitution events with raw and produced values, but
+  not original-input spans for copied replacement buffers yet;
 - PennMUSH trace escape events with raw and produced values;
 - PennMUSH trace function arity-error events with raw call text and produced
   error values;
@@ -1030,9 +1037,9 @@ scan events inside their argument text, but they do not produce nested
 
 The project does not yet have:
 
-- complete trace coverage for all literal copy paths, dollar substitutions,
-  escape edge cases, non-disabled permission-denied functions, and
-  recursion-limit error paths;
+- complete trace coverage for all literal copy paths, original-input spans for
+  copied-buffer dollar substitutions, escape edge cases, non-disabled
+  permission-denied functions, and recursion-limit error paths;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
 - a full expression CST;

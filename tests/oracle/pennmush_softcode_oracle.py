@@ -21,6 +21,7 @@ from tests.oracle.pennmush_oracle import (
 TraceEventKind: TypeAlias = Literal[
     "arity_error",
     "denied_function",
+    "dollar_sub",
     "enter",
     "exit",
     "escape",
@@ -161,6 +162,7 @@ def _expect_kind(payload: dict[str, Any]) -> TraceEventKind:
         case (
             "arity_error"
             | "denied_function"
+            | "dollar_sub"
             | "enter"
             | "exit"
             | "escape"

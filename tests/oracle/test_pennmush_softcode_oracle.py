@@ -192,6 +192,21 @@ def test_live_softcode_trace_reports_percent_substitutions() -> None:
     not softcode_oracle_available(),
     reason="PennMUSH softcode trace oracle is not available",
 )
+def test_live_softcode_trace_reports_regedit_dollar_substitutions() -> None:
+    trace = run_softcode_trace("regedit(foo123bar,(123),<$1>)")
+    dollar_events = _events_by_kind(trace, "dollar_sub")
+
+    assert trace.result == "foo<123>bar"
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in dollar_events
+    ] == [(-1, -1, "$1", "123")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
 def test_live_softcode_trace_reports_escape_span() -> None:
     trace = run_softcode_trace(r"\%")
     escape_events = _events_by_kind(trace, "escape")
