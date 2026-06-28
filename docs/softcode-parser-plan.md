@@ -796,9 +796,10 @@ Implementation target:
 
 First AST projection:
 
-- `FunctionExpr` from `FunctionCall`;
-- `UnknownExpr` from `Unknown`;
-- no semantic claims beyond node shape.
+- Done: `FunctionExpr` from `FunctionCall`;
+- Done: `UnknownExpr` from `Unknown`;
+- Done: total fallback to `UnknownExpr` for unsupported CST nodes;
+- Done: no semantic claims beyond node shape.
 
 ## Stage 10: Semantic Graph
 
@@ -1040,6 +1041,7 @@ As of 2026-06-28, the project has:
 - command-pattern attribute classification for plain and regex command attrs;
 - brace-wrapped nested action block parsing with exact inner action spans;
 - WCNH profile-aware unit classification independent from CST success;
+- first semantic AST projection for function calls and unknown CST nodes;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1079,11 +1081,11 @@ The project does not yet have:
 - a full expression CST;
 - command-specific action CST for forms such as `@switch`, `@dolist`, and
   `@trigger`;
-- semantic AST views;
+- complete semantic AST views;
 - semantic graph extraction;
 - maturity and coverage gates.
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue semantic AST view construction or command-specific action body
-parsing.
+should continue semantic AST view construction beyond the first expression
+projection or command-specific action body parsing.

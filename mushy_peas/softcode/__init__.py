@@ -13,6 +13,12 @@ from mushy_peas.softcode.actions import (
     parse_action_list,
     parse_command_attribute_body,
 )
+from mushy_peas.softcode.ast_views import (
+    AstDocument,
+    FunctionExpr,
+    UnknownExpr,
+    build_ast_view,
+)
 from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
@@ -35,6 +41,7 @@ __all__ = [
     "ActionList",
     "Argument",
     "Assignment",
+    "AstDocument",
     "BraceGroup",
     "CommandArg",
     "CommandAttributeBody",
@@ -46,6 +53,7 @@ __all__ = [
     "Escape",
     "EvalGroup",
     "FunctionCall",
+    "FunctionExpr",
     "NestedActionBlock",
     "Node",
     "ParseMode",
@@ -55,6 +63,8 @@ __all__ = [
     "Span",
     "Terminator",
     "Text",
+    "UnknownExpr",
+    "build_ast_view",
     "classify_profile",
     "parse_action_list",
     "parse_command_attribute_body",
