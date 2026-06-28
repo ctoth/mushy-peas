@@ -1,0 +1,2408 @@
+{
+  "provenance": {
+    "max_per_kind": 50,
+    "notes": "Bounded deterministic seeds extracted from local corpora."
+  },
+  "seeds": [
+    {
+      "id": "seed:49273bbb6492e4dd",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`MAILCHECK",
+      "line_number": 11,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Account Management - ACCOUNT.txt",
+      "source_span": {
+        "end": 731,
+        "start": 413
+      },
+      "text": "$+mailcheck:@attach %!/INC`CHECKPC=%#,1;@select/inline t(words(u(setr,ualts,u(FILTER,UMAIL,u(alts,%q<t1>)))))=1,{@pemit %#=ansi(hy,Unread Mail(s) by Character(s):) [iter(u(sortname,%q<ualts>),ansi(h,name(%i0)) ([u(umail,%i0)]),%b,\\,%b)]},0,{@pemit %#=ansi(hy,You have no unread mail.)}"
+    },
+    {
+      "id": "seed:5580c28b97bfb632",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ACCOUNT`PENNMUSH",
+      "line_number": 60,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Account Management - ACCOUNT.txt",
+      "source_span": {
+        "end": 3260,
+        "start": 3135
+      },
+      "text": "$^(?\\:\\+)?account(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+ACCOUNT`MAIN"
+    },
+    {
+      "id": "seed:b41c87dd9fe4f748",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ACCOUNT`RHOSTMUSH",
+      "line_number": 62,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Account Management - ACCOUNT.txt",
+      "source_span": {
+        "end": 3440,
+        "start": 3313
+      },
+      "text": "$^(?\\:\\+)?account(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+ACCOUNT`MAIN"
+    },
+    {
+      "id": "seed:27b80b2d5ea276f7",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ACCOUNT`MAIN",
+      "line_number": 64,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Account Management - ACCOUNT.txt",
+      "source_span": {
+        "end": 3611,
+        "start": 3494
+      },
+      "text": "@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3"
+    },
+    {
+      "id": "seed:4cbf5c3473fc2588",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ALTS`PENNMUSH",
+      "line_number": 4,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Alts Tracker - ALTS.txt",
+      "source_span": {
+        "end": 238,
+        "start": 125
+      },
+      "text": "$^(?\\:\\+)?alts(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+ALTS`MAIN"
+    },
+    {
+      "id": "seed:37458b7f87afeaf1",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ALTS`RHOSTMUSH",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Alts Tracker - ALTS.txt",
+      "source_span": {
+        "end": 400,
+        "start": 285
+      },
+      "text": "$^(?\\:\\+)?alts(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+ALTS`MAIN"
+    },
+    {
+      "id": "seed:0421b726da601b12",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ALTS`MAIN",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Alts Tracker - ALTS.txt",
+      "source_span": {
+        "end": 559,
+        "start": 448
+      },
+      "text": "@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3"
+    },
+    {
+      "id": "seed:aa2d38791ffdec67",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+APPROVE`PENNMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Approval System - APPROVE.txt",
+      "source_span": {
+        "end": 257,
+        "start": 120
+      },
+      "text": "$^(?\\:\\+)?(approve|unapprove)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+APPROVE`MAIN"
+    },
+    {
+      "id": "seed:c04f7e25781bc59f",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+APPROVE`RHOSTMUSH",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Approval System - APPROVE.txt",
+      "source_span": {
+        "end": 449,
+        "start": 310
+      },
+      "text": "$^(?\\:\\+)?(approve|unapprove)(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+APPROVE`MAIN"
+    },
+    {
+      "id": "seed:89bb51b342a41e61",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+APPROVE`MAIN",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Approval System - APPROVE.txt",
+      "source_span": {
+        "end": 623,
+        "start": 503
+      },
+      "text": "@attach %!/INC`GETSWITCH=%2;@attach %!/INC`%1`[u(strfirstof,%q<switch>,MAIN)]=%3,%4"
+    },
+    {
+      "id": "seed:d4bd7a031116c3ad",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+AMBIENCE`PENNMUSH",
+      "line_number": 4,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Ambience Management System - AMBIENCE.txt",
+      "source_span": {
+        "end": 260,
+        "start": 131
+      },
+      "text": "$^(?\\:\\+)?ambience(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+AMBIENCE`MAIN"
+    },
+    {
+      "id": "seed:cff461852ac570ac",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+AMBIENCE`RHOSTMUSH",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Ambience Management System - AMBIENCE.txt",
+      "source_span": {
+        "end": 446,
+        "start": 315
+      },
+      "text": "$^(?\\:\\+)?ambience(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+AMBIENCE`MAIN"
+    },
+    {
+      "id": "seed:d74384322b5d5aef",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+AMBIENCE`MAIN",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Ambience Management System - AMBIENCE.txt",
+      "source_span": {
+        "end": 621,
+        "start": 502
+      },
+      "text": "@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3"
+    },
+    {
+      "id": "seed:b95509fc55bc0fb7",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+VIEW`PENNMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Details Code Object - DETAIL.txt",
+      "source_span": {
+        "end": 252,
+        "start": 120
+      },
+      "text": "$^(?s)(?\\:\\+)?(details|view|lore)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+VIEW`MAIN"
+    },
+    {
+      "id": "seed:611a37efd0a679aa",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+VIEW`RHOSTMUSH",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Details Code Object - DETAIL.txt",
+      "source_span": {
+        "end": 432,
+        "start": 299
+      },
+      "text": "$^(?s)(?\\:\\+)?(details|view|lore)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+VIEW`MAIN"
+    },
+    {
+      "id": "seed:c662c6999600521e",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+VIEW`MAIN",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Details Code Object - DETAIL.txt",
+      "source_span": {
+        "end": 618,
+        "start": 480
+      },
+      "text": "th u(setq,sysname,%1);@attach %!/INC`GETSWITCH=%2;@attach %!/INC`VIEW`[u(strfirstof,%q<switch>,MAIN)]=%3,%4"
+    },
+    {
+      "id": "seed:f1896fdbe76b36e8",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+PLACES`PENNMUSH",
+      "line_number": 3,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Places Code - PLACE.txt",
+      "source_span": {
+        "end": 240,
+        "start": 103
+      },
+      "text": "$^(?s)(?\\:\\+)?places(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+PLACES`MAIN"
+    },
+    {
+      "id": "seed:971c392f5a5be32b",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+PLACES`RHOSTMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Places Code - PLACE.txt",
+      "source_span": {
+        "end": 430,
+        "start": 291
+      },
+      "text": "$^(?s)(?\\:\\+)?places(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+PLACES`MAIN"
+    },
+    {
+      "id": "seed:2558da0ba9e323df",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+PLACES`MAIN",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Places Code - PLACE.txt",
+      "source_span": {
+        "end": 645,
+        "start": 482
+      },
+      "text": "th u(setq,sysname,%1);@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3,%4,%2[if(strlen(%3),/%3)]"
+    },
+    {
+      "id": "seed:ab983764d05caacc",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+PLACES2",
+      "line_number": 52,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Places Code - PLACE.txt",
+      "source_span": {
+        "end": 6480,
+        "start": 6359
+      },
+      "text": "$^(?s)(?\\:\\+)?(depart|place|mutter|plook)(?\\: +(.*))?$:@attach u(cobj,places)/PLACES`%1=%2"
+    },
+    {
+      "id": "seed:3e631b98d3e65e88",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+REPORT`PENNMUSH",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Report System - REP.txt",
+      "source_span": {
+        "end": 346,
+        "start": 221
+      },
+      "text": "$^(?s)(?\\:\\+)?report(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+REPORT`MAIN"
+    },
+    {
+      "id": "seed:84cc9096a1c5a051",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+REPORT`RHOSTMUSH",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Report System - REP.txt",
+      "source_span": {
+        "end": 524,
+        "start": 397
+      },
+      "text": "$^(?s)(?\\:\\+)?report(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+REPORT`MAIN"
+    },
+    {
+      "id": "seed:98cb9f665265b6f2",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+REPORT`MAIN",
+      "line_number": 10,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Report System - REP.txt",
+      "source_span": {
+        "end": 799,
+        "start": 576
+      },
+      "text": "th u(setq,sysname,%1);@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=trim(%2),trim(%3),trim(before(%2,/)),trim(after(%2,/)),trim(before(%3,/)),trim(after(%3,/))"
+    },
+    {
+      "id": "seed:85c09c85fc97a28e",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+RUMOR`PENNMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Rumor System - RUMOR.txt",
+      "source_span": {
+        "end": 268,
+        "start": 124
+      },
+      "text": "$^(?s)(?\\:\\+)?(?\\:rumor|rumour)(?\\:/(\\S+))?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+RUMOR`MAIN"
+    },
+    {
+      "id": "seed:4af489a7ca546e16",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+RUMOR`RHOSTMUSH",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Rumor System - RUMOR.txt",
+      "source_span": {
+        "end": 463,
+        "start": 317
+      },
+      "text": "$^(?s)(?\\:\\+)?(?\\:rumor|rumour)(?\\:/(\\\\S+))?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+RUMOR`MAIN"
+    },
+    {
+      "id": "seed:cb2dac4829d3f212",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+RUMOR`MAIN",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Rumor System - RUMOR.txt",
+      "source_span": {
+        "end": 685,
+        "start": 513
+      },
+      "text": "th u(setq,sysname,%1);@attach %!/INC`GETSWITCH=%1;@attach %!/INIT;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=trim(%2),trim(%3),trim(%4)"
+    },
+    {
+      "id": "seed:2260bc9ba4388ad3",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+SOUNDTRACK`PENNMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Soundtrack System - MUSIC.txt",
+      "source_span": {
+        "end": 288,
+        "start": 129
+      },
+      "text": "$^(?s)(?\\:\\+)?(?\\:soundtrack|music)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+SOUNDTRACK`MAIN"
+    },
+    {
+      "id": "seed:26d20d06828427d6",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+SOUNDTRACK`RHOSTMUSH",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Soundtrack System - MUSIC.txt",
+      "source_span": {
+        "end": 503,
+        "start": 342
+      },
+      "text": "$^(?s)(?\\:\\+)?(?\\:soundtrack|music)(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+SOUNDTRACK`MAIN"
+    },
+    {
+      "id": "seed:c1f26f768b57b02b",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+SOUNDTRACK`MAIN",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Atmospheric Extras\\Soundtrack System - MUSIC.txt",
+      "source_span": {
+        "end": 701,
+        "start": 558
+      },
+      "text": "th u(setq,sysname,%1);@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3,%4"
+    },
+    {
+      "id": "seed:c26240f57e6676ff",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`BB`PENNMUSH",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Bulletin Board System - BBS.txt",
+      "source_span": {
+        "end": 349,
+        "start": 216
+      },
+      "text": "$^(?s)\\+bb(\\w+)(?\\:/(\\w+)?)?(?\\:/(\\d+)?)?(?\\: +(.+?))?(?\\:/(.+?)?)?(?\\:=(.*))?$:@attach %!/CMD`BB`MAIN"
+    },
+    {
+      "id": "seed:37b3437d3a228063",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`BB`RHOSTMUSH",
+      "line_number": 11,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Bulletin Board System - BBS.txt",
+      "source_span": {
+        "end": 529,
+        "start": 392
+      },
+      "text": "$^(?s)\\+bb(\\\\w+)(?\\:/(\\\\w+)?)?(?\\:/(\\\\d+)?)?(?\\: +(.+?))?(?\\:/(.+?)?)?(?\\:=(.*))?$:@attach %!/CMD`BB`MAIN"
+    },
+    {
+      "id": "seed:d7a214fe470f47f9",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`BB`MAIN",
+      "line_number": 13,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Bulletin Board System - BBS.txt",
+      "source_span": {
+        "end": 1004,
+        "start": 573
+      },
+      "text": "@attach %!/INIT;@attach %!/INC`CHECKPC=%#,1;@attach %!/INC`PARTIAL=%1,setunion(setunion(v(COMMANDS`PLAYER),v(COMMANDS`ADMIN),|,|),if(u(iswizard,%#),v(COMMANDS`WIZARD)),|,|),|,command;th u(setq,page,u(strfirstof,%3,1));@select/inline isint(%2)=1,{th u(setq,page,%2)},0,{@attach %!/INC`PARTIAL=%2,v(SWITCHES`%q<command>),|,switch};@attach %!/%q<command>`[u(strfirstof,%q<switch>,MAIN)]=trim(%4),trim(%5),%6"
+    },
+    {
+      "id": "seed:1f3eafcfe95392d3",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`BBWRITE",
+      "line_number": 16,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Bulletin Board System - BBS.txt",
+      "source_span": {
+        "end": 1199,
+        "start": 1078
+      },
+      "text": "$^(?s)\\+bb(?\\: +(.*))?$:th u(setq,sysname,ucstr(%1S));@attach %!/INIT;@attach %!/WRITE`MAIN=%1"
+    },
+    {
+      "id": "seed:321ee5b36b7d25cb",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+HELP`PENNMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\CORE 04 - Help Menu - HELP.txt",
+      "source_span": {
+        "end": 276,
+        "start": 121
+      },
+      "text": "$^(?s)(?\\:\\+)?(help|shelp|news)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:/(.+?))?(?\\:=(.+?))?$:@attach %!/CMD`+HELP`MAIN"
+    },
+    {
+      "id": "seed:2b2cc3546d2e1ed3",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+HELP`RHOSTMUSH",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\CORE 04 - Help Menu - HELP.txt",
+      "source_span": {
+        "end": 480,
+        "start": 323
+      },
+      "text": "$^(?s)(?\\:\\+)?(help|shelp|news)(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:/(.+?))?(?\\:/(.+?))?(?\\:=(.+?))?$:@attach %!/CMD`+HELP`MAIN"
+    },
+    {
+      "id": "seed:8c3e73382c4c022a",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+HELP`MAIN",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\CORE 04 - Help Menu - HELP.txt",
+      "source_span": {
+        "end": 741,
+        "start": 528
+      },
+      "text": "@attach %!/INC`GETSWITCH=%2;@attach %!/INC`INIT`%1;th u(setq,accid,u(strfirstof,u(accid,%#),%#));@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=trim(%3),trim(%4),trim(%5),trim(%6),%1"
+    },
+    {
+      "id": "seed:93258308152d658d",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ID`PENNMUSH",
+      "line_number": 4,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\CORE 05 - Database ID Manager - ID.txt",
+      "source_span": {
+        "end": 219,
+        "start": 112
+      },
+      "text": "$^(?\\:\\+)?(id)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+ID`MAIN"
+    },
+    {
+      "id": "seed:d41734df81a94c44",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ID`RHOSTMUSH",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\CORE 05 - Database ID Manager - ID.txt",
+      "source_span": {
+        "end": 371,
+        "start": 262
+      },
+      "text": "$^(?\\:\\+)?(id)(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+ID`MAIN"
+    },
+    {
+      "id": "seed:66b372fe8499b871",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+ID`MAIN",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\CORE 05 - Database ID Manager - ID.txt",
+      "source_span": {
+        "end": 522,
+        "start": 415
+      },
+      "text": "@attach %!/INC`GETSWITCH=%2;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%3,%4"
+    },
+    {
+      "id": "seed:47f1bf7515628b7e",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+FINGER`PENNMUSH",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Finger Renderer - FINGER.txt",
+      "source_span": {
+        "end": 233,
+        "start": 108
+      },
+      "text": "$^(?s)(?\\:\\+)?finger(?\\:/(\\S+))?(?\\: +(.+?))?(?\\:=(.*?))?$:@attach %!/CMD`+FINGER`MAIN"
+    },
+    {
+      "id": "seed:7e5c0376b79064dd",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+FINGER`RHOSTMUSH",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Finger Renderer - FINGER.txt",
+      "source_span": {
+        "end": 411,
+        "start": 284
+      },
+      "text": "$^(?s)(?\\:\\+)?finger(?\\:/(\\\\S+))?(?\\: +(.+?))?(?\\:=(.*?))?$:@attach %!/CMD`+FINGER`MAIN"
+    },
+    {
+      "id": "seed:cc17cd1b9dfa2833",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+FINGER`MAIN",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Finger Renderer - FINGER.txt",
+      "source_span": {
+        "end": 579,
+        "start": 463
+      },
+      "text": "@attach %!/INC`GETSWITCH=%1;@include %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3"
+    },
+    {
+      "id": "seed:732178b38710bcbb",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+FRIEND`PENNMUSH",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\FriendList TRACKER - FRIEND.txt",
+      "source_span": {
+        "end": 296,
+        "start": 149
+      },
+      "text": "$^(?s)(?\\:\\+)?(?\\:watch|wf|friend|friends)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+FRIEND`MAIN"
+    },
+    {
+      "id": "seed:b7b63e0a5e7cf08d",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+FRIEND`RHOSTMUSH",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\FriendList TRACKER - FRIEND.txt",
+      "source_span": {
+        "end": 496,
+        "start": 347
+      },
+      "text": "$^(?s)(?\\:\\+)?(?\\:watch|wf|friend|friends)(?\\:/(\\\\S+)?)?(?\\: +(.*)?)?(?\\:=(.*))?$:@attach %!/CMD`+FRIEND`MAIN"
+    },
+    {
+      "id": "seed:31704120dfc38cd9",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+FRIEND`MAIN",
+      "line_number": 10,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\FriendList TRACKER - FRIEND.txt",
+      "source_span": {
+        "end": 736,
+        "start": 548
+      },
+      "text": "@stop u(isguest,%#)=@attach %!/INC`MSG=ERROR: Guests may not use +watch.;@attach %!/INC`GETSWITCH=%1;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%2,%3"
+    },
+    {
+      "id": "seed:00ea2be5b1476041",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+GRID`PENNMUSH",
+      "line_number": 13,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Grid Manager - GRID.txt",
+      "source_span": {
+        "end": 858,
+        "start": 736
+      },
+      "text": "$^(?s)\\+(grid|district)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+GRID`MAIN"
+    },
+    {
+      "id": "seed:6a3840b7429be31d",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+GRID`RHOSTMUSH",
+      "line_number": 15,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Grid Manager - GRID.txt",
+      "source_span": {
+        "end": 1029,
+        "start": 905
+      },
+      "text": "$^(?s)\\+(grid|district)(?\\:/(\\\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+GRID`MAIN"
+    },
+    {
+      "id": "seed:be315e4e747bf68d",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+GRID`MAIN",
+      "line_number": 17,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Grid Manager - GRID.txt",
+      "source_span": {
+        "end": 1188,
+        "start": 1077
+      },
+      "text": "@attach %!/INC`GETSWITCH=%2;@attach %!/INC`[u(strfirstof,%q<switch>,MAIN)]=%3,%4"
+    },
+    {
+      "id": "seed:e39feb08c929b4e2",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`MYGROUPS",
+      "line_number": 119,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Groups - GROUP.txt",
+      "source_span": {
+        "end": 6650,
+        "start": 6498
+      },
+      "text": "$+mygroups:@attach %!/INC`MSG=You are a member of: [u(strfirstof,iter(get(%#/D`GROUPS),u(%i0/GET`NAME),%b,\\,%b),Nothing!)]"
+    },
+    {
+      "id": "seed:ad4f56a484f42670",
+      "kind": "mushcode_command_attr",
+      "label": "CMD`+GROUP`PENNMUSH",
+      "line_number": 121,
+      "source_path": "C:\\Users\\Q\\src\\mushcode\\Groups - GROUP.txt",
+      "source_span": {
+        "end": 6864,
+        "start": 6652
+      },
+      "text": "$^(?s)(?\\:\\+)?(groups|group|gwho|gadmin|gmember|gperm|grank|grecall|gtier|gtitle|gfocus|gooc|gic|gradio|gemit)(?\\:/(\\S+)?)?(?\\: +(.+?))?(?\\:=(.*))?$:@attach %!/CMD`+GROUP`MAIN"
+    },
+    {
+      "id": "seed:373e419198f61acd",
+      "kind": "pennmush_test_expression",
+      "label": "atree.matching.18",
+      "line_number": 77,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 3942,
+        "start": 3892
+      },
+      "text": "lattr(me)"
+    },
+    {
+      "id": "seed:c190587ce3e0285f",
+      "kind": "pennmush_test_expression",
+      "label": "atree.matching.19",
+      "line_number": 79,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 4051,
+        "start": 3998
+      },
+      "text": "lattr(me/**)"
+    },
+    {
+      "id": "seed:479c0be5de24e049",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.12",
+      "line_number": 130,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 6750,
+        "start": 6686
+      },
+      "text": "get(child/foo)"
+    },
+    {
+      "id": "seed:cc8fd07669e97a41",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.13",
+      "line_number": 131,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 6819,
+        "start": 6751
+      },
+      "text": "get(child/foo`bar)"
+    },
+    {
+      "id": "seed:eec41db4a766b8f4",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.16",
+      "line_number": 135,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7052,
+        "start": 6985
+      },
+      "text": "get(child/foo)"
+    },
+    {
+      "id": "seed:0a7bcec089124f7c",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.17",
+      "line_number": 136,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7123,
+        "start": 7053
+      },
+      "text": "get(child/foo`bar)"
+    },
+    {
+      "id": "seed:15e58909165521ee",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.19",
+      "line_number": 138,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7259,
+        "start": 7192
+      },
+      "text": "-[get(child/foo)]-"
+    },
+    {
+      "id": "seed:5d6354c4d70b4731",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.20",
+      "line_number": 139,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7331,
+        "start": 7260
+      },
+      "text": "-[get(child/foo`bar)]-"
+    },
+    {
+      "id": "seed:6861575575b205c7",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.23",
+      "line_number": 143,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7584,
+        "start": 7517
+      },
+      "text": "get(child/foo)"
+    },
+    {
+      "id": "seed:a5362351b8187865",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.24",
+      "line_number": 144,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7649,
+        "start": 7585
+      },
+      "text": "get(child/foo`bar)"
+    },
+    {
+      "id": "seed:870e05a2eb0d6627",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.25",
+      "line_number": 145,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7714,
+        "start": 7650
+      },
+      "text": "get(child/foo)"
+    },
+    {
+      "id": "seed:44ae320b098837cc",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parent.26",
+      "line_number": 146,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7779,
+        "start": 7715
+      },
+      "text": "get(child/foo`bar)"
+    },
+    {
+      "id": "seed:1d2f6ebc7ed0dbd6",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattr.1",
+      "line_number": 152,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 7957,
+        "start": 7887
+      },
+      "text": "lattr(child/tree**)"
+    },
+    {
+      "id": "seed:e83b83b6ffdec8a4",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattr.2",
+      "line_number": 153,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8023,
+        "start": 7958
+      },
+      "text": "lattr(child/tree`)"
+    },
+    {
+      "id": "seed:4a13255965ca5458",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattr.3",
+      "line_number": 154,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8099,
+        "start": 8024
+      },
+      "text": "lattr(parent/tree`)"
+    },
+    {
+      "id": "seed:37cfc736c17a1d44",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattr.4",
+      "line_number": 155,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8177,
+        "start": 8100
+      },
+      "text": "lattr(parent/tree`**)"
+    },
+    {
+      "id": "seed:df251961b1e9105f",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattr.5",
+      "line_number": 156,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8259,
+        "start": 8178
+      },
+      "text": "lattr(parent/tree**)"
+    },
+    {
+      "id": "seed:44c9a4ff2aa660ae",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattrp.1",
+      "line_number": 158,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8337,
+        "start": 8261
+      },
+      "text": "lattrp(child/tree`)"
+    },
+    {
+      "id": "seed:c3fa8a83a7ba98e5",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattrp.2",
+      "line_number": 159,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8416,
+        "start": 8338
+      },
+      "text": "lattrp(child/tree`**)"
+    },
+    {
+      "id": "seed:bfb930df38c120cd",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattrp.3",
+      "line_number": 160,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8499,
+        "start": 8417
+      },
+      "text": "lattrp(child/tree**)"
+    },
+    {
+      "id": "seed:2c3acddd6d5ccdbd",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattrp.4",
+      "line_number": 162,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8616,
+        "start": 8540
+      },
+      "text": "lattrp(child/tree`)"
+    },
+    {
+      "id": "seed:fce6d841e2452009",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattrp.5",
+      "line_number": 163,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8695,
+        "start": 8617
+      },
+      "text": "lattrp(child/tree`**)"
+    },
+    {
+      "id": "seed:403c0b05110d061e",
+      "kind": "pennmush_test_expression",
+      "label": "atree.lattrp.6",
+      "line_number": 164,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 8778,
+        "start": 8696
+      },
+      "text": "lattrp(child/tree**)"
+    },
+    {
+      "id": "seed:17b1e4877e9e16a6",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parentperms.3",
+      "line_number": 171,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 9139,
+        "start": 9062
+      },
+      "text": "get(child/foo`bar`baz)"
+    },
+    {
+      "id": "seed:77945f036578ceaf",
+      "kind": "pennmush_test_expression",
+      "label": "atree.parentperms.4",
+      "line_number": 173,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testatree.t",
+      "source_span": {
+        "end": 9241,
+        "start": 9166
+      },
+      "text": "get(child/foo`bar)"
+    },
+    {
+      "id": "seed:5630a2590ffab1c8",
+      "kind": "pennmush_test_expression",
+      "label": "decompose.1",
+      "line_number": 3,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdecompose.t",
+      "source_span": {
+        "end": 172,
+        "start": 24
+      },
+      "text": "decompose([ansi(hr,b[ansi(f,la)]h)])"
+    },
+    {
+      "id": "seed:6348c8bedb69c5c2",
+      "kind": "pennmush_test_expression",
+      "label": "decompose.2",
+      "line_number": 4,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdecompose.t",
+      "source_span": {
+        "end": 245,
+        "start": 173
+      },
+      "text": "decompose(a\\ \\ \\ \\ b)"
+    },
+    {
+      "id": "seed:bf06701ed18b2562",
+      "kind": "pennmush_test_expression",
+      "label": "decompose.3",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdecompose.t",
+      "source_span": {
+        "end": 329,
+        "start": 246
+      },
+      "text": "decompose(s(tab%treturn%r))"
+    },
+    {
+      "id": "seed:e4be332bd4090c9e",
+      "kind": "pennmush_test_expression",
+      "label": "decompose.4",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdecompose.t",
+      "source_span": {
+        "end": 413,
+        "start": 330
+      },
+      "text": "decompose(before(ansi(h,x),x)hello)"
+    },
+    {
+      "id": "seed:36ace2dbb7672b33",
+      "kind": "pennmush_test_expression",
+      "label": "decompose.5",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdecompose.t",
+      "source_span": {
+        "end": 511,
+        "start": 414
+      },
+      "text": "decompose([before(ansi(h,blah),\\[)])"
+    },
+    {
+      "id": "seed:1a40ebdc57f377c4",
+      "kind": "pennmush_test_expression",
+      "label": "digest.1",
+      "line_number": 3,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 111,
+        "start": 24
+      },
+      "text": "digest(md5,foo)"
+    },
+    {
+      "id": "seed:35d0ff16465dbfd1",
+      "kind": "pennmush_test_expression",
+      "label": "digest.2",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 266,
+        "start": 152
+      },
+      "text": "digest(sha,foo)"
+    },
+    {
+      "id": "seed:51eb4f995076983d",
+      "kind": "pennmush_test_expression",
+      "label": "digest.3",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 363,
+        "start": 267
+      },
+      "text": "digest(sha1,foo)"
+    },
+    {
+      "id": "seed:7e8918d9e064c8e1",
+      "kind": "pennmush_test_expression",
+      "label": "digest.4",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 506,
+        "start": 391
+      },
+      "text": "digest(dss1,foo)"
+    },
+    {
+      "id": "seed:22b0cf15a1e51c38",
+      "kind": "pennmush_test_expression",
+      "label": "digest.5",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 608,
+        "start": 507
+      },
+      "text": "digest(ripemd160,foo)"
+    },
+    {
+      "id": "seed:48ad86d71104cff7",
+      "kind": "pennmush_test_expression",
+      "label": "digest.6",
+      "line_number": 10,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 696,
+        "start": 609
+      },
+      "text": "digest(md4,foo)"
+    },
+    {
+      "id": "seed:acb622a54aa3b083",
+      "kind": "pennmush_test_expression",
+      "label": "digest.7",
+      "line_number": 11,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 804,
+        "start": 697
+      },
+      "text": "digest(mdc2, foo)"
+    },
+    {
+      "id": "seed:5c0e00fb5e81b41b",
+      "kind": "pennmush_test_expression",
+      "label": "digest.8",
+      "line_number": 12,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 939,
+        "start": 805
+      },
+      "text": "digest(sha224, foo)"
+    },
+    {
+      "id": "seed:b9014d1da2fa34cd",
+      "kind": "pennmush_test_expression",
+      "label": "digest.9",
+      "line_number": 13,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 1146,
+        "start": 940
+      },
+      "text": "digest(sha512, foo)"
+    },
+    {
+      "id": "seed:6ab6535149315900",
+      "kind": "pennmush_test_expression",
+      "label": "digest.10",
+      "line_number": 14,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 1357,
+        "start": 1147
+      },
+      "text": "digest(whirlpool, foo)"
+    },
+    {
+      "id": "seed:96dd6f0da614403e",
+      "kind": "pennmush_test_expression",
+      "label": "base64.1",
+      "line_number": 16,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdigest.t",
+      "source_span": {
+        "end": 1436,
+        "start": 1359
+      },
+      "text": "encode64(test string)"
+    },
+    {
+      "id": "seed:2267603ba9b96c5a",
+      "kind": "pennmush_test_expression",
+      "label": "dist2d.1",
+      "line_number": 2,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 72,
+        "start": 11
+      },
+      "text": "dist2d(0,0, 5,5)"
+    },
+    {
+      "id": "seed:24ac5eba59d98f1e",
+      "kind": "pennmush_test_expression",
+      "label": "dist2d.2",
+      "line_number": 3,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 141,
+        "start": 73
+      },
+      "text": "lmath(dist2d, 0 0  5 5)"
+    },
+    {
+      "id": "seed:8e4968233085a4c7",
+      "kind": "pennmush_test_expression",
+      "label": "dist2d.3",
+      "line_number": 4,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 196,
+        "start": 142
+      },
+      "text": "dist2d(0,0, 0,0)"
+    },
+    {
+      "id": "seed:5ef2b4a5959a6e81",
+      "kind": "pennmush_test_expression",
+      "label": "dist2d.4",
+      "line_number": 5,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 251,
+        "start": 197
+      },
+      "text": "dist2d(0,0, 0,1)"
+    },
+    {
+      "id": "seed:407cc83057fd285f",
+      "kind": "pennmush_test_expression",
+      "label": "dist3d.1",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 320,
+        "start": 253
+      },
+      "text": "dist3d(0,0,0, 5,5,5)"
+    },
+    {
+      "id": "seed:24252b3a65d6ab0a",
+      "kind": "pennmush_test_expression",
+      "label": "dist3d.2",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 396,
+        "start": 321
+      },
+      "text": "lmath(dist3d, 0 0 0  5 5 5)"
+    },
+    {
+      "id": "seed:27e10472ff482bb4",
+      "kind": "pennmush_test_expression",
+      "label": "dist3d.3",
+      "line_number": 9,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 455,
+        "start": 397
+      },
+      "text": "dist3d(0,0,0, 0,0,0)"
+    },
+    {
+      "id": "seed:94aa8646b90429ed",
+      "kind": "pennmush_test_expression",
+      "label": "dist3d.4",
+      "line_number": 10,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testdistxd.t",
+      "source_span": {
+        "end": 514,
+        "start": 456
+      },
+      "text": "dist3d(0,0,0, 1,0,0)"
+    },
+    {
+      "id": "seed:ff21428b43828173",
+      "kind": "pennmush_test_expression",
+      "label": "firstof.1",
+      "line_number": 2,
+      "source_path": "C:\\Users\\Q\\src\\pennmush\\test\\testfirstof.t",
+      "source_span": {
+        "end": 66,
+        "start": 11
+      },
+      "text": "firstof(0,0,2)"
+    },
+    {
+      "id": "seed:c64bc37ff4938ddd",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.INJURE",
+      "line_number": 1,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\anatomy\\admin.mush",
+      "source_span": {
+        "end": 30,
+        "start": 0
+      },
+      "text": "$+injure *=*:"
+    },
+    {
+      "id": "seed:325a494a61629fe2",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.HEAL",
+      "line_number": 6,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\anatomy\\admin.mush",
+      "source_span": {
+        "end": 220,
+        "start": 196
+      },
+      "text": "$+heal *:"
+    },
+    {
+      "id": "seed:2ace7011b6fdb515",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.MED/SCAN",
+      "line_number": 1,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\anatomy\\mortal.mush",
+      "source_span": {
+        "end": 30,
+        "start": 0
+      },
+      "text": "$med/scan *:"
+    },
+    {
+      "id": "seed:0c542301d1a5afed",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.MED/HEAL",
+      "line_number": 8,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\anatomy\\mortal.mush",
+      "source_span": {
+        "end": 322,
+        "start": 290
+      },
+      "text": "$med/heal *=*:"
+    },
+    {
+      "id": "seed:fa7ffaa123cbe584",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBNEWGROUP",
+      "line_number": 1,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\admin.mush",
+      "source_span": {
+        "end": 48,
+        "start": 0
+      },
+      "text": "$+bbnewgroup *:@nspemit %#="
+    },
+    {
+      "id": "seed:4d78f6eac3d9a598",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBCONFIG",
+      "line_number": 4,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\admin.mush",
+      "source_span": {
+        "end": 134,
+        "start": 86
+      },
+      "text": "$+bbconfig */*=*:@nspemit %#="
+    },
+    {
+      "id": "seed:2c1300ed8f3bc89d",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBSTICKY",
+      "line_number": 7,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\admin.mush",
+      "source_span": {
+        "end": 226,
+        "start": 178
+      },
+      "text": "$+bbsticky */*=*:@nspemit %#="
+    },
+    {
+      "id": "seed:45ac3fcf69aff79a",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBLIST",
+      "line_number": 11,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 179,
+        "start": 151
+      },
+      "text": "$+bblist:"
+    },
+    {
+      "id": "seed:600dfadcec59afd0",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBREAD",
+      "line_number": 14,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 246,
+        "start": 218
+      },
+      "text": "$+bbread:"
+    },
+    {
+      "id": "seed:9dd94445133b6f94",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBREAD_ARG",
+      "line_number": 17,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 330,
+        "start": 284
+      },
+      "text": "$+bbread *:@nspemit %#="
+    },
+    {
+      "id": "seed:dfb33f86ef1b7bd8",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBPOST_DRAFT",
+      "line_number": 24,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 517,
+        "start": 471
+      },
+      "text": "$+bbpost:@nspemit %#="
+    },
+    {
+      "id": "seed:1bc35ca2aedc71a0",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBPOST",
+      "line_number": 27,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 592,
+        "start": 550
+      },
+      "text": "$+bbpost *:@nspemit %#="
+    },
+    {
+      "id": "seed:c24b2e15b1b40bbf",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBWRITE2",
+      "line_number": 34,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 821,
+        "start": 781
+      },
+      "text": "$+bb *:@nspemit %#="
+    },
+    {
+      "id": "seed:c5bf66b9fcbfba53",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBWRITE",
+      "line_number": 37,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 902,
+        "start": 858
+      },
+      "text": "$+bbwrite *:@nspemit %#="
+    },
+    {
+      "id": "seed:378a0e67755f0463",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBPROOF",
+      "line_number": 40,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 981,
+        "start": 939
+      },
+      "text": "$+bbproof:@nspemit %#="
+    },
+    {
+      "id": "seed:0dea5bc64ea43933",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBTOSS",
+      "line_number": 43,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1055,
+        "start": 1015
+      },
+      "text": "$+bbtoss:@nspemit %#="
+    },
+    {
+      "id": "seed:b81d21a8ab283d5b",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBJOIN",
+      "line_number": 46,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1130,
+        "start": 1088
+      },
+      "text": "$+bbjoin *:@nspemit %#="
+    },
+    {
+      "id": "seed:b3bd14419bc74a47",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBLEAVE",
+      "line_number": 49,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1204,
+        "start": 1160
+      },
+      "text": "$+bbleave *:@nspemit %#="
+    },
+    {
+      "id": "seed:fafb5ce3e8359254",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBREPLIES",
+      "line_number": 52,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1285,
+        "start": 1235
+      },
+      "text": "$+bbreplies */*:@nspemit %#="
+    },
+    {
+      "id": "seed:01feded9414608fb",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBCATCHUP",
+      "line_number": 55,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1369,
+        "start": 1321
+      },
+      "text": "$+bbcatchup *:@nspemit %#="
+    },
+    {
+      "id": "seed:246e858b7e56a5c8",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBCATCHUP2",
+      "line_number": 58,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1449,
+        "start": 1402
+      },
+      "text": "$+bbcatchup:@nspemit %#="
+    },
+    {
+      "id": "seed:c728663ee989eb50",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBNEXT",
+      "line_number": 61,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1523,
+        "start": 1483
+      },
+      "text": "$+bbnext:@nspemit %#="
+    },
+    {
+      "id": "seed:6d624793d160e070",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBREMOVE",
+      "line_number": 64,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1598,
+        "start": 1550
+      },
+      "text": "$+bbremove */*:@nspemit %#="
+    },
+    {
+      "id": "seed:aa542969dbdcf48d",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBEDIT",
+      "line_number": 67,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1681,
+        "start": 1633
+      },
+      "text": "$+bbedit */*=*/*:@nspemit %#="
+    },
+    {
+      "id": "seed:683b7bc7eb554d63",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBSCAN",
+      "line_number": 70,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1760,
+        "start": 1720
+      },
+      "text": "$+bbscan:@nspemit %#="
+    },
+    {
+      "id": "seed:8b1b7f56148570c3",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+BBSEARCH",
+      "line_number": 73,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\bboard\\mortal.mush",
+      "source_span": {
+        "end": 1835,
+        "start": 1787
+      },
+      "text": "$+bbsearch */*:@nspemit %#="
+    },
+    {
+      "id": "seed:6d052d0e177fc49c",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+CAL",
+      "line_number": 11,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 181,
+        "start": 160
+      },
+      "text": "$+cal:"
+    },
+    {
+      "id": "seed:f55fd121a3fddadb",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+CAL_ARGS",
+      "line_number": 14,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 252,
+        "start": 224
+      },
+      "text": "$+cal *:"
+    },
+    {
+      "id": "seed:d794582412cb3768",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+CAL/VIEW",
+      "line_number": 19,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 622,
+        "start": 589
+      },
+      "text": "$+cal/view *:"
+    },
+    {
+      "id": "seed:a37fb97e4892fc41",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+CAL/SEARCH",
+      "line_number": 22,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 706,
+        "start": 669
+      },
+      "text": "$+cal/search *:"
+    },
+    {
+      "id": "seed:68856d093e019f66",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/NEW",
+      "line_number": 25,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 782,
+        "start": 749
+      },
+      "text": "$+event/new:"
+    },
+    {
+      "id": "seed:6bfad9faeed7a470",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/EDIT",
+      "line_number": 28,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 865,
+        "start": 828
+      },
+      "text": "$+event/edit *:"
+    },
+    {
+      "id": "seed:81841ac669a0a22f",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/DATE",
+      "line_number": 31,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 952,
+        "start": 915
+      },
+      "text": "$+event/date *:"
+    },
+    {
+      "id": "seed:02d7556facbe2509",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/TIME",
+      "line_number": 36,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 1165,
+        "start": 1128
+      },
+      "text": "$+event/time *:"
+    },
+    {
+      "id": "seed:110b8a24c3c46d74",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/LOC",
+      "line_number": 41,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 1376,
+        "start": 1341
+      },
+      "text": "$+event/loc *:"
+    },
+    {
+      "id": "seed:ebfd69cf866b8a97",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/INFO",
+      "line_number": 46,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 1593,
+        "start": 1556
+      },
+      "text": "$+event/info *:"
+    },
+    {
+      "id": "seed:d88299a6b9b49afb",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/TITLE",
+      "line_number": 51,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 1808,
+        "start": 1769
+      },
+      "text": "$+event/title *:"
+    },
+    {
+      "id": "seed:2c399724d8310c52",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+EVENT/DELETE",
+      "line_number": 56,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 2026,
+        "start": 1985
+      },
+      "text": "$+event/delete *:"
+    },
+    {
+      "id": "seed:e274a651ec37e478",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+CAL/REGISTER",
+      "line_number": 59,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 2116,
+        "start": 2075
+      },
+      "text": "$+cal/register *:"
+    },
+    {
+      "id": "seed:c3b1e71644ab545f",
+      "kind": "wcnh_command_attr",
+      "label": "CMD.+CAL/UNREGISTER",
+      "line_number": 62,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\calendar\\mortal.mush",
+      "source_span": {
+        "end": 2209,
+        "start": 2164
+      },
+      "text": "$+cal/unregister *:"
+    },
+    {
+      "id": "seed:11bace957a1727bd",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setrace",
+      "line_number": 21,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 749,
+        "start": 718
+      },
+      "text": "$+set race *:"
+    },
+    {
+      "id": "seed:336fbddcc7bd0ee0",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setage",
+      "line_number": 29,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 1052,
+        "start": 1023
+      },
+      "text": "$+set age *:"
+    },
+    {
+      "id": "seed:b9032847ec1cbfcd",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setbirthday",
+      "line_number": 35,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 1555,
+        "start": 1516
+      },
+      "text": "$+set birthday *:"
+    },
+    {
+      "id": "seed:b5f595affb2f8f81",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setgender",
+      "line_number": 42,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 2052,
+        "start": 2017
+      },
+      "text": "$+set gender *:"
+    },
+    {
+      "id": "seed:5428fa8b0acc242e",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setconcept",
+      "line_number": 49,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 2280,
+        "start": 2243
+      },
+      "text": "$+set concept *:"
+    },
+    {
+      "id": "seed:1e241c742e72ac66",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setalias",
+      "line_number": 56,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 2523,
+        "start": 2490
+      },
+      "text": "$+set alias *:"
+    },
+    {
+      "id": "seed:436ef57adada897a",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+setname",
+      "line_number": 65,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 2892,
+        "start": 2861
+      },
+      "text": "$+set name *:"
+    },
+    {
+      "id": "seed:866fa562d0de33d2",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+settz",
+      "line_number": 76,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room1.mush",
+      "source_span": {
+        "end": 3334,
+        "start": 3307
+      },
+      "text": "$+set tz *:"
+    },
+    {
+      "id": "seed:ef40bfe2272b9666",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+raise",
+      "line_number": 15,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 443,
+        "start": 416
+      },
+      "text": "$+raise *:"
+    },
+    {
+      "id": "seed:d9d55dad8a7628a3",
+      "kind": "wcnh_command_attr",
+      "label": "cmd.+lower",
+      "line_number": 25,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 871,
+        "start": 844
+      },
+      "text": "$+lower *:"
+    },
+    {
+      "id": "seed:0c7c9e80c2878a25",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SET.INIT",
+      "line_number": 46,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 699,
+        "start": 681
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:8815dabb71ae3f83",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ATTRIBUTE",
+      "line_number": 64,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 1514,
+        "start": 1294
+      },
+      "text": "[switch([hasattr(#111,attribute.[mid(%0,0,3)])][setr(1,match(get(#111/attribute_attributes),%1,|))],0*,#-1 INVALID ATTRIBUTE,10,#-1 INVALID PROPERTY,extract(get(#111/attribute.[mid(%0,0,3)]),%q1,1,|))]"
+    },
+    {
+      "id": "seed:66d5206ea9cac4e6",
+      "kind": "wcnh_function_attr",
+      "label": "FN.GET.ATTRIBUTE",
+      "line_number": 69,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 1762,
+        "start": 1591
+      },
+      "text": "[switch(t(setr(0,pmatch(%0)))[t(chargen(attribute,%1,name))],0*,#-1 INVALID VICTIM,10,#-1 INVALID ATTRIBUTE,11,default(%q0/char`a`[mid(%1,0,3)],0))]"
+    },
+    {
+      "id": "seed:ac4247d85b84ee5e",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SET.ATTRIBUTE",
+      "line_number": 74,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 2062,
+        "start": 1848
+      },
+      "text": "[switch(t(setr(0,pmatch(%0)))[t(chargen(attribute,[mid(%1,0,3)],name))][isnum(%2)],0*,#-1 INVALID VICTIM,10*,#-1 INVALID ATTRIBUTE,110,#-1 INVALID VALUE,111,set(%q0,char`a`[mid(%1,0,3)]:%2))]"
+    },
+    {
+      "id": "seed:42d39b34e93f53be",
+      "kind": "wcnh_function_attr",
+      "label": "FN.RACE",
+      "line_number": 81,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 2327,
+        "start": 2146
+      },
+      "text": "[switch([hasattr(#111,race.%0)][setr(1,match(get(#111/race_attributes),%1,|))],0*,#-1 INVALID RACE,10,#-1 INVALID RACIAL ATTRIBUTE,extract(get(#111/race.%0),%q1,1,|))]"
+    },
+    {
+      "id": "seed:a104830a870253d6",
+      "kind": "wcnh_function_attr",
+      "label": "FN.GET.RACE",
+      "line_number": 86,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 2475,
+        "start": 2381
+      },
+      "text": "[ifelse(setr(0,pmatch(%0)),default(%q0/char`race,Unset),#-1 INVALID VICTIM)]"
+    },
+    {
+      "id": "seed:c06aadfd7a68fefb",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SET.RACE",
+      "line_number": 91,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 2691,
+        "start": 2531
+      },
+      "text": "[switch(hasattr(#111,race.%1)[t(setr(0,pmatch(%0)))],0*,#-1 INVALID RACE,10,#-1 INVALID VICTIM,11,set(%q0,char`race:[chargen(race,%1,name)]))]"
+    },
+    {
+      "id": "seed:3b23a53ea9279cd5",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SKILL",
+      "line_number": 98,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 2993,
+        "start": 2772
+      },
+      "text": "[switch([t(setr(0,edit(regrabi(lattr(#111/skill.*),SKILL\\\\.%0),SKILL.,)))][setr(1,match(get(#111/skill_attributes),%1,|))],0*,#-1 INVALID SKILL,10,#-1 INVALID PROPERTY,extract(get(#111/skill.%q0),%q1,1,|))]"
+    },
+    {
+      "id": "seed:35ab12233b2ec132",
+      "kind": "wcnh_function_attr",
+      "label": "FN.GET.SKILL",
+      "line_number": 103,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 3313,
+        "start": 3088
+      },
+      "text": "[switch(t(setr(0,pmatch(%0)))[t(setr(1,chargen(skill,%1,name)))],0*,#-1 INVALID VICTIM,10,#-1 INVALID SKILL,11,max(0,ifelse(chargen(skill,%q1,complex),default(%q0/char`s`%q1,0),add(default(%q0/char`s`%q1,0)"
+    },
+    {
+      "id": "seed:fcb74a32939fc975",
+      "kind": "wcnh_function_attr",
+      "label": "FN.GET.SKILL.RAW",
+      "line_number": 109,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 3619,
+        "start": 3467
+      },
+      "text": "[switch(t(setr(0,pmatch(%0)))[t(chargen(skill,%1,name))],0*,#-1 INVALID VICTIM,10,#-1 INVALID SKILL,11,default(%q0/char`s`%1,0))]"
+    },
+    {
+      "id": "seed:c8ae7307afbf194b",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SET.SKILL",
+      "line_number": 114,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 3946,
+        "start": 3702
+      },
+      "text": "[switch(t(setr(0,pmatch(%0)))[t(setr(1,chargen(skill,%1,name)))][and(isnum(%2),gte(%2,0))],0*,#-1 INVALID VICTIM,10*,#-1 INVALID SKILL,110,#-1 INVALID VALUE,111,if(%2,attrib_set(%q0/char`s`%q1,%2),attrib_set(%q0/char`s`%q1))]"
+    },
+    {
+      "id": "seed:bc2ada7469908ffc",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.SKILLGROUPS",
+      "line_number": 119,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 4106,
+        "start": 4005
+      },
+      "text": "Athletic Combat Scouting/Outdoor Covert/Urban Knowledge Professional Social"
+    },
+    {
+      "id": "seed:5789ae8c790a55d2",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.SKILLSINGROUP",
+      "line_number": 124,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 4281,
+        "start": 4171
+      },
+      "text": "[switch(edit(grepi(#111,skill.*,|%0|),SKILL.,),,#-1 INVALID SKILL GROUP,stext(0))]"
+    },
+    {
+      "id": "seed:d2a9e9581001f37a",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SHEET",
+      "line_number": 130,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 4365,
+        "start": 4350
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:e5fc85bf2e56fa0b",
+      "kind": "wcnh_function_attr",
+      "label": "FN.GETAGE",
+      "line_number": 145,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
+      "source_span": {
+        "end": 5460,
+        "start": 5444
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:f9b772cc3d5ced7d",
+      "kind": "wcnh_function_attr",
+      "label": "fn.raise.attribute",
+      "line_number": 36,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 1299,
+        "start": 1274
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:32d7dc6d5bc49aa5",
+      "kind": "wcnh_function_attr",
+      "label": "fn.lower.attribute",
+      "line_number": 52,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 2242,
+        "start": 2217
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:cd04611339c74230",
+      "kind": "wcnh_function_attr",
+      "label": "fn.raise.skill",
+      "line_number": 67,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 3011,
+        "start": 2990
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:706850bc9a599ba5",
+      "kind": "wcnh_function_attr",
+      "label": "fn.lower.skill",
+      "line_number": 84,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 4075,
+        "start": 4054
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:6b071e6b5683d991",
+      "kind": "wcnh_function_attr",
+      "label": "subfn.skill.cost",
+      "line_number": 99,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
+      "source_span": {
+        "end": 4868,
+        "start": 4845
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:61e45c07f5083d14",
+      "kind": "wcnh_function_attr",
+      "label": "FN.CREATE",
+      "line_number": 59,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 1875,
+        "start": 1859
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:f10f1c860fa044a3",
+      "kind": "wcnh_function_attr",
+      "label": "FN.DESTROY",
+      "line_number": 67,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 2124,
+        "start": 2107
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:ba4bc8b63f811145",
+      "kind": "wcnh_function_attr",
+      "label": "FN.SET",
+      "line_number": 86,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 2720,
+        "start": 2707
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:e93b3b5ea6c29628",
+      "kind": "wcnh_function_attr",
+      "label": "SUBFN.SET.CHANNEL",
+      "line_number": 97,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 2986,
+        "start": 2962
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:86563f07fcbf871f",
+      "kind": "wcnh_function_attr",
+      "label": "SUBFN.SET.PARENT",
+      "line_number": 105,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 3289,
+        "start": 3266
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:f1548e168d38c564",
+      "kind": "wcnh_function_attr",
+      "label": "SUBFN.SET.LEVEL",
+      "line_number": 116,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 3724,
+        "start": 3702
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:8b7eb04f5fa7965f",
+      "kind": "wcnh_function_attr",
+      "label": "SUBFN.SET.NAME",
+      "line_number": 124,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 4060,
+        "start": 4039
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:9d1bc672551ffcd5",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ERROR",
+      "line_number": 132,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 4388,
+        "start": 4373
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:2a893994dd4b11e9",
+      "kind": "wcnh_function_attr",
+      "label": "FN.REMLEADER",
+      "line_number": 138,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 4613,
+        "start": 4594
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:ee7544e88e80cce8",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ADDLEADER",
+      "line_number": 150,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 4934,
+        "start": 4915
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:ebeeedc924259116",
+      "kind": "wcnh_function_attr",
+      "label": "FN.CHANNEL",
+      "line_number": 164,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 5344,
+        "start": 5327
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:59cc0bb792496843",
+      "kind": "wcnh_function_attr",
+      "label": "FN.NAME",
+      "line_number": 180,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 5847,
+        "start": 5833
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:d7436edfeb379e16",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.LEADERS",
+      "line_number": 187,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 5973,
+        "start": 5951
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:f1c4966a85d25885",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.FACTIONTREE",
+      "line_number": 194,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 6109,
+        "start": 6083
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:bc4adf151387525a",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.FACTIONTREE.REGREP",
+      "line_number": 203,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 6452,
+        "start": 6419
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:8f4e2f4aa191f596",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.FACTIONTREE.PARSE",
+      "line_number": 206,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 6529,
+        "start": 6497
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:a8d696694a861f34",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.FACTIONTREE.LOOP",
+      "line_number": 222,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 6952,
+        "start": 6921
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:674107b71743be56",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.FACTIONSBYLEVEL",
+      "line_number": 238,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 7321,
+        "start": 7291
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:aa2d41d100d9dbd8",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.FACTIONS",
+      "line_number": 245,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 7453,
+        "start": 7430
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:148c42ad5cc94598",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.MEMBERS",
+      "line_number": 252,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 7587,
+        "start": 7565
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:6fb709c39bb77c79",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.LEVELS",
+      "line_number": 267,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 7999,
+        "start": 7978
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:2a1a9fc778b76f19",
+      "kind": "wcnh_function_attr",
+      "label": "FN.LIST.MEMBEROF",
+      "line_number": 273,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 8237,
+        "start": 8214
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:4f1df0c99dc0500b",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ISMEMBER",
+      "line_number": 280,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 8381,
+        "start": 8363
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:31e5572a01a627a9",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ADDMEMBER",
+      "line_number": 287,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 8522,
+        "start": 8503
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:de1abbd5645b9668",
+      "kind": "wcnh_function_attr",
+      "label": "FN.REMMEMBER",
+      "line_number": 299,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 8838,
+        "start": 8819
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:a230a4b1eee19d9c",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ROSTER.PARSE",
+      "line_number": 311,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 9163,
+        "start": 9141
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:065fed08647c05c3",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ROSTER",
+      "line_number": 333,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 10097,
+        "start": 10081
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:b77a43c4fa96fd6f",
+      "kind": "wcnh_function_attr",
+      "label": "FN.FWHO.PARSE",
+      "line_number": 340,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 10224,
+        "start": 10204
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:0bfbf676d10edcb7",
+      "kind": "wcnh_function_attr",
+      "label": "FN.FWHO",
+      "line_number": 363,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 11243,
+        "start": 11229
+      },
+      "text": ""
+    },
+    {
+      "id": "seed:02391da424a3d6be",
+      "kind": "wcnh_function_attr",
+      "label": "FN.ISFACTION",
+      "line_number": 373,
+      "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
+      "source_span": {
+        "end": 11453,
+        "start": 11434
+      },
+      "text": ""
+    }
+  ]
+}

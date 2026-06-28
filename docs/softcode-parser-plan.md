@@ -562,6 +562,18 @@ Runtime rule:
 - keep default Hypothesis example counts low for live oracle tests;
 - allow a separate slow mark for expanded corpus mutation runs.
 
+Current status:
+
+- Done: `mushy_peas/softcode/seeds.py` extracts bounded deterministic corpus
+  seeds from softcode units and PennMUSH `.t` files.
+- Done: `tests/fixtures/softcode/corpus-seeds.json` records 200 current seeds:
+  50 WCNH command attrs, 50 WCNH function attrs, 50 mushcode command attrs, and
+  50 PennMUSH `think ...` test expressions.
+- Done: `tests/softcode/strategies.py` exposes a bounded Hypothesis strategy
+  over the checked seed fixture.
+- Limitation: real DB attribute seeds are not included yet, and mutation
+  strategies are still limited to sampling existing seed text.
+
 ## Stage 7: Action-List CST
 
 Build a second parser layer for command/action bodies.
@@ -936,6 +948,8 @@ As of 2026-06-28, the project has:
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
+- bounded corpus seed extraction from WCNH attrs, mushcode command attrs, and
+  PennMUSH `.t` expressions;
 - targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
 The PennMUSH trace oracle now reports function metadata and argument raw/value
@@ -948,8 +962,9 @@ The project does not yet have:
 
 - complete trace coverage for literals, terminators, braces, eval groups,
   substitutions, denied functions, and arity errors;
-- expression-level seed extraction from PennMUSH `.t` tests;
 - coalesced multi-line softcode install bodies;
+- real DB attribute seeds;
+- corpus mutation strategies beyond fixture sampling;
 - a full expression CST;
 - action-list CST;
 - profile-aware unit classification;
@@ -959,5 +974,5 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue Stage 1 trace hardening or move into expression-level corpus
-seed extraction; parser syntax expansion should remain tied to oracle coverage.
+should continue Stage 1 trace hardening or coalesce multi-line install bodies;
+parser syntax expansion should remain tied to oracle coverage.
