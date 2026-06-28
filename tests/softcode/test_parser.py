@@ -1,6 +1,12 @@
 from pathlib import Path
 
-from mushy_peas.softcode import FunctionCall, parse_expression, render
+from mushy_peas.softcode import (
+    BraceGroup,
+    EvalGroup,
+    FunctionCall,
+    parse_expression,
+    render,
+)
 from mushy_peas.softcode.function_metadata import load_function_registry
 
 FIXTURE = Path("tests/fixtures/softcode/pennmush-functions.json")
@@ -46,4 +52,38 @@ def test_nested_known_function_call_parses_recursively() -> None:
         (8, 9),
         (10, 11),
     ]
+    assert render(document, source) == source
+
+
+def test_brace_group_parses_recursive_children() -> None:
+    source = "{add(1,2)}"
+    registry = load_function_registry(FIXTURE)
+    document = parse_expression(source, metadata=registry)
+    group = document.children[0]
+
+    assert isinstance(group, BraceGroup)
+    assert group.span.start == 0
+    assert group.span.end == 10
+    assert group.open_brace == 0
+    assert group.close_brace == 9
+    call = group.children[0]
+    assert isinstance(call, FunctionCall)
+    assert call.name == "ADD"
+    assert render(document, source) == source
+
+
+def test_eval_group_parses_recursive_children() -> None:
+    source = "[add(1,2)]"
+    registry = load_function_registry(FIXTURE)
+    document = parse_expression(source, metadata=registry)
+    group = document.children[0]
+
+    assert isinstance(group, EvalGroup)
+    assert group.span.start == 0
+    assert group.span.end == 10
+    assert group.open_bracket == 0
+    assert group.close_bracket == 9
+    call = group.children[0]
+    assert isinstance(call, FunctionCall)
+    assert call.name == "ADD"
     assert render(document, source) == source

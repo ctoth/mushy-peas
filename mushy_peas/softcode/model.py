@@ -43,13 +43,31 @@ class FunctionCall:
 
 
 @dataclass(frozen=True)
+class BraceGroup:
+    span: Span
+    open_brace: int
+    children: tuple[Node, ...]
+    close_brace: int
+    kind: Literal["brace_group"] = "brace_group"
+
+
+@dataclass(frozen=True)
+class EvalGroup:
+    span: Span
+    open_bracket: int
+    children: tuple[Node, ...]
+    close_bracket: int
+    kind: Literal["eval_group"] = "eval_group"
+
+
+@dataclass(frozen=True)
 class Unknown:
     span: Span
     reason: str
     kind: Literal["unknown"] = "unknown"
 
 
-Node: TypeAlias = Text | FunctionCall | Argument | Unknown
+Node: TypeAlias = Text | FunctionCall | Argument | BraceGroup | EvalGroup | Unknown
 
 
 @dataclass(frozen=True)

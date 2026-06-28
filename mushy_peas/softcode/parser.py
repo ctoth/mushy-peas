@@ -5,7 +5,16 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from mushy_peas.softcode.function_metadata import FunctionMetadata, FunctionRegistry
-from mushy_peas.softcode.model import Argument, Document, FunctionCall, Node, Span, Text
+from mushy_peas.softcode.model import (
+    Argument,
+    BraceGroup,
+    Document,
+    EvalGroup,
+    FunctionCall,
+    Node,
+    Span,
+    Text,
+)
 
 
 @dataclass(frozen=True)
@@ -48,6 +57,14 @@ class _Parser:
         while index < len(self.source):
             if self.source[index] in terminators:
                 break
+            group = self._parse_group_at(index)
+            if group is not None:
+                if text_start < index:
+                    children.append(Text(span=Span(text_start, index)))
+                children.append(group)
+                index = group.span.end
+                text_start = index
+                continue
             function = self._parse_function_at(index)
             if function is not None:
                 if text_start < index:
@@ -103,3 +120,25 @@ class _Parser:
             if end >= len(self.source) or self.source[end] == ")":
                 return tuple(arguments), end
             index = end + 1
+
+    def _parse_group_at(self, position: int) -> BraceGroup | EvalGroup | None:
+        if self.source[position] == "{":
+            children, end = self.parse_until(position + 1, terminators=frozenset("}"))
+            if end < len(self.source) and self.source[end] == "}":
+                return BraceGroup(
+                    span=Span(position, end + 1),
+                    open_brace=position,
+                    children=children,
+                    close_brace=end,
+                )
+            return None
+        if self.source[position] == "[":
+            children, end = self.parse_until(position + 1, terminators=frozenset("]"))
+            if end < len(self.source) and self.source[end] == "]":
+                return EvalGroup(
+                    span=Span(position, end + 1),
+                    open_bracket=position,
+                    children=children,
+                    close_bracket=end,
+                )
+        return None
