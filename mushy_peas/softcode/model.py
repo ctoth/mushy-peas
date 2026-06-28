@@ -25,6 +25,13 @@ class Text:
 
 
 @dataclass(frozen=True)
+class Escape:
+    span: Span
+    raw: str
+    kind: Literal["escape"] = "escape"
+
+
+@dataclass(frozen=True)
 class PercentSub:
     span: Span
     raw: str
@@ -75,7 +82,14 @@ class Unknown:
 
 
 Node: TypeAlias = (
-    Text | PercentSub | FunctionCall | Argument | BraceGroup | EvalGroup | Unknown
+    Text
+    | Escape
+    | PercentSub
+    | FunctionCall
+    | Argument
+    | BraceGroup
+    | EvalGroup
+    | Unknown
 )
 
 

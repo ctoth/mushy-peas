@@ -9,6 +9,7 @@ from mushy_peas.softcode.model import (
     Argument,
     BraceGroup,
     Document,
+    Escape,
     EvalGroup,
     FunctionCall,
     Node,
@@ -58,6 +59,14 @@ class _Parser:
         while index < len(self.source):
             if self.source[index] in terminators:
                 break
+            escape = self._parse_escape_at(index)
+            if escape is not None:
+                if text_start < index:
+                    children.append(Text(span=Span(text_start, index)))
+                children.append(escape)
+                index = escape.span.end
+                text_start = index
+                continue
             percent_sub = self._parse_percent_sub_at(index)
             if percent_sub is not None:
                 if text_start < index:
@@ -169,6 +178,15 @@ class _Parser:
                 return None
             end += 1
         return PercentSub(
+            span=Span(position, end),
+            raw=self.source[position:end],
+        )
+
+    def _parse_escape_at(self, position: int) -> Escape | None:
+        if self.source[position] != "\\":
+            return None
+        end = min(position + 2, len(self.source))
+        return Escape(
             span=Span(position, end),
             raw=self.source[position:end],
         )

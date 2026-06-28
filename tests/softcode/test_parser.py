@@ -2,6 +2,7 @@ from pathlib import Path
 
 from mushy_peas.softcode import (
     BraceGroup,
+    Escape,
     EvalGroup,
     FunctionCall,
     PercentSub,
@@ -123,4 +124,28 @@ def test_percent_substitution_parses_named_q_register() -> None:
     assert percent.span.start == 0
     assert percent.span.end == 8
     assert percent.raw == "%q<name>"
+    assert render(document, source) == source
+
+
+def test_escape_parses_as_cst_node() -> None:
+    source = r"\%"
+    document = parse_expression(source)
+    escape = document.children[0]
+
+    assert isinstance(escape, Escape)
+    assert escape.span.start == 0
+    assert escape.span.end == 2
+    assert escape.raw == r"\%"
+    assert render(document, source) == source
+
+
+def test_trailing_escape_parses_as_cst_node() -> None:
+    source = "abc\\"
+    document = parse_expression(source)
+    escape = document.children[1]
+
+    assert isinstance(escape, Escape)
+    assert escape.span.start == 3
+    assert escape.span.end == 4
+    assert escape.raw == "\\"
     assert render(document, source) == source
