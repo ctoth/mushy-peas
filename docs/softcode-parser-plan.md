@@ -371,10 +371,12 @@ Current status:
 - Done: non-empty unrecognized softcode lines are preserved as `raw` units.
 - Done: `reports/softcode-units.md` records current count totals, and
   `reports/softcode-units.json` records the current ordered unit ledger.
-- Current local corpus total: 14,841 units, including 7,446 recognized
-  attribute install units and 7,400 raw preserved lines.
-- Limitation: multi-line install bodies are not yet coalesced; continuation
-  lines are preserved separately as `raw` units.
+- Done: dash-terminated multi-line attribute install bodies are coalesced into
+  their owning units.
+- Current local corpus total: 12,233 units, including 7,446 recognized
+  attribute install units and 4,792 raw preserved lines.
+- Limitation: non-attribute install commands such as `@desc` are still preserved
+  as raw lines, not command units.
 
 ## Stage 4: Core Lossless CST
 
@@ -962,9 +964,9 @@ The project does not yet have:
 
 - complete trace coverage for literals, terminators, braces, eval groups,
   substitutions, denied functions, and arity errors;
-- coalesced multi-line softcode install bodies;
 - real DB attribute seeds;
 - corpus mutation strategies beyond fixture sampling;
+- typed extraction for non-attribute install commands such as `@desc`;
 - a full expression CST;
 - action-list CST;
 - profile-aware unit classification;
@@ -974,5 +976,6 @@ The project does not yet have:
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
-should continue Stage 1 trace hardening or coalesce multi-line install bodies;
-parser syntax expansion should remain tied to oracle coverage.
+should continue Stage 1 trace hardening or add typed extraction for
+non-attribute install commands such as `@desc`; parser syntax expansion should
+remain tied to oracle coverage.

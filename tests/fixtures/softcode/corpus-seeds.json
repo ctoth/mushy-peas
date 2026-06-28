@@ -1805,16 +1805,16 @@
       "text": "$+lower *:"
     },
     {
-      "id": "seed:0c7c9e80c2878a25",
+      "id": "seed:12d83f441fab8ecc",
       "kind": "wcnh_function_attr",
       "label": "FN.SET.INIT",
       "line_number": 46,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 699,
+        "end": 1203,
         "start": 681
       },
-      "text": ""
+      "text": "  [switch(\n    t(setr(0,pmatch(%0))),\n    0,#-1 INVALID VICTIM,\n    1,\n      [wipe(%q0/char`s*)]\n      [iter(REA PER WIL STR AGI HEA,\n        chargen(set.attribute,%q0,##,chargen(race,get(%q0/char`race),starting ##))\n      )]\n      [attrib_set(%q0/char`chargen`alevels,chargen(race,get(%q0/char`race),free attribute levels))]\n      [attrib_set(%q0/char`chargen`spoints,chargen(race,get(%q0/char`race),starting skill points))]\n      [attrib_set(%q0/char`xp`available,default(%q0/char`xp`total,0))]\n  )]"
     },
     {
       "id": "seed:8815dabb71ae3f83",
@@ -1823,7 +1823,7 @@
       "line_number": 64,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 1514,
+        "end": 1516,
         "start": 1294
       },
       "text": "[switch([hasattr(#111,attribute.[mid(%0,0,3)])][setr(1,match(get(#111/attribute_attributes),%1,|))],0*,#-1 INVALID ATTRIBUTE,10,#-1 INVALID PROPERTY,extract(get(#111/attribute.[mid(%0,0,3)]),%q1,1,|))]"
@@ -1835,7 +1835,7 @@
       "line_number": 69,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 1762,
+        "end": 1764,
         "start": 1591
       },
       "text": "[switch(t(setr(0,pmatch(%0)))[t(chargen(attribute,%1,name))],0*,#-1 INVALID VICTIM,10,#-1 INVALID ATTRIBUTE,11,default(%q0/char`a`[mid(%1,0,3)],0))]"
@@ -1847,7 +1847,7 @@
       "line_number": 74,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 2062,
+        "end": 2064,
         "start": 1848
       },
       "text": "[switch(t(setr(0,pmatch(%0)))[t(chargen(attribute,[mid(%1,0,3)],name))][isnum(%2)],0*,#-1 INVALID VICTIM,10*,#-1 INVALID ATTRIBUTE,110,#-1 INVALID VALUE,111,set(%q0,char`a`[mid(%1,0,3)]:%2))]"
@@ -1859,7 +1859,7 @@
       "line_number": 81,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 2327,
+        "end": 2329,
         "start": 2146
       },
       "text": "[switch([hasattr(#111,race.%0)][setr(1,match(get(#111/race_attributes),%1,|))],0*,#-1 INVALID RACE,10,#-1 INVALID RACIAL ATTRIBUTE,extract(get(#111/race.%0),%q1,1,|))]"
@@ -1871,7 +1871,7 @@
       "line_number": 86,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 2475,
+        "end": 2477,
         "start": 2381
       },
       "text": "[ifelse(setr(0,pmatch(%0)),default(%q0/char`race,Unset),#-1 INVALID VICTIM)]"
@@ -1883,7 +1883,7 @@
       "line_number": 91,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 2691,
+        "end": 2693,
         "start": 2531
       },
       "text": "[switch(hasattr(#111,race.%1)[t(setr(0,pmatch(%0)))],0*,#-1 INVALID RACE,10,#-1 INVALID VICTIM,11,set(%q0,char`race:[chargen(race,%1,name)]))]"
@@ -1895,7 +1895,7 @@
       "line_number": 98,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 2993,
+        "end": 2995,
         "start": 2772
       },
       "text": "[switch([t(setr(0,edit(regrabi(lattr(#111/skill.*),SKILL\\\\.%0),SKILL.,)))][setr(1,match(get(#111/skill_attributes),%1,|))],0*,#-1 INVALID SKILL,10,#-1 INVALID PROPERTY,extract(get(#111/skill.%q0),%q1,1,|))]"
@@ -1919,7 +1919,7 @@
       "line_number": 109,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 3619,
+        "end": 3621,
         "start": 3467
       },
       "text": "[switch(t(setr(0,pmatch(%0)))[t(chargen(skill,%1,name))],0*,#-1 INVALID VICTIM,10,#-1 INVALID SKILL,11,default(%q0/char`s`%1,0))]"
@@ -1931,7 +1931,7 @@
       "line_number": 114,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 3946,
+        "end": 3948,
         "start": 3702
       },
       "text": "[switch(t(setr(0,pmatch(%0)))[t(setr(1,chargen(skill,%1,name)))][and(isnum(%2),gte(%2,0))],0*,#-1 INVALID VICTIM,10*,#-1 INVALID SKILL,110,#-1 INVALID VALUE,111,if(%2,attrib_set(%q0/char`s`%q1,%2),attrib_set(%q0/char`s`%q1))]"
@@ -1943,7 +1943,7 @@
       "line_number": 119,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 4106,
+        "end": 4108,
         "start": 4005
       },
       "text": "Athletic Combat Scouting/Outdoor Covert/Urban Knowledge Professional Social"
@@ -1955,22 +1955,22 @@
       "line_number": 124,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 4281,
+        "end": 4283,
         "start": 4171
       },
       "text": "[switch(edit(grepi(#111,skill.*,|%0|),SKILL.,),,#-1 INVALID SKILL GROUP,stext(0))]"
     },
     {
-      "id": "seed:d2a9e9581001f37a",
+      "id": "seed:b49d20f1a62959fc",
       "kind": "wcnh_function_attr",
       "label": "FN.SHEET",
       "line_number": 130,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\functions.mush",
       "source_span": {
-        "end": 4365,
+        "end": 5366,
         "start": 4350
       },
-      "text": ""
+      "text": "  [titlebar([ansi(h,Character Sheet:)] [ansi(hy,name(%0))])]%r\n  [align(\n    26 25 26,\n    Race: [ansi(h,chargen(get.race,%0))]%r\n    Available XP: [ansi(h,default(%0/char`xp`available,0))],\n    Age: [ansi(h,ifelse(hasattrval(%0/char`birthday),chargen(getage,get(%0/char`birthday)),Not Set))]%r\n    Total XP: [ansi(h,default(%0/char`xp`total,0))],\n    Birthday: [ansi(h,default(%0/char`birthday,Not Set))]\n  )]%r\n  [middlebar(ATTRIBUTES)]%r[align(26 25 26,u(#112/subfn.attrformat,rea,%0),u(#112/subfn.attrformat,per,%0),u(#112/subfn.attrformat,wil,%0))]%r[align(26 25 26,u(#112/subfn.attrformat,str,%0),u(#112/subfn.attrformat,agi,%0),u(#112/subfn.attrformat,hea,%0))]%r[middlebar(SKILLS)]%r[align(26 25 26,[u(#112/subfn.skillgroupformat,Athletic,%0)]%r%r[u(#112/subfn.skillgroupformat,Social,%0)],u(#112/subfn.skillgroupformat,Combat,%0)%r%r[u(#112/subfn.skillgroupformat,Knowledge,%0)],u(#112/subfn.skillgroupformat,Professional,%0)%r%r[u(#112/subfn.skillgroupformat,Outdoor,%0)])]%r[footerbar()]"
     },
     {
       "id": "seed:e5fc85bf2e56fa0b",
@@ -1985,424 +1985,424 @@
       "text": ""
     },
     {
-      "id": "seed:f9b772cc3d5ced7d",
+      "id": "seed:8c8cc72161f5ab49",
       "kind": "wcnh_function_attr",
       "label": "fn.raise.attribute",
       "line_number": 36,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
       "source_span": {
-        "end": 1299,
+        "end": 2216,
         "start": 1274
       },
-      "text": ""
+      "text": "  switch(\n    [t(setr(n,chargen(attribute,%0,name)))]/@@ were we given a valid attribute? @@/\n    [t(get(%#/char`chargen`alevels))]/@@ does executor have at least one alevel to spend? @@/\n    [lt(setr(a,val(inc(chargen(get.attribute,%#,%0)))),7)],/@@ don't allow an attribute above 6 @@/\n    0*,pemit(%#,[ansi(hb,>)] Invalid attribute!),\n    10*,pemit(%#,[ansi(hb,>)] You've already spent your attribute levels.),\n    110,pemit(%#,[ansi(hb,>)] Sorry, you can't have an attribute above 6.),\n    111,\n      /@@ decrease their remaining alevels @@/\n      [attrib_set(%#/char`chargen`alevels,val(dec(get(%#/char`chargen`alevels))))]\n      /@@ increase their attribute @@/\n      [chargen(set.attribute,%#,%0,val(%qa))]\n      [pemit(%#,[ansi(hb,>)] Increasing your [ansi(h,%qn)] attribute to [ansi(h,%qa)]. You have [ansi(h,setr(l,get(%#/char`chargen`alevels)))] attribute level[if(dec(%ql),s)] remaining to spend.)]\n  )"
     },
     {
-      "id": "seed:32d7dc6d5bc49aa5",
+      "id": "seed:1997a3061d7264dc",
       "kind": "wcnh_function_attr",
       "label": "fn.lower.attribute",
       "line_number": 52,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
       "source_span": {
-        "end": 2242,
+        "end": 2988,
         "start": 2217
       },
-      "text": ""
+      "text": "  switch(\n    [t(setr(n,chargen(attribute,%0,name)))]/@@ were we given a valid attribute? @@/\n    [gte(setr(a,val(dec(chargen(get.attribute,%#,%0)))),1)],/@@ don't allow an attribute below 1 @@/\n    0*,pemit(%#,[ansi(hb,>)] Invalid attribute!),\n    10,pemit(%#,[ansi(hb,>)] Sorry, you can't have an attribute below 1.),\n    11,\n      /@@ increase their remaining alevels @@/\n      [attrib_set(%#/char`chargen`alevels,val(inc(get(%#/char`chargen`alevels))))]\n      /@@ decrease their attribute @@/\n      [chargen(set.attribute,%#,%0,val(%qa))]\n      [pemit(%#,[ansi(hb,>)] Decreasing your [ansi(h,%qn)] attribute to [ansi(h,%qa)]. You have [ansi(h,setr(l,get(%#/char`chargen`alevels)))] attribute level[if(dec(%ql),s)] remaining to spend.)]\n  )"
     },
     {
-      "id": "seed:cd04611339c74230",
+      "id": "seed:738a049f4fe40d1a",
       "kind": "wcnh_function_attr",
       "label": "fn.raise.skill",
       "line_number": 67,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
       "source_span": {
-        "end": 3011,
+        "end": 4052,
         "start": 2990
       },
-      "text": ""
+      "text": "  switch(\n    [t(setr(n,chargen(skill,%0,name)))]/@@ were we given a valid skill? @@/\n    [gte(get(%#/char`chargen`spoints),setr(c,u(subfn.skill.cost,setr(s,inc(chargen(get.skill.raw,%#,%0))))))]/@@ does executor have te skill points to spend? @@/\n    [lte(inc(chargen(get.skill,%#,%0)),6)],/@@ don't allow a skill greater than 6 @@/\n    0*,pemit(%#,[ansi(hb,>)] Invalid skill!),\n    10*,pemit(%#,[ansi(hb,>)] That would cost [ansi(h,%qc)] skill points, and you only have [ansi(h,setr(r,get(%#/char`chargen`spoints)))] point[if(dec(%qr),s)] remaining.),\n    110,pemit(%#,[ansi(hb,>)] Sorry, you can't have a skill above 6.),\n    111,\n      /@@ decrease their remaining spoints @@/\n      [attrib_set(%#/char`chargen`spoints,val(sub(get(%#/char`chargen`spoints),%qc)))]\n      /@@ increase their skill @@/\n      [chargen(set.skill,%#,%0,val(%qs))]\n      [pemit(%#,[ansi(hb,>)] Increasing your [ansi(h,%qn)] skill to [ansi(h,+%qs)]. You have [ansi(h,setr(r,get(%#/char`chargen`spoints)))] skill point[if(dec(%qr),s)] remaining to spend.)]\n  )"
     },
     {
-      "id": "seed:706850bc9a599ba5",
+      "id": "seed:5ea61a2f0a2e2cd0",
       "kind": "wcnh_function_attr",
       "label": "fn.lower.skill",
       "line_number": 84,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
       "source_span": {
-        "end": 4075,
+        "end": 4843,
         "start": 4054
       },
-      "text": ""
+      "text": "  switch(\n    [t(setr(n,chargen(skill,%0,name)))]/@@ were we given a valid skill? @@/\n    [gte(setr(s,dec(chargen(get.skill.raw,%#,%0))),0)],/@@ don't allow a skill lower than 0 @@/\n    0*,pemit(%#,[ansi(hb,>)] Invalid skill!),\n    10,pemit(%#,[ansi(hb,>)] Sorry, you can't have a skill below 0.),\n    11,\n      /@@ increase their remaining spoints @@/\n      [attrib_set(%#/char`chargen`spoints,val(add(get(%#/char`chargen`spoints),u(subfn.skill.cost,chargen(get.skill.raw,%#,%0)))))]\n      /@@ decrease their skill @@/\n      [chargen(set.skill,%#,%0,val(%qs))]\n      [pemit(%#,[ansi(hb,>)] Decreasing your [ansi(h,%qn)] skill to [ansi(h,[if(%qs,+)]%qs)]. You have [ansi(h,setr(r,get(%#/char`chargen`spoints)))] skill point[if(dec(%qr),s)] remaining to spend.)]\n  )"
     },
     {
-      "id": "seed:6b071e6b5683d991",
+      "id": "seed:88267e8bff200cd0",
       "kind": "wcnh_function_attr",
       "label": "subfn.skill.cost",
       "line_number": 99,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\chargen\\room2.mush",
       "source_span": {
-        "end": 4868,
+        "end": 4973,
         "start": 4845
       },
-      "text": ""
+      "text": "  /@@ returns cost in skill points to move from level %0 - 1 to %0. @@/\n  switch(%0,0,#-1,1,1,dec(%0))"
     },
     {
-      "id": "seed:61e45c07f5083d14",
+      "id": "seed:31dda3c99fc3b720",
       "kind": "wcnh_function_attr",
       "label": "FN.CREATE",
       "line_number": 59,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 1875,
+        "end": 2106,
         "start": 1859
       },
-      "text": ""
+      "text": "  [ifelse(\n        faction(isfaction,%0),\n        #-1 EXISTING FAC ABBREV,\n        [set(v(data),fac.%0:%1|Organization||||||)]\n         [syslog(FACTION,New faction [ansi(wh,%1\\([ucstr(%0)]\\))] created by [name(%#)].)]\n        )]"
     },
     {
-      "id": "seed:f10f1c860fa044a3",
+      "id": "seed:86ec2b47dc679658",
       "kind": "wcnh_function_attr",
       "label": "FN.DESTROY",
       "line_number": 67,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 2124,
+        "end": 2706,
         "start": 2107
       },
-      "text": ""
+      "text": "  ifelse(\n        faction(isfaction,%0),\n        [iter(\n            extract(setr(0,get(v(data)/fac.%0)),5,1,|),\n            localize(u(fn.remleader,%0,itext(0)))\n            )]\n         [iter(\n              extract(%q0,3,1,|),\n              [wipe(itext(0)/fac`%0)][localize(u(fn.remmember,%0,itext(0)))]\n              )]\n         [attrib_set(v(data)/fac.%0)]\n         [syslog(\n              FACTION,\n              [ansi(wh,[first(%q0,|)]\\([ucstr(%0)]\\))] deleted by [name(%#)].  [words(extract(%q0,3,1,|))] members removed.\n              )],\n        #-1 INVALID FACTION\n        )"
     },
     {
-      "id": "seed:ba4bc8b63f811145",
+      "id": "seed:56c3b748251c581a",
       "kind": "wcnh_function_attr",
       "label": "FN.SET",
       "line_number": 86,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 2720,
+        "end": 2961,
         "start": 2707
       },
-      "text": ""
+      "text": "  [switch(\n       [faction(isfaction,%0)]\n       [t(match(get(v(data)/factions_settings),%1,|))],\n\n       0?,#-1 INVALID FACTION,\n       10,#-1 INVALID SETTING,\n       11,[u(subfn.set.%1,%0,%2)],\n       [u(fn.error,%=,%0,%1,%2)]\n       )]"
     },
     {
-      "id": "seed:e93b3b5ea6c29628",
+      "id": "seed:ceffb78fc5bccf8e",
       "kind": "wcnh_function_attr",
       "label": "SUBFN.SET.CHANNEL",
       "line_number": 97,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 2986,
+        "end": 3265,
         "start": 2962
       },
-      "text": ""
+      "text": "  [ifelse(\n      t(cflags(%1)),\n      [set(v(data),fac.%0:[replace(get(v(data)/fac.%0),7,[capstr(%1)],|)])]\n       [syslog(FACTION,Updated settings by [name(%#)]\\(%#\\) in [ansi(wh,faction(name,%0))]\\([ucstr(%0)]\\): Channel => [capstr(%1)])],\n      #-1 INVALID CHANNEL\n      )]"
     },
     {
-      "id": "seed:86563f07fcbf871f",
+      "id": "seed:98a3c4ceab5fc1a3",
       "kind": "wcnh_function_attr",
       "label": "SUBFN.SET.PARENT",
       "line_number": 105,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 3289,
+        "end": 3701,
         "start": 3266
       },
-      "text": ""
+      "text": "  [ifelse(\n        and(\n            t(member([u(fn.list.factions)] NONE,setr(1,ucstr(%1)))),\n            not(strmatch(%q1,ucstr(%0)))\n            ),\n        [set(v(data),fac.%0:[replace(get(v(data)/fac.%0),4,ifelse(strmatch(%q1,NONE),,%q1),|)])]\n         [syslog(FACTION,Updated settings by [name(%#)]\\(%#\\) in [ansi(wh,faction(name,%0))]\\([ucstr(%0)]\\): Parent => %q1)],\n        #-1 INVALID PARENT\n        )]"
     },
     {
-      "id": "seed:f1548e168d38c564",
+      "id": "seed:d1dca77a023ab434",
       "kind": "wcnh_function_attr",
       "label": "SUBFN.SET.LEVEL",
       "line_number": 116,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 3724,
+        "end": 4038,
         "start": 3702
       },
-      "text": ""
+      "text": "  [ifelse(\n        t(member(get(v(data)/factions_levels),setr(1,capstr(%1)),|)),\n        [set(v(data),fac.%0:[replace(get(v(data)/fac.%0),2,%q1,|)])]\n         [syslog(FACTION,Updated settings by [name(%#)]\\(%#\\) in [ansi(wh,faction(name,%0))]\\([ucstr(%0)]\\): Level => %q1)],\n        #-1 INVALID LEVEL\n        )]"
     },
     {
-      "id": "seed:8b7eb04f5fa7965f",
+      "id": "seed:e293e65441629045",
       "kind": "wcnh_function_attr",
       "label": "SUBFN.SET.NAME",
       "line_number": 124,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 4060,
+        "end": 4372,
         "start": 4039
       },
-      "text": ""
+      "text": "  [ifelse(\n        gt(strlen(%1),0),\n        [set(v(data),fac.%0:[replace(get(v(data)/fac.%0),1,setr(1,decompose(stripansi(stripaccents(%1)))),|)])]\n         [syslog(FACTION,Updated settings by [name(%#)]\\(%#\\) in [ansi(wh,faction(name,%0))]\\([ucstr(%0)]\\): Title => %q1)],\n        #-1 EMPTY STRING\n        )]"
     },
     {
-      "id": "seed:9d1bc672551ffcd5",
+      "id": "seed:9146b4e5efa62f8a",
       "kind": "wcnh_function_attr",
       "label": "FN.ERROR",
       "line_number": 132,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 4388,
+        "end": 4593,
         "start": 4373
       },
-      "text": ""
+      "text": "  [syslog(\n        FACTION,\n        Failure in [ansi(wh,%0)] by [name(%#)]\\(%#\\) with [words(setr(0,squish(%1 %2 %3 %4 %5 %6 %7 %8 %9)))] args. [iter(%q0,\\%[dec(inum(0))] = [itext(0)],,\\,%b)]\n        )]"
     },
     {
-      "id": "seed:2a893994dd4b11e9",
+      "id": "seed:0558d95706f0b0e3",
       "kind": "wcnh_function_attr",
       "label": "FN.REMLEADER",
       "line_number": 138,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 4613,
+        "end": 4914,
         "start": 4594
       },
-      "text": ""
+      "text": "  [switch(\n    [faction(isfaction,%0)]\n    [t(setr(1,pmatch(%1)))]\n    [t(member(setr(0,u(fn.list.leaders,%0)),%q1))],\n\n    0??,#-1 INVALID FACTION,\n    10?,#-1 INVALID PLAYER,\n    110,#-1 INVALID LEADER,\n    111,set(v(data),fac.%0:[replace(get(v(data)/fac.%0),5,squish(remove(%q0,%q1)),|)])\n    )]"
     },
     {
-      "id": "seed:ee7544e88e80cce8",
+      "id": "seed:d5779cf151856cd2",
       "kind": "wcnh_function_attr",
       "label": "FN.ADDLEADER",
       "line_number": 150,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 4934,
+        "end": 5326,
         "start": 4915
       },
-      "text": ""
+      "text": "  [switch(\n      [faction(isfaction,%0)]\n      [t(setr(1,pmatch(%1)))]\n      [t(member(u(fn.list.members,%0),%q1))]\n      [not(member(setr(0,u(fn.list.leaders,%0)),%q1))],\n\n      0???,#-1 INVALID FACTION,\n      10??,#-1 INVALID PLAYER,\n      110?,#-1 INVALID MEMBER,\n      1110,#-1 EXISTING LEADER,\n      1111,set(v(data),fac.%0:[replace(get(v(data)/fac.%0),5,squish(%q0 %q1),|)])\n      )]"
     },
     {
-      "id": "seed:ebeeedc924259116",
+      "id": "seed:21fbc08f378fd87f",
       "kind": "wcnh_function_attr",
       "label": "FN.CHANNEL",
       "line_number": 164,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 5344,
+        "end": 5466,
         "start": 5327
       },
-      "text": ""
+      "text": "  [ifelse(\n      t(setr(0,lattr(v(data)/FAC.%0))),\n      extract(get(v(data)/%q0),7,1,|),\n      #-1 NO CHANNEL\n      )]"
     },
     {
-      "id": "seed:59cc0bb792496843",
+      "id": "seed:dac0a8ed3682c157",
       "kind": "wcnh_function_attr",
       "label": "FN.NAME",
       "line_number": 180,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 5847,
+        "end": 5950,
         "start": 5833
       },
-      "text": ""
+      "text": "  ifelse(\n    faction(isfaction,%0),\n    first(get(v(data)/fac.%0),|),\n    #-1 INVALID FACTION\n    )"
     },
     {
-      "id": "seed:d7436edfeb379e16",
+      "id": "seed:11c32a3d2714a7b0",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.LEADERS",
       "line_number": 187,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 5973,
+        "end": 6082,
         "start": 5951
       },
-      "text": ""
+      "text": "  ifelse(\n    faction(isfaction,%0),\n    extract(get(v(data)/fac.%0),5,1,|),\n    #-1 INVALID FACTION\n    )"
     },
     {
-      "id": "seed:f1c4966a85d25885",
+      "id": "seed:6a81550b051b7799",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.FACTIONTREE",
       "line_number": 194,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 6109,
+        "end": 6418,
         "start": 6083
       },
-      "text": ""
+      "text": "  [titlebar(Faction Hierarchy)]%r\n  [iter(\n    filter(filter.list.factiontree,lattr(v(data)/FAC.*)),\n    u(fn.list.factiontree.loop,itext(0),1),,%r\n    )]%r%r\n  [ansi(wh,Key:)] [ansi(c,Government)]\\, [ansi(g,Military)]\\, [ansi(r,Corporation)]\\, [ansi(y,Industry)]\\, [ansi(m,Organization)]%r\n  [footerbar()]"
     },
     {
-      "id": "seed:bc4adf151387525a",
+      "id": "seed:a450dd62d6076de8",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.FACTIONTREE.REGREP",
       "line_number": 203,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 6452,
+        "end": 6496,
         "start": 6419
       },
-      "text": ""
+      "text": "  regrep(v(data),FAC.*,\\\\|%0\\\\||\\\\|%0\\\\b)"
     },
     {
-      "id": "seed:8f4e2f4aa191f596",
+      "id": "seed:dbb66137b60b47d1",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.FACTIONTREE.PARSE",
       "line_number": 206,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 6529,
+        "end": 6920,
         "start": 6497
       },
-      "text": ""
+      "text": "  [if(gt(%1,2),|)]\n  [space(switch(%1,3,5,4,10,5,15,0))]\n  [if(gt(%1,1),|[repeat(_,5)])]\n  [ansi(\n    switch(\n      extract(setr(0,get(v(data)/%0)),2,1,|),\n      Government,c,\n      Military,g,\n      Corporation,r,\n      Industry,y,m\n      ),\n    [after(%0,.)] [ansi(n,-)] [first(%q0,|)]\n    )] \n  \\[[words(extract(%q0,3,1,|))] members\\][if(t(extract(%q0,6,1,|)),%b\\([ansi(rh,HIDDEN)]\\))]"
     },
     {
-      "id": "seed:a8d696694a861f34",
+      "id": "seed:249bc1afec704585",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.FACTIONTREE.LOOP",
       "line_number": 222,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 6952,
+        "end": 7109,
         "start": 6921
       },
-      "text": ""
+      "text": "  [u(fn.list.factiontree.parse,%0,%1)]\n  [iter(\n    u(fn.list.factiontree.regrep,after(%0,.)),\n    %r[u(fn.list.factiontree.loop,itext(0),inc(%1))]\n    )]"
     },
     {
-      "id": "seed:674107b71743be56",
+      "id": "seed:a266b789e2b4caa4",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.FACTIONSBYLEVEL",
       "line_number": 238,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 7321,
+        "end": 7429,
         "start": 7291
       },
-      "text": ""
+      "text": "  [switch(\n    grepi(v(data),fac.*,|%0|),\n    ,#-1 INVALID FACTION LEVEL,\n    edit(stext(0),FAC.,)\n    )]"
     },
     {
-      "id": "seed:aa2d41d100d9dbd8",
+      "id": "seed:f3dd2185a6d65069",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.FACTIONS",
       "line_number": 245,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 7453,
+        "end": 7564,
         "start": 7430
       },
-      "text": ""
+      "text": "  [ifelse(\n    strmatch(%0,),\n    edit(lattr(v(data)/fac.*),FAC.,),\n    u(fn.list.factionsbylevel,%0)\n    )]"
     },
     {
-      "id": "seed:148c42ad5cc94598",
+      "id": "seed:064f0fe909c88057",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.MEMBERS",
       "line_number": 252,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 7587,
+        "end": 7706,
         "start": 7565
       },
-      "text": ""
+      "text": "  [ifelse(\n    faction(isfaction,%0),\n    squish(extract(get(v(data)/fac.%0),3,1,|)),\n    #-1 INVALID FACTION\n    )]"
     },
     {
-      "id": "seed:6fb709c39bb77c79",
+      "id": "seed:0c33bf599396c5cc",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.LEVELS",
       "line_number": 267,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 7999,
+        "end": 8054,
         "start": 7978
       },
-      "text": ""
+      "text": "  [iter(get(v(data)/factions_levels),itext(0),|,%b)]"
     },
     {
-      "id": "seed:2a1a9fc778b76f19",
+      "id": "seed:11a5cd34ef33a946",
       "kind": "wcnh_function_attr",
       "label": "FN.LIST.MEMBEROF",
       "line_number": 273,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 8237,
+        "end": 8362,
         "start": 8214
       },
-      "text": ""
+      "text": "  [ifelse(\n    t(setr(0,pmatch(%0))),\n    squish(edit(regrepi(v(data),fac.*,%q0\\\\b),FAC.,)),\n    #-1 INVALID PLAYER\n    )]"
     },
     {
-      "id": "seed:4f1df0c99dc0500b",
+      "id": "seed:9254821b3c6d2e61",
       "kind": "wcnh_function_attr",
       "label": "FN.ISMEMBER",
       "line_number": 280,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 8381,
+        "end": 8502,
         "start": 8363
       },
-      "text": ""
+      "text": "  ifelse(\n      t(setr(1,pmatch(%1))),\n      t(match(faction(list.memberof,%q1),%0)),\n      #-1 INVALID PLAYER\n      )"
     },
     {
-      "id": "seed:31e5572a01a627a9",
+      "id": "seed:ae04e5c3f4c39c84",
       "kind": "wcnh_function_attr",
       "label": "FN.ADDMEMBER",
       "line_number": 287,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 8522,
+        "end": 8818,
         "start": 8503
       },
-      "text": ""
+      "text": "  [switch(\n    [faction(isfaction,%0)]\n    [t(setr(1,pmatch(%1)))]\n    [not(member(setr(0,u(fn.list.members,%0)),%q1))],\n\n    0??,#-1 INVALID FACTION,\n    10?,#-1 INVALID PLAYER,\n    110,#-1 EXISTING MEMBER,\n    111,set(v(data),fac.%0:[replace(get(v(data)/fac.%0),3,squish(%q0 %q1),|)])\n    )]"
     },
     {
-      "id": "seed:de1abbd5645b9668",
+      "id": "seed:4076e61aa4f5e185",
       "kind": "wcnh_function_attr",
       "label": "FN.REMMEMBER",
       "line_number": 299,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 8838,
+        "end": 9140,
         "start": 8819
       },
-      "text": ""
+      "text": "  [switch(\n    [faction(isfaction,%0)]\n    [t(setr(1,pmatch(%1)))]\n    [t(member(setr(0,u(fn.list.members,%0)),%q1))],\n\n    0??,#-1 INVALID FACTION,\n    10?,#-1 INVALID PLAYER,\n    110,#-1 EXISTING MEMBER,\n    111,set(v(data),fac.%0:[replace(get(v(data)/fac.%0),3,squish(remove(%q0,%q1)),|)])\n    )]"
     },
     {
-      "id": "seed:a230a4b1eee19d9c",
+      "id": "seed:c01b69bee4ecc32e",
       "kind": "wcnh_function_attr",
       "label": "FN.ROSTER.PARSE",
       "line_number": 311,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 9163,
+        "end": 10080,
         "start": 9141
       },
-      "text": ""
+      "text": "  [titlebar(Member Roster for [first(setr(0,get(v(data)/fac.%0)),|)])]%r\n  %b[ansi(y,align(24 13 13 >4 19,Name\\(alias\\),Position,Assignment,Last,Location))]%r\n  %b[ansi(r,[repeat(-,24)]%b[repeat(-,13)]%b[repeat(-,13)]%b[repeat(-,4)]%b[repeat(-,19)])]%r\n  [iter(\n      sort(setr(1,u(fn.roster,%0)),name),\n      [setq(2,t(member(u(fn.list.leaders,%0),itext(0))))]\n      [ansi(\n          ifelse(%q2,y,n),\n          [ifelse(%q2,>,%b)]\n          [align(\n            24 13 13 >4 19,\n            [name(itext(0))]\\([alias(itext(0))]\\),\n            left(get(itext(0)/fac`%0`position),13),\n            left(get(itext(0)/fac`%0`assignment),13),\n            ifelse(hasflag(itext(0),connected),ansi(gh,On),first(timestring(sub(secs(),convtime(get(itext(0)/last)))))),\n            ifelse(t(setr(0,zone(loc(itext(0))))),left(name(%q0),19),OOC Area),\n            )]\n          )],\n      ,%r)]%r\n   [footerbar([words(%q1)] members)]"
     },
     {
-      "id": "seed:065fed08647c05c3",
+      "id": "seed:3715b0ba26da5312",
       "kind": "wcnh_function_attr",
       "label": "FN.ROSTER",
       "line_number": 333,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 10097,
+        "end": 10203,
         "start": 10081
       },
-      "text": ""
+      "text": "  [ifelse(\n      faction(isfaction,%0),\n      u(fn.list.members,%0),\n      #-1 INVALID FACTION\n      )]"
     },
     {
-      "id": "seed:b77a43c4fa96fd6f",
+      "id": "seed:2f43facbb523b4cf",
       "kind": "wcnh_function_attr",
       "label": "FN.FWHO.PARSE",
       "line_number": 340,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 10224,
+        "end": 11228,
         "start": 10204
       },
-      "text": ""
+      "text": "    [titlebar(Connected Members of [first(setr(0,get(v(data)/fac.%0)),|)])]%r\n    %b[ansi(y,align(24 13 13 >4 19,Name\\(alias\\),Position,Assignment,Idle,Location))]%r\n    %b[ansi(r,[repeat(-,24)]%b[repeat(-,13)]%b[repeat(-,13)]%b[repeat(-,4)]%b[repeat(-,19)])]%r\n    [iter(\n        setr(1,u(fn.fwho,%0)),\n        [setq(2,t(member(u(fn.list.leaders,%0),itext(0))))]\n        [ansi(\n            ifelse(%q2,y,n),\n            [ifelse(t(%q2),>,%b)]\n            [align(\n                 24 13 13 >4 19,\n                 [name(itext(0))]\\([alias(itext(0))]\\),\n                 left(get(itext(0)/fac`%0`position),13),\n                 left(get(itext(0)/fac`%0`assignment),13),\n                 ansi(switch(idlesecs(itext(0)),>3600,r,>1800,m,>900,y,g),first(extract(timestring(idlesecs(itext(0))),1,2))),\n                 ifelse(t(setr(0,zone(loc(itext(0))))),left(name(%q0),19),OOC Area),\n                 )]\n            )]\n            [setq(2,)],\n        ,%r)]%r\n    [footerbar([words(%q1)] connected members)]"
     },
     {
-      "id": "seed:0bfbf676d10edcb7",
+      "id": "seed:1ea13a175ea6efbc",
       "kind": "wcnh_function_attr",
       "label": "FN.FWHO",
       "line_number": 363,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 11243,
+        "end": 11379,
         "start": 11229
       },
-      "text": ""
+      "text": "    [ifelse(\n        faction(isfaction,%0),\n        filter(filter.fwho,u(fn.list.members,%0)),\n        #-1 INVALID FACTION\n        )]"
     },
     {
-      "id": "seed:02391da424a3d6be",
+      "id": "seed:a4caca8ca6dbe9f5",
       "kind": "wcnh_function_attr",
       "label": "FN.ISFACTION",
       "line_number": 373,
       "source_path": "C:\\Users\\Q\\src\\wcnh\\systems\\softcode\\faction\\functions.mush",
       "source_span": {
-        "end": 11453,
+        "end": 11501,
         "start": 11434
       },
-      "text": ""
+      "text": "  t(member(faction(list.factions),ucstr(%0)))"
     }
   ]
 }

@@ -150,12 +150,22 @@ def _extract_file_units(path: Path, text: str) -> tuple[SoftcodeUnit, ...]:
     profile_hint = _profile_hint(path)
     units: list[SoftcodeUnit] = []
     spans = line_spans(text)
-    for line_number, (line, span) in enumerate(
-        zip(text.splitlines(), spans, strict=True),
-        start=1,
-    ):
+    lines = text.splitlines()
+    index = 0
+    while index < len(lines):
+        line_number = index + 1
+        line = lines[index]
+        span = spans[index]
         attribute = parse_attribute_install_line(path, line_number, span, line)
         if attribute is not None:
+            body, source_span, next_index = _coalesce_attribute_body(
+                lines,
+                spans,
+                index,
+                attribute.body,
+                attribute.source_span,
+                path,
+            )
             units.append(
                 SoftcodeUnit(
                     id=_unit_id(path, line_number, attribute.attribute_name),
@@ -165,12 +175,13 @@ def _extract_file_units(path: Path, text: str) -> tuple[SoftcodeUnit, ...]:
                     object_ref=attribute.object_ref,
                     attribute_name=attribute.attribute_name,
                     attribute_kind=attribute.kind,
-                    command_pattern=_command_pattern(attribute.kind, attribute.body),
-                    body=attribute.body,
-                    source_span=attribute.source_span,
+                    command_pattern=_command_pattern(attribute.kind, body),
+                    body=body,
+                    source_span=source_span,
                     line_number=line_number,
                 )
             )
+            index = next_index
         elif line.strip():
             units.append(
                 SoftcodeUnit(
@@ -187,7 +198,44 @@ def _extract_file_units(path: Path, text: str) -> tuple[SoftcodeUnit, ...]:
                     line_number=line_number,
                 )
             )
+            index += 1
+        else:
+            index += 1
     return tuple(units)
+
+
+def _coalesce_attribute_body(
+    lines: list[str],
+    spans: tuple[Span, ...],
+    index: int,
+    body: str,
+    source_span: Span,
+    path: Path,
+) -> tuple[str, Span, int]:
+    next_index = index + 1
+    if next_index >= len(lines):
+        return body, source_span, next_index
+    if body:
+        if lines[next_index].strip() == "-":
+            return body, Span(source_span.start, spans[next_index].end), next_index + 1
+        return body, source_span, next_index
+
+    continuation: list[str] = []
+    scan_index = next_index
+    while scan_index < len(lines):
+        line = lines[scan_index]
+        span = spans[scan_index]
+        if line.strip() == "-":
+            return (
+                "\n".join(continuation),
+                Span(source_span.start, span.end),
+                scan_index + 1,
+            )
+        if parse_attribute_install_line(path, scan_index + 1, span, line) is not None:
+            return body, source_span, next_index
+        continuation.append(line)
+        scan_index += 1
+    return body, source_span, next_index
 
 
 def _unit_id(path: Path, line_number: int, attribute_name: str | None) -> str:

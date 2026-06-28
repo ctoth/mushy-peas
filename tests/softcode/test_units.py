@@ -54,8 +54,36 @@ def test_extract_softcode_units_preserves_unrecognized_lines_as_raw(
     assert [(unit.attribute_kind, unit.body) for unit in collection.units] == [
         ("raw", "@create Test Object"),
         ("fn", "add(1,2)"),
-        ("raw", "-"),
     ]
+
+
+def test_extract_softcode_units_coalesces_dash_terminated_attribute_bodies(
+    tmp_path: Path,
+) -> None:
+    source = tmp_path / "system.mush"
+    source.write_text(
+        "\n".join(
+            (
+                "&FN.MULTI #10=",
+                "  add(1,",
+                "      2)",
+                "-",
+                "&FN.SINGLE #10=add(3,4)",
+                "-",
+            )
+        ),
+        encoding="utf-8",
+    )
+
+    collection = extract_softcode_units([tmp_path])
+    units = collection.units
+
+    assert [(unit.attribute_name, unit.body) for unit in units] == [
+        ("FN.MULTI", "  add(1,\n      2)"),
+        ("FN.SINGLE", "add(3,4)"),
+    ]
+    assert units[0].source_span.start == 0
+    assert units[0].source_span.end == len("&FN.MULTI #10=\n  add(1,\n      2)\n-")
 
 
 def test_extract_softcode_units_has_stable_ids(tmp_path: Path) -> None:
