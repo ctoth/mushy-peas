@@ -3,6 +3,7 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from tests.oracle.pennmush_softcode_oracle import (
+    SoftcodeTrace,
     SoftcodeTraceEvent,
     parse_trace_output,
     run_softcode_trace,
@@ -18,11 +19,12 @@ def test_parse_trace_output_accepts_jsonl_contract() -> None:
                 '{"kind":"enter","depth":0,"source_start":0,'
                 '"source_end":8,"eflags":55,"tflags":0}',
                 '{"kind":"function","depth":0,"source_start":0,'
-                '"source_end":8,"function_name":"ADD","function_flags":1}',
+                '"source_end":8,"function_name":"ADD","function_flags":1,'
+                '"min_args":2,"max_args":2147483647}',
                 '{"kind":"argument","depth":1,"argument_index":0,'
-                '"source_start":4,"source_end":5,"value":"1"}',
+                '"source_start":4,"source_end":5,"raw":"1","value":"1"}',
                 '{"kind":"argument","depth":1,"argument_index":1,'
-                '"source_start":6,"source_end":7,"value":"2"}',
+                '"source_start":6,"source_end":7,"raw":"2","value":"2"}',
                 '{"kind":"exit","depth":0,"source_start":0,'
                 '"source_end":8,"output_start":0,"output_end":1}',
                 '{"kind":"result","value":"3"}',
@@ -48,6 +50,8 @@ def test_parse_trace_output_accepts_jsonl_contract() -> None:
             source_end=8,
             function_name="ADD",
             function_flags=1,
+            min_args=2,
+            max_args=2147483647,
         ),
         SoftcodeTraceEvent(
             kind="argument",
@@ -55,6 +59,7 @@ def test_parse_trace_output_accepts_jsonl_contract() -> None:
             source_start=4,
             source_end=5,
             argument_index=0,
+            raw="1",
             value="1",
         ),
         SoftcodeTraceEvent(
@@ -63,6 +68,7 @@ def test_parse_trace_output_accepts_jsonl_contract() -> None:
             source_start=6,
             source_end=7,
             argument_index=1,
+            raw="2",
             value="2",
         ),
         SoftcodeTraceEvent(
@@ -95,9 +101,56 @@ def test_parse_trace_output_requires_result_event() -> None:
 )
 def test_live_softcode_trace_oracle_smoke() -> None:
     trace = run_softcode_trace("add(1,2)")
+    function_event = _function_events(trace, "ADD")[0]
+    argument_events = _argument_events(trace)
 
     assert trace.result == "3"
-    assert any(event.kind == "function" for event in trace.events)
+    assert function_event.source_start == 0
+    assert function_event.source_end == 4
+    assert function_event.min_args == 2
+    assert function_event.max_args == 2147483647
+    assert [(event.raw, event.value) for event in argument_events] == [
+        ("1", "1"),
+        ("2", "2"),
+    ]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_literal_argument_without_inner_function() -> None:
+    trace = run_softcode_trace("lit(add(1,2))")
+    function_events = _function_events(trace)
+    argument_events = _argument_events(trace)
+
+    assert trace.result == "add(1,2)"
+    assert [event.function_name for event in function_events] == ["LIT"]
+    assert function_events[0].min_args == 1
+    assert function_events[0].max_args == -1
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in argument_events
+    ] == [(4, 12, "add(1,2)", "add(1,2)")]
+
+
+@pytest.mark.skipif(
+    not softcode_oracle_available(),
+    reason="PennMUSH softcode trace oracle is not available",
+)
+def test_live_softcode_trace_reports_noparse_argument_without_inner_function() -> None:
+    trace = run_softcode_trace("@@(add(1,2))")
+    function_events = _function_events(trace)
+    argument_events = _argument_events(trace)
+
+    assert trace.result == ""
+    assert [event.function_name for event in function_events] == ["@@"]
+    assert function_events[0].min_args == 1
+    assert function_events[0].max_args == 2147483647
+    assert [
+        (event.source_start, event.source_end, event.raw, event.value)
+        for event in argument_events
+    ] == [(3, 11, "add(1,2)", "add(1,2)")]
 
 
 @pytest.mark.skipif(
@@ -116,7 +169,27 @@ def test_generated_add_calls_trace_arguments(left: int, right: int) -> None:
     argument_values = [
         event.value for event in trace.events if event.kind == "argument"
     ]
+    argument_raw_values = [
+        event.raw for event in trace.events if event.kind == "argument"
+    ]
 
     assert trace.result == str(left + right)
     assert len(function_events) == 1
+    assert function_events[0].min_args == 2
+    assert function_events[0].max_args == 2147483647
+    assert argument_raw_values == [str(left), str(right)]
     assert argument_values == [str(left), str(right)]
+
+
+def _function_events(
+    trace: SoftcodeTrace,
+    name: str | None = None,
+) -> list[SoftcodeTraceEvent]:
+    events = [event for event in trace.events if event.kind == "function"]
+    if name is None:
+        return events
+    return [event for event in events if event.function_name == name]
+
+
+def _argument_events(trace: SoftcodeTrace) -> list[SoftcodeTraceEvent]:
+    return [event for event in trace.events if event.kind == "argument"]

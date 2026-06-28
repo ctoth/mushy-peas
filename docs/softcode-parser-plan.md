@@ -861,38 +861,59 @@ and action lists.
 
 ## Immediate Next Work Items
 
-Execute these in order:
+Execute these in order. Checked items have been completed in the current
+implementation stream:
 
-1. Commit this plan once reviewed.
-2. Add `mushy_peas/softcode/model.py` with span and node dataclasses.
-3. Add `mushy_peas/softcode/render.py` with source-slice rendering.
-4. Add tests proving text-only documents round-trip.
-5. Add function metadata fixture generation or a temporary checked fixture with
+1. Done: commit this plan once reviewed.
+2. Done: add `mushy_peas/softcode/model.py` with span and node dataclasses.
+3. Done: add `mushy_peas/softcode/render.py` with source-slice rendering.
+4. Done: add tests proving text-only documents round-trip.
+5. Done: add function metadata fixture generation or a temporary checked fixture with
    PennMUSH commit provenance.
-6. Add the first handwritten parser slice for `Text`, `FunctionCall`, and
+6. Done: add the first handwritten parser slice for `Text`, `FunctionCall`, and
    `Argument`.
-7. Add targeted oracle agreement for `add(<int>,<int>)`.
-8. Expand oracle trace metadata before expanding parser syntax.
+7. Done: add targeted oracle agreement for `add(<int>,<int>)`.
+8. Done: expand function and argument oracle trace metadata before expanding
+   parser syntax.
 
 Do not begin action-list parsing until item 7 passes.
 
 ## Current Readiness Answer
 
-At the time this plan was written, the project had:
+As of 2026-06-28, the project has:
 
 - a real PennMUSH trace mode;
 - a Python wrapper around that mode;
 - live oracle tests;
 - Hypothesis available;
-- known corpora to inventory.
+- known corpora to inventory;
+- initial lossless CST model dataclasses;
+- source-slice rendering;
+- an initial handwritten parser for text, known function calls, and arguments;
+- a temporary PennMUSH function metadata fixture with commit provenance;
+- targeted oracle agreement for generated `add(<int>,<int>)` expressions.
 
-The project did not yet have:
+The PennMUSH trace oracle now reports function metadata and argument raw/value
+pairs for ordinary functions, `FN_LITERAL`, and `FN_NOPARSE`. Live traces show
+that `FN_LITERAL` and `FN_NOPARSE` still produce recursive `enter` and `exit`
+scan events inside their argument text, but they do not produce nested
+`function` events for inner calls such as `add(...)`.
 
-- a CST model;
-- a function metadata fixture;
+The project does not yet have:
+
+- complete trace coverage for literals, terminators, braces, eval groups,
+  substitutions, denied functions, and arity errors;
 - a softcode unit inventory;
-- a parser implementation;
-- corpus coverage reports.
+- corpus coverage reports;
+- a generated PennMUSH function metadata export path;
+- a full expression CST;
+- action-list CST;
+- profile-aware unit classification;
+- semantic AST views;
+- semantic graph extraction;
+- maturity and coverage gates.
 
-Therefore the project is ready to begin the first implementation milestone, but
-it is not yet ready to claim that the full parser apparatus exists.
+Therefore the project is past the first parser skeleton, but it is still not
+ready to claim that the full parser apparatus exists. The next execution slice
+should either continue Stage 1 trace hardening or begin Stage 0 inventory, but
+parser syntax expansion should remain tied to oracle coverage.

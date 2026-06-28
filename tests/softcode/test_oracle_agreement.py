@@ -39,10 +39,15 @@ def test_generated_add_calls_match_oracle_argument_boundaries(
     assert function_event.source_start == call.name_span.start
     assert function_event.source_end == call.open_paren + 1
     assert [
-        (event.source_start, event.source_end, event.value)
+        (event.source_start, event.source_end, event.raw, event.value)
         for event in argument_events
     ] == [
-        (argument.span.start, argument.span.end, render(argument, source))
+        (
+            argument.span.start,
+            argument.span.end,
+            render(argument, source),
+            render(argument, source),
+        )
         for argument in call.arguments
     ]
 

@@ -25,6 +25,19 @@ Each line is a JSON object. All non-result events share:
 - optional source span fields: `source_start`, `source_end`
 - optional output span fields: `output_start`, `output_end`
 
+Function events include:
+
+- `function_name`
+- `function_flags`
+- `min_args`
+- `max_args`
+
+Argument events include:
+
+- `argument_index`
+- `raw`: the exact source slice consumed for the argument
+- `value`: the evaluated or processed value passed to the function
+
 The final line must be:
 
 ```json
@@ -39,10 +52,22 @@ The final line must be:
 - `percent_sub`: percent substitution handling.
 - `brace_group`: `{...}` parse group handling.
 - `eval_group`: `[...]` evaluation group handling.
-- `function`: resolved function call, including `function_name` and
-  `function_flags`.
-- `argument`: captured function argument, including `argument_index`.
+- `function`: resolved function call, including function metadata.
+- `argument`: captured function argument, including raw source and processed
+  value.
 - `terminator`: stop character selected by `tflags`.
+
+Current live checks cover:
+
+- ordinary parsed arguments such as `add(1,2)`;
+- `FN_LITERAL` argument capture such as `lit(add(1,2))`;
+- `FN_NOPARSE` argument capture such as `@@(add(1,2))`.
+
+For `FN_LITERAL` and `FN_NOPARSE`, PennMUSH still emits nested recursive
+`enter` and `exit` events while scanning the argument text, but it does not emit
+a nested `function` event for the inner `add(...)`. Parser agreement tests
+should compare resolved function events separately from lower-level recursive
+scan events.
 
 ## PennMUSH Patch Points
 
