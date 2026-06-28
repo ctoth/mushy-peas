@@ -72,6 +72,29 @@ def require_oracle_available() -> None:
         )
 
 
+def prepare_oracle_game_dir(name: str, *, compression: OracleCompression) -> str:
+    return _prepare_game_dir(name, compression=compression)
+
+
+def read_wsl_text(path: str) -> str:
+    return _read_text(path)
+
+
+def run_wsl_command(
+    command: str,
+    *,
+    input_data: bytes | None = None,
+    check: bool = True,
+    timeout: int = SERVER_TIMEOUT_SECONDS,
+) -> subprocess.CompletedProcess[bytes]:
+    return _run_wsl(
+        command,
+        input_data=input_data,
+        check=check,
+        timeout=timeout,
+    )
+
+
 def load_baseline_databases() -> BaselineDatabases:
     """Create a real minimal PennMUSH world and return its dumped databases."""
 
