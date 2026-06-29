@@ -371,6 +371,27 @@ def test_graph_extracts_emit_and_wait_effects_from_command_units(
     assert graph.effects[1].target_span == Span(25, 26)
 
 
+def test_graph_extracts_trigger_effects_from_command_units(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.TEST #10=$test:@trigger #10/fn.helper=one",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,))
+    effect = graph.effects[0]
+
+    assert effect.unit_id == unit.id
+    assert effect.kind == "trigger"
+    assert effect.command_name == "@trigger"
+    assert effect.span == Span(6, len(unit.body))
+    assert effect.target_span == Span(15, 28)
+
+
 def test_graph_extracts_attribute_writes_from_set_commands(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)

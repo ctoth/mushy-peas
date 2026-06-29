@@ -933,6 +933,10 @@ Eighth graph slice:
 - Done: command-effect edges for `@emit`, `@pemit`, and `think`;
 - Done: wait/queue effect edges for `@wait` with nested action effects.
 
+Eighth graph slice, trigger extension:
+
+- Done: trigger effect edges for `@trigger` action commands.
+
 Ninth graph slice:
 
 - Done: attribute-write edges for literal `@set object/attr=value` commands;
@@ -1170,6 +1174,7 @@ As of 2026-06-28, the project has:
 - semantic graph q-register write edges for `setq(...)` calls;
 - semantic graph RPC endpoint edges for `rpc(...)` calls;
 - semantic graph command-effect edges for emits and waits/queues;
+- semantic graph trigger-effect edges for `@trigger` action commands;
 - semantic graph attribute-write edges for `@set` commands;
 - first advisory semantic diagnostics for profile convention warnings;
 - first coverage report API with parser, graph, diagnostic, unknown-node, and

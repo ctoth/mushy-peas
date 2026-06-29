@@ -29,7 +29,7 @@ from mushy_peas.softcode.profiles import classify_profile
 from mushy_peas.softcode.units import SoftcodeUnit
 
 DefinitionFamily = Literal["command", "function"]
-EffectKind = Literal["emit", "wait"]
+EffectKind = Literal["emit", "trigger", "wait"]
 
 
 @dataclass(frozen=True)
@@ -299,6 +299,16 @@ def _effects_for_statement(unit_id: str, statement: CommandStmt) -> tuple[Effect
                 span=statement.span,
                 command_name=statement.command_name.text,
                 target_span=target_span,
+            ),
+        )
+    if statement.trigger is not None:
+        return (
+            Effect(
+                unit_id=unit_id,
+                kind="trigger",
+                span=statement.trigger.span,
+                command_name=statement.trigger.command_name.text,
+                target_span=statement.trigger.target.span,
             ),
         )
     if statement.wait is not None:
