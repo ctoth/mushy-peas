@@ -7,6 +7,7 @@ from typing import Literal, TypeAlias
 
 from mushy_peas.softcode.actions import (
     ActionList,
+    AssertCommand,
     Assignment,
     DolistCommand,
     SwitchCase,
@@ -101,6 +102,13 @@ class AssignmentStmt:
 
 
 @dataclass(frozen=True)
+class AssertStmt:
+    span: Span
+    cst: AssertCommand
+    condition: Span
+
+
+@dataclass(frozen=True)
 class TriggerStmt:
     span: Span
     cst: TriggerCommand
@@ -159,6 +167,7 @@ class DynamicExpr:
 ActionStmt: TypeAlias = (
     CommandStmt
     | AssignmentStmt
+    | AssertStmt
     | TriggerStmt
     | DolistStmt
     | WaitStmt
@@ -266,6 +275,12 @@ def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
             cst=statement.trigger,
             target=statement.trigger.target.span,
             arguments=arguments,
+        )
+    if statement.assertion is not None:
+        return AssertStmt(
+            span=statement.assertion.span,
+            cst=statement.assertion,
+            condition=statement.assertion.condition.span,
         )
     emit = _project_emit_statement(statement)
     if emit is not None:

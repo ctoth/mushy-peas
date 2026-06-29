@@ -59,6 +59,13 @@ class TriggerCommand:
 
 
 @dataclass(frozen=True)
+class AssertCommand:
+    span: Span
+    command_name: CommandName
+    condition: CommandArg
+
+
+@dataclass(frozen=True)
 class DolistCommand:
     span: Span
     command_name: CommandName
@@ -101,6 +108,7 @@ class CommandStmt:
     span: Span
     command_name: CommandName | None = None
     argument: CommandArg | None = None
+    assertion: AssertCommand | None = None
     assignment: Assignment | None = None
     dolist: DolistCommand | None = None
     switch: SwitchCommand | None = None
@@ -208,6 +216,7 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
             span=span,
             command_name=command_name,
             argument=argument,
+            assertion=_parse_assert_command(span, command_name, argument),
             trigger=_parse_trigger_command(
                 span,
                 command_name,
@@ -267,6 +276,21 @@ def _parse_trigger_command(
         target=target,
         equals=assignment.equals,
         arguments=assignment.rhs,
+    )
+
+
+def _parse_assert_command(
+    span: Span,
+    command_name: CommandName,
+    condition: CommandArg,
+) -> AssertCommand | None:
+    command_base = command_name.text.casefold().split("/", maxsplit=1)[0]
+    if command_base != "@assert":
+        return None
+    return AssertCommand(
+        span=span,
+        command_name=command_name,
+        condition=condition,
     )
 
 

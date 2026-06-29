@@ -2,6 +2,7 @@
 
 from mushy_peas.softcode.actions import (
     ActionList,
+    AssertCommand,
     Assignment,
     CommandArg,
     CommandAttributeBody,
@@ -19,6 +20,7 @@ from mushy_peas.softcode.actions import (
     parse_command_attribute_body,
 )
 from mushy_peas.softcode.ast_views import (
+    AssertStmt,
     AssignmentStmt,
     AstActionList,
     AstDocument,
@@ -70,6 +72,8 @@ from mushy_peas.softcode.render import render
 __all__ = [
     "ActionList",
     "Argument",
+    "AssertCommand",
+    "AssertStmt",
     "Assignment",
     "AssignmentStmt",
     "AstActionList",

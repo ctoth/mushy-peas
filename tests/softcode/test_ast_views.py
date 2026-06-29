@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from mushy_peas.softcode import (
+    AssertStmt,
     AssignmentStmt,
     BraceExpr,
     DolistStmt,
@@ -150,6 +151,19 @@ def test_action_ast_projects_emit_statements() -> None:
     assert pemit.command_name == "@pemit"
     assert pemit.target == Span(28, 30)
     assert pemit.message == Span(31, len(source))
+
+
+def test_action_ast_projects_assert_statement() -> None:
+    source = "@assert gt(%0,0)"
+    action_list = parse_action_list(source)
+
+    ast = build_action_ast_view(action_list)
+    stmt = ast.statements[0]
+
+    assert isinstance(stmt, AssertStmt)
+    assert action_list.statements[0].assertion is not None
+    assert stmt.cst is action_list.statements[0].assertion
+    assert stmt.condition == Span(8, len(source))
 
 
 def test_action_ast_projects_trigger_dolist_and_switch_statements() -> None:

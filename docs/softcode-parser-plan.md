@@ -722,6 +722,8 @@ Second action slice:
   and top-level comma case splitting.
 - Done: first command-specific `@wait` CST classification with delay/body
   spans and nested action block reuse.
+- Done: first command-specific `@assert` CST classification with condition
+  span.
 
 ## Stage 8: Profiles
 
@@ -821,6 +823,7 @@ Action AST projection:
 - Done: action-list AST projection retains the action CST;
 - Done: `AssignmentStmt` from generic assignment CST;
 - Done: `EmitStmt` from `@emit`, `think`, and `@pemit` action CST;
+- Done: `AssertStmt` from the first command-specific `@assert` CST node;
 - Done: `TriggerStmt`, `DolistStmt`, and `SwitchStmt` from the first
   command-specific action CST nodes;
 - Done: `WaitStmt` from the first command-specific `@wait` CST node;
@@ -1112,8 +1115,9 @@ As of 2026-06-28, the project has:
 - first command-specific `@dolist` CST classification;
 - first command-specific `@switch` CST classification;
 - first command-specific `@wait` CST classification;
+- first command-specific `@assert` CST classification;
 - action-level AST projections for assignment, trigger, dolist, switch, and
-  wait plus emit and empty dynamic statements;
+  wait plus assert, emit, and empty dynamic statements;
 - first semantic graph slice for WCNH command/function definitions and literal
   or dynamic `u(...)` references;
 - semantic graph references for literal `ufun(...)` and `ulocal(...)` calls;

@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from mushy_peas.softcode import (
+    AssertCommand,
     Assignment,
     CommandName,
     CommandPattern,
@@ -203,6 +204,28 @@ def test_action_list_classifies_dolist_nested_action_body() -> None:
         (14, 22),
         (23, 33),
     ]
+
+
+def test_action_list_classifies_assert_command() -> None:
+    source = "@assert gt(%0,0)"
+    action_list = parse_action_list(source)
+    assertion = action_list.statements[0].assertion
+
+    assert isinstance(assertion, AssertCommand)
+    assert assertion.command_name.text == "@assert"
+    assert assertion.condition.span.start == 8
+    assert assertion.condition.span.end == len(source)
+
+
+def test_action_list_classifies_assert_command_with_switch() -> None:
+    source = "@assert/quiet gt(%0,0)"
+    action_list = parse_action_list(source)
+    assertion = action_list.statements[0].assertion
+
+    assert isinstance(assertion, AssertCommand)
+    assert assertion.command_name.text == "@assert/quiet"
+    assert assertion.condition.span.start == 14
+    assert assertion.condition.span.end == len(source)
 
 
 def test_action_list_classifies_wait_command() -> None:
