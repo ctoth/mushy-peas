@@ -213,6 +213,33 @@ def test_graph_represents_dynamic_get_attribute_references_explicitly(
     assert reference.reason == "dynamic get() attribute"
 
 
+def test_graph_extracts_q_register_reads_from_percent_substitutions(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=%q0 [%q<Named>]",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_empty_registry())
+
+    assert [
+        (
+            reference.register,
+            reference.operation,
+            reference.span.start,
+            reference.span.end,
+        )
+        for reference in graph.q_register_references
+    ] == [
+        ("0", "read", 0, 3),
+        ("named", "read", 5, 14),
+    ]
+
+
 def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
@@ -264,6 +291,10 @@ def _attribute_registry() -> FunctionRegistry:
             "XGET": _function("XGET"),
         },
     )
+
+
+def _empty_registry() -> FunctionRegistry:
+    return FunctionRegistry(pennmush_commit="test", functions={})
 
 
 def _function(name: str) -> FunctionMetadata:

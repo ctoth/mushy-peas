@@ -13,6 +13,7 @@ from mushy_peas.softcode.model import (
     EvalGroup,
     FunctionCall,
     Node,
+    PercentSub,
     Span,
     Text,
 )
@@ -56,10 +57,21 @@ class AttributeReference:
 
 
 @dataclass(frozen=True)
+class QRegisterReference:
+    unit_id: str
+    span: Span
+    register: str | None
+    operation: Literal["read", "write"]
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
 class SemanticGraph:
     definitions: tuple[Definition, ...]
     references: tuple[Reference, ...]
     attribute_references: tuple[AttributeReference, ...]
+    q_register_references: tuple[QRegisterReference, ...]
 
 
 @dataclass(frozen=True)
@@ -79,6 +91,7 @@ def build_semantic_graph(
     definitions: list[Definition] = []
     references: list[Reference] = []
     attribute_references: list[AttributeReference] = []
+    q_register_references: list[QRegisterReference] = []
     for unit in units:
         definition = _definition_for_unit(unit)
         if definition is not None:
@@ -89,10 +102,14 @@ def build_semantic_graph(
             attribute_references.extend(
                 _attribute_references_for_document(unit.id, unit.body, document)
             )
+            q_register_references.extend(
+                _q_register_references_for_document(unit.id, document)
+            )
     return SemanticGraph(
         definitions=tuple(definitions),
         references=tuple(references),
         attribute_references=tuple(attribute_references),
+        q_register_references=tuple(q_register_references),
     )
 
 
@@ -156,6 +173,16 @@ def _attribute_references_for_document(
     return tuple(references)
 
 
+def _q_register_references_for_document(
+    unit_id: str,
+    document: Document,
+) -> tuple[QRegisterReference, ...]:
+    references: list[QRegisterReference] = []
+    for child in document.children:
+        references.extend(_q_register_references_for_node(unit_id, child))
+    return tuple(references)
+
+
 def _references_for_node(
     unit_id: str,
     source: str,
@@ -172,6 +199,24 @@ def _references_for_node(
     elif isinstance(node, BraceGroup | EvalGroup):
         for child in node.children:
             references.extend(_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
+def _q_register_references_for_node(
+    unit_id: str,
+    node: Node,
+) -> tuple[QRegisterReference, ...]:
+    references: list[QRegisterReference] = []
+    if isinstance(node, PercentSub):
+        reference = _q_register_reference_for_percent_sub(unit_id, node)
+        if reference is not None:
+            references.append(reference)
+    elif isinstance(node, FunctionCall):
+        for argument in node.arguments:
+            references.extend(_q_register_references_for_argument(unit_id, argument))
+    elif isinstance(node, BraceGroup | EvalGroup):
+        for child in node.children:
+            references.extend(_q_register_references_for_node(unit_id, child))
     return tuple(references)
 
 
@@ -196,6 +241,16 @@ def _attribute_references_for_node(
     return tuple(references)
 
 
+def _q_register_references_for_argument(
+    unit_id: str,
+    argument: Argument,
+) -> tuple[QRegisterReference, ...]:
+    references: list[QRegisterReference] = []
+    for child in argument.children:
+        references.extend(_q_register_references_for_node(unit_id, child))
+    return tuple(references)
+
+
 def _references_for_argument(
     unit_id: str,
     source: str,
@@ -205,6 +260,23 @@ def _references_for_argument(
     for child in argument.children:
         references.extend(_references_for_node(unit_id, source, child))
     return tuple(references)
+
+
+def _q_register_reference_for_percent_sub(
+    unit_id: str,
+    node: PercentSub,
+) -> QRegisterReference | None:
+    if len(node.raw) < 3 or node.raw[1] not in {"q", "Q"}:
+        return None
+    register = node.raw[2:]
+    if register.startswith("<") and register.endswith(">"):
+        register = register[1:-1]
+    return QRegisterReference(
+        unit_id=unit_id,
+        span=node.span,
+        register=register.casefold(),
+        operation="read",
+    )
 
 
 def _attribute_references_for_argument(
