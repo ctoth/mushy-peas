@@ -135,6 +135,8 @@ def _references_for_node(
     if isinstance(node, FunctionCall):
         if node.name in {"U", "UFUN", "ULOCAL"}:
             references.append(_reference_for_user_function_call(unit_id, source, node))
+        elif node.name == "TRIGGER":
+            references.append(_reference_for_trigger_call(unit_id, source, node))
         for argument in node.arguments:
             references.extend(_references_for_argument(unit_id, source, argument))
     elif isinstance(node, BraceGroup | EvalGroup):
@@ -185,4 +187,38 @@ def _reference_for_user_function_call(
         target_span=target_arg.span,
         dynamic=True,
         reason=f"dynamic {call.name.casefold()}() target",
+    )
+
+
+def _reference_for_trigger_call(
+    unit_id: str,
+    source: str,
+    call: FunctionCall,
+) -> Reference:
+    if not call.arguments:
+        return Reference(
+            unit_id=unit_id,
+            function_name=call.name,
+            span=call.span,
+            target_span=call.span,
+            dynamic=True,
+            reason="missing trigger() target",
+        )
+    target_arg = call.arguments[0]
+    if len(target_arg.children) == 1 and isinstance(target_arg.children[0], Text):
+        target = source[target_arg.span.start : target_arg.span.end].strip().casefold()
+        return Reference(
+            unit_id=unit_id,
+            function_name=call.name,
+            span=call.span,
+            target_span=target_arg.span,
+            target=target,
+        )
+    return Reference(
+        unit_id=unit_id,
+        function_name=call.name,
+        span=call.span,
+        target_span=target_arg.span,
+        dynamic=True,
+        reason="dynamic trigger() target",
     )

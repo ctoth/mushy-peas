@@ -116,6 +116,47 @@ def test_graph_represents_dynamic_ufun_references_explicitly(tmp_path: Path) -> 
     assert reference.reason == "dynamic ufun() target"
 
 
+def test_graph_extracts_literal_trigger_references(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=trigger(#10/fn.helper,1)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_trigger_registry())
+    reference = graph.references[0]
+
+    assert reference.unit_id == unit.id
+    assert reference.function_name == "TRIGGER"
+    assert reference.target_span.start == 8
+    assert reference.target_span.end == 21
+    assert reference.target == "#10/fn.helper"
+    assert reference.dynamic is False
+    assert reference.reason is None
+
+
+def test_graph_represents_dynamic_trigger_references_explicitly(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=trigger(%q0,1)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_trigger_registry())
+    reference = graph.references[0]
+
+    assert reference.function_name == "TRIGGER"
+    assert reference.target is None
+    assert reference.dynamic is True
+    assert reference.reason == "dynamic trigger() target"
+
+
 def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
@@ -149,6 +190,13 @@ def _user_function_registry() -> FunctionRegistry:
             "UFUN": _function("UFUN"),
             "ULOCAL": _function("ULOCAL"),
         },
+    )
+
+
+def _trigger_registry() -> FunctionRegistry:
+    return FunctionRegistry(
+        pennmush_commit="test",
+        functions={"TRIGGER": _function("TRIGGER")},
     )
 
 
