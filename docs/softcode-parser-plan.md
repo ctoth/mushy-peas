@@ -919,6 +919,11 @@ Eighth graph slice:
 - Done: command-effect edges for `@emit`, `@pemit`, and `think`;
 - Done: wait/queue effect edges for `@wait` with nested action effects.
 
+Ninth graph slice:
+
+- Done: attribute-write edges for literal `@set object/attr=value` commands;
+- Done: unresolved dynamic `@set` targets represented explicitly.
+
 ## Stage 11: Semantic Conformance
 
 Move from structural understanding toward best-effort semantic parsing.
@@ -1128,6 +1133,7 @@ As of 2026-06-28, the project has:
 - semantic graph q-register write edges for `setq(...)` calls;
 - semantic graph RPC endpoint edges for `rpc(...)` calls;
 - semantic graph command-effect edges for emits and waits/queues;
+- semantic graph attribute-write edges for `@set` commands;
 - first advisory semantic diagnostics for profile convention warnings;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for

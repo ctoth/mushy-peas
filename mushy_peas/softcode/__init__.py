@@ -41,6 +41,7 @@ from mushy_peas.softcode.ast_views import (
 )
 from mushy_peas.softcode.graph import (
     AttributeReference,
+    AttributeWrite,
     Definition,
     Diagnostic,
     Effect,
@@ -79,6 +80,7 @@ __all__ = [
     "AstActionList",
     "AstDocument",
     "AttributeReference",
+    "AttributeWrite",
     "BraceExpr",
     "BraceGroup",
     "CommandArg",

@@ -64,6 +64,17 @@ class AttributeReference:
 
 
 @dataclass(frozen=True)
+class AttributeWrite:
+    unit_id: str
+    span: Span
+    target_span: Span
+    object_ref: str | None = None
+    attribute: str | None = None
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
 class QRegisterReference:
     unit_id: str
     span: Span
@@ -97,6 +108,7 @@ class SemanticGraph:
     definitions: tuple[Definition, ...]
     references: tuple[Reference, ...]
     attribute_references: tuple[AttributeReference, ...]
+    attribute_writes: tuple[AttributeWrite, ...]
     q_register_references: tuple[QRegisterReference, ...]
     rpc_references: tuple[RpcReference, ...]
     effects: tuple[Effect, ...]
@@ -119,6 +131,7 @@ def build_semantic_graph(
     definitions: list[Definition] = []
     references: list[Reference] = []
     attribute_references: list[AttributeReference] = []
+    attribute_writes: list[AttributeWrite] = []
     q_register_references: list[QRegisterReference] = []
     rpc_references: list[RpcReference] = []
     effects: list[Effect] = []
@@ -127,6 +140,7 @@ def build_semantic_graph(
         if definition is not None:
             definitions.append(definition)
         effects.extend(_effects_for_unit(unit))
+        attribute_writes.extend(_attribute_writes_for_unit(unit))
         if metadata is not None:
             document = parse_expression(unit.body, metadata=metadata)
             references.extend(_references_for_document(unit.id, unit.body, document))
@@ -143,6 +157,7 @@ def build_semantic_graph(
         definitions=tuple(definitions),
         references=tuple(references),
         attribute_references=tuple(attribute_references),
+        attribute_writes=tuple(attribute_writes),
         q_register_references=tuple(q_register_references),
         rpc_references=tuple(rpc_references),
         effects=tuple(effects),
@@ -200,6 +215,19 @@ def _effects_for_unit(unit: SoftcodeUnit) -> tuple[Effect, ...]:
     return _effects_for_action_list(unit.id, action_list)
 
 
+def _attribute_writes_for_unit(unit: SoftcodeUnit) -> tuple[AttributeWrite, ...]:
+    classification = classify_profile(unit)
+    if classification.profile != "wcnh" or classification.family != "command":
+        return ()
+    command_body = parse_command_attribute_body(unit.body)
+    action_list = (
+        command_body.actions
+        if command_body is not None
+        else parse_action_list(unit.body)
+    )
+    return _attribute_writes_for_action_list(unit.id, unit.body, action_list)
+
+
 def _effects_for_action_list(
     unit_id: str,
     action_list: ActionList,
@@ -208,6 +236,17 @@ def _effects_for_action_list(
     for statement in action_list.statements:
         effects.extend(_effects_for_statement(unit_id, statement))
     return tuple(effects)
+
+
+def _attribute_writes_for_action_list(
+    unit_id: str,
+    source: str,
+    action_list: ActionList,
+) -> tuple[AttributeWrite, ...]:
+    writes: list[AttributeWrite] = []
+    for statement in action_list.statements:
+        writes.extend(_attribute_writes_for_statement(unit_id, source, statement))
+    return tuple(writes)
 
 
 def _effects_for_statement(unit_id: str, statement: CommandStmt) -> tuple[Effect, ...]:
@@ -254,6 +293,41 @@ def _effects_for_statement(unit_id: str, statement: CommandStmt) -> tuple[Effect
             *nested,
         )
     return ()
+
+
+def _attribute_writes_for_statement(
+    unit_id: str,
+    source: str,
+    statement: CommandStmt,
+) -> tuple[AttributeWrite, ...]:
+    if statement.command_name is None or statement.assignment is None:
+        return ()
+    command_base = statement.command_name.text.casefold().split("/", maxsplit=1)[0]
+    if command_base != "@set":
+        return ()
+    target = source[
+        statement.assignment.lhs.span.start : statement.assignment.lhs.span.end
+    ].strip()
+    object_ref, separator, attribute = target.partition("/")
+    if not separator or not object_ref or not attribute:
+        return (
+            AttributeWrite(
+                unit_id=unit_id,
+                span=statement.span,
+                target_span=statement.assignment.lhs.span,
+                dynamic=True,
+                reason="dynamic @set target",
+            ),
+        )
+    return (
+        AttributeWrite(
+            unit_id=unit_id,
+            span=statement.span,
+            target_span=statement.assignment.lhs.span,
+            object_ref=object_ref.casefold(),
+            attribute=attribute.casefold(),
+        ),
+    )
 
 
 def _references_for_document(

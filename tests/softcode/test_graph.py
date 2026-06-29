@@ -309,6 +309,46 @@ def test_graph_extracts_emit_and_wait_effects_from_command_units(
     assert graph.effects[1].target_span == Span(25, 26)
 
 
+def test_graph_extracts_attribute_writes_from_set_commands(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.TEST #10=$test:@set #10/DESC=value",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,))
+    write = graph.attribute_writes[0]
+
+    assert write.unit_id == unit.id
+    assert write.span.start == 6
+    assert write.span.end == len(unit.body)
+    assert write.target_span == Span(11, 19)
+    assert write.object_ref == "#10"
+    assert write.attribute == "desc"
+    assert write.dynamic is False
+    assert write.reason is None
+
+
+def test_graph_represents_dynamic_set_targets_explicitly(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.TEST #10=$test:@set %q0=value",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,))
+    write = graph.attribute_writes[0]
+
+    assert write.object_ref is None
+    assert write.attribute is None
+    assert write.dynamic is True
+    assert write.reason == "dynamic @set target"
+
+
 def test_graph_extracts_literal_rpc_endpoint_references(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
