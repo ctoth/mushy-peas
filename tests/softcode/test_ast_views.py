@@ -4,6 +4,7 @@ from mushy_peas.softcode import (
     AssertStmt,
     AssignmentStmt,
     AttrReadExpr,
+    AttrWriteStmt,
     BraceExpr,
     DolistStmt,
     DynamicExpr,
@@ -202,6 +203,39 @@ def test_action_ast_projects_assignment_statement() -> None:
     assert stmt.cst is assignment
     assert stmt.lhs == Span(5, 13)
     assert stmt.rhs == Span(14, len(source))
+
+
+def test_action_ast_projects_set_attr_write_when_source_is_available() -> None:
+    source = "@set #10/DESC=value"
+    action_list = parse_action_list(source)
+
+    ast = build_action_ast_view(action_list, source=source)
+    stmt = ast.statements[0]
+
+    assert isinstance(stmt, AttrWriteStmt)
+    assert stmt.cst is action_list.statements[0]
+    assert stmt.target == Span(5, 13)
+    assert stmt.value == Span(14, len(source))
+    assert stmt.object_ref == "#10"
+    assert stmt.attribute == "desc"
+    assert stmt.dynamic is False
+    assert stmt.reason is None
+
+
+def test_dynamic_set_attr_write_remains_explicit() -> None:
+    source = "@set %q0=value"
+    action_list = parse_action_list(source)
+
+    ast = build_action_ast_view(action_list, source=source)
+    stmt = ast.statements[0]
+
+    assert isinstance(stmt, AttrWriteStmt)
+    assert stmt.target == Span(5, 8)
+    assert stmt.value == Span(9, len(source))
+    assert stmt.object_ref is None
+    assert stmt.attribute is None
+    assert stmt.dynamic is True
+    assert stmt.reason == "dynamic @set target"
 
 
 def test_action_ast_projects_emit_statements() -> None:

@@ -130,6 +130,18 @@ class AssignmentStmt:
 
 
 @dataclass(frozen=True)
+class AttrWriteStmt:
+    span: Span
+    cst: CstCommandStmt
+    target: Span
+    value: Span
+    object_ref: str | None = None
+    attribute: str | None = None
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
 class AssertStmt:
     span: Span
     cst: AssertCommand
@@ -195,6 +207,7 @@ class DynamicExpr:
 ActionStmt: TypeAlias = (
     CommandStmt
     | AssignmentStmt
+    | AttrWriteStmt
     | AssertStmt
     | TriggerStmt
     | DolistStmt
@@ -213,12 +226,17 @@ def build_ast_view(document: Document) -> AstDocument:
     )
 
 
-def build_action_ast_view(action_list: ActionList) -> AstActionList:
+def build_action_ast_view(
+    action_list: ActionList,
+    *,
+    source: str | None = None,
+) -> AstActionList:
     return AstActionList(
         span=action_list.span,
         cst=action_list,
         statements=tuple(
-            _project_action_statement(stmt) for stmt in action_list.statements
+            _project_action_statement(stmt, source=source)
+            for stmt in action_list.statements
         ),
     )
 
@@ -369,7 +387,11 @@ def _is_literal_argument(argument: Argument) -> bool:
     return len(argument.children) == 1 and argument.children[0].kind == "text"
 
 
-def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
+def _project_action_statement(
+    statement: CstCommandStmt,
+    *,
+    source: str | None,
+) -> ActionStmt:
     if statement.switch is not None:
         return SwitchStmt(
             span=statement.switch.span,
@@ -412,6 +434,9 @@ def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
     emit = _project_emit_statement(statement)
     if emit is not None:
         return emit
+    attr_write = _project_attr_write_statement(statement, source=source)
+    if attr_write is not None:
+        return attr_write
     if statement.assignment is not None:
         return AssignmentStmt(
             span=statement.assignment.span,
@@ -429,6 +454,43 @@ def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
         span=statement.span,
         cst=statement,
         reason="empty command statement",
+    )
+
+
+def _project_attr_write_statement(
+    statement: CstCommandStmt,
+    *,
+    source: str | None,
+) -> AttrWriteStmt | None:
+    if (
+        source is None
+        or statement.command_name is None
+        or statement.assignment is None
+    ):
+        return None
+    command_base = statement.command_name.text.casefold().split("/", maxsplit=1)[0]
+    if command_base != "@set":
+        return None
+    target_text = source[
+        statement.assignment.lhs.span.start : statement.assignment.lhs.span.end
+    ].strip()
+    object_ref, separator, attribute = target_text.partition("/")
+    if not separator or not object_ref or not attribute:
+        return AttrWriteStmt(
+            span=statement.span,
+            cst=statement,
+            target=statement.assignment.lhs.span,
+            value=statement.assignment.rhs.span,
+            dynamic=True,
+            reason="dynamic @set target",
+        )
+    return AttrWriteStmt(
+        span=statement.span,
+        cst=statement,
+        target=statement.assignment.lhs.span,
+        value=statement.assignment.rhs.span,
+        object_ref=object_ref.casefold(),
+        attribute=attribute.casefold(),
     )
 
 
