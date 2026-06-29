@@ -57,6 +57,26 @@ def test_graph_extracts_literal_u_references(tmp_path: Path) -> None:
     assert reference.reason is None
 
 
+def test_graph_extracts_literal_ufun_and_ulocal_references(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=ufun(fn.helper,1) [ulocal(fn.local,2)]",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_user_function_registry())
+
+    assert [
+        (reference.function_name, reference.target, reference.dynamic)
+        for reference in graph.references
+    ] == [
+        ("UFUN", "fn.helper", False),
+        ("ULOCAL", "fn.local", False),
+    ]
+
+
 def test_graph_represents_dynamic_u_references_explicitly(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
@@ -76,6 +96,24 @@ def test_graph_represents_dynamic_u_references_explicitly(tmp_path: Path) -> Non
     assert reference.target is None
     assert reference.dynamic is True
     assert reference.reason == "dynamic u() target"
+
+
+def test_graph_represents_dynamic_ufun_references_explicitly(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=ufun(%q0,1)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_user_function_registry())
+    reference = graph.references[0]
+
+    assert reference.function_name == "UFUN"
+    assert reference.target is None
+    assert reference.dynamic is True
+    assert reference.reason == "dynamic ufun() target"
 
 
 def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
@@ -100,14 +138,26 @@ def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
 def _u_registry() -> FunctionRegistry:
     return FunctionRegistry(
         pennmush_commit="test",
+        functions={"U": _function("U")},
+    )
+
+
+def _user_function_registry() -> FunctionRegistry:
+    return FunctionRegistry(
+        pennmush_commit="test",
         functions={
-            "U": FunctionMetadata(
-                name="U",
-                min_args=1,
-                max_args=2,
-                flags=0,
-                flag_names=(),
-                is_builtin=True,
-            )
+            "UFUN": _function("UFUN"),
+            "ULOCAL": _function("ULOCAL"),
         },
+    )
+
+
+def _function(name: str) -> FunctionMetadata:
+    return FunctionMetadata(
+        name=name,
+        min_args=1,
+        max_args=2,
+        flags=0,
+        flag_names=(),
+        is_builtin=True,
     )

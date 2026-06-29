@@ -880,6 +880,12 @@ First graph slice:
 - Done: references for literal `u(fn.name,...)` calls;
 - Done: unresolved dynamic `u(...)` calls represented explicitly.
 
+Second graph slice:
+
+- Done: references for literal `ufun(fn.name,...)` and
+  `ulocal(fn.name,...)` calls;
+- Done: unresolved dynamic `ufun(...)` targets represented explicitly.
+
 ## Stage 11: Semantic Conformance
 
 Move from structural understanding toward best-effort semantic parsing.
@@ -1080,6 +1086,7 @@ As of 2026-06-28, the project has:
   wait plus empty dynamic statements;
 - first semantic graph slice for WCNH command/function definitions and literal
   or dynamic `u(...)` references;
+- semantic graph references for literal `ufun(...)` and `ulocal(...)` calls;
 - first advisory semantic diagnostics for profile convention warnings;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for

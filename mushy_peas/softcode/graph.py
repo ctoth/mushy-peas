@@ -133,8 +133,8 @@ def _references_for_node(
 ) -> tuple[Reference, ...]:
     references: list[Reference] = []
     if isinstance(node, FunctionCall):
-        if node.name == "U":
-            references.append(_reference_for_u_call(unit_id, source, node))
+        if node.name in {"U", "UFUN", "ULOCAL"}:
+            references.append(_reference_for_user_function_call(unit_id, source, node))
         for argument in node.arguments:
             references.extend(_references_for_argument(unit_id, source, argument))
     elif isinstance(node, BraceGroup | EvalGroup):
@@ -154,7 +154,11 @@ def _references_for_argument(
     return tuple(references)
 
 
-def _reference_for_u_call(unit_id: str, source: str, call: FunctionCall) -> Reference:
+def _reference_for_user_function_call(
+    unit_id: str,
+    source: str,
+    call: FunctionCall,
+) -> Reference:
     if not call.arguments:
         return Reference(
             unit_id=unit_id,
@@ -162,7 +166,7 @@ def _reference_for_u_call(unit_id: str, source: str, call: FunctionCall) -> Refe
             span=call.span,
             target_span=call.span,
             dynamic=True,
-            reason="missing u() target",
+            reason=f"missing {call.name.casefold()}() target",
         )
     target_arg = call.arguments[0]
     if len(target_arg.children) == 1 and isinstance(target_arg.children[0], Text):
@@ -180,5 +184,5 @@ def _reference_for_u_call(unit_id: str, source: str, call: FunctionCall) -> Refe
         span=call.span,
         target_span=target_arg.span,
         dynamic=True,
-        reason="dynamic u() target",
+        reason=f"dynamic {call.name.casefold()}() target",
     )
