@@ -24,6 +24,7 @@ from mushy_peas.oldstyle import (
     read_oldstyle_main_database,
 )
 from mushy_peas.softcode.coverage_report import build_softcode_coverage_report
+from mushy_peas.softcode.graph import build_semantic_graph
 from mushy_peas.softcode.units import extract_softcode_units
 
 RequestedKind: TypeAlias = Literal["main", "mail", "chat", "auto"]
@@ -48,6 +49,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     _configure_dump_json_parser(subcommands.add_parser("dump-json"))
     _configure_upgrade_parser(subcommands.add_parser("upgrade"))
     _configure_softcode_coverage_parser(subcommands.add_parser("softcode-coverage"))
+    _configure_softcode_graph_parser(subcommands.add_parser("softcode-graph"))
     return _run_parser(parser, argv)
 
 
@@ -78,6 +80,12 @@ def mush_upgrade(argv: Sequence[str] | None = None) -> int:
 def mush_softcode_coverage(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="mush-softcode-coverage")
     _configure_softcode_coverage_parser(parser)
+    return _run_parser(parser, argv)
+
+
+def mush_softcode_graph(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="mush-softcode-graph")
+    _configure_softcode_graph_parser(parser)
     return _run_parser(parser, argv)
 
 
@@ -126,6 +134,11 @@ def _configure_upgrade_parser(parser: argparse.ArgumentParser) -> None:
 def _configure_softcode_coverage_parser(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("paths", nargs="+")
     parser.set_defaults(handler=_softcode_coverage_command)
+
+
+def _configure_softcode_graph_parser(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("paths", nargs="+")
+    parser.set_defaults(handler=_softcode_graph_command)
 
 
 def _run_parser(
@@ -200,6 +213,14 @@ def _softcode_coverage_command(args: argparse.Namespace) -> int:
     units = extract_softcode_units(paths).units
     report = build_softcode_coverage_report(units)
     print(json.dumps(_to_json_value(report), indent=2, sort_keys=True))
+    return 0
+
+
+def _softcode_graph_command(args: argparse.Namespace) -> int:
+    paths = tuple(Path(str(path)) for path in args.paths)
+    units = extract_softcode_units(paths).units
+    graph = build_semantic_graph(units)
+    print(json.dumps(_to_json_value(graph), indent=2, sort_keys=True))
     return 0
 
 

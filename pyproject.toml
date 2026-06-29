@@ -13,6 +13,7 @@ mush-dump-json = "mushy_peas.cli:mush_dump_json"
 mush-upgrade = "mushy_peas.cli:mush_upgrade"
 mush-softcode-functions = "mushy_peas.softcode.function_metadata:main"
 mush-softcode-coverage = "mushy_peas.cli:mush_softcode_coverage"
+mush-softcode-graph = "mushy_peas.cli:mush_softcode_graph"
 
 [dependency-groups]
 dev = [
