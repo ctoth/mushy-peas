@@ -13,6 +13,7 @@ from mushy_peas.softcode import (
     SwitchStmt,
     TriggerStmt,
     UnknownExpr,
+    WaitStmt,
     build_action_ast_view,
 )
 from mushy_peas.softcode.actions import parse_action_list
@@ -132,6 +133,7 @@ def test_action_ast_projects_trigger_dolist_and_switch_statements() -> None:
     source = (
         "@trigger #10/A=one;"
         "@dolist one two={@emit ##};"
+        "@wait 3={@emit later};"
         "@switch foo=bar,@emit yes"
     )
     action_list = parse_action_list(source)
@@ -139,7 +141,8 @@ def test_action_ast_projects_trigger_dolist_and_switch_statements() -> None:
     ast = build_action_ast_view(action_list)
     trigger = ast.statements[0]
     dolist = ast.statements[1]
-    switch = ast.statements[2]
+    wait = ast.statements[2]
+    switch = ast.statements[3]
 
     assert isinstance(trigger, TriggerStmt)
     assert action_list.statements[0].trigger is not None
@@ -151,13 +154,18 @@ def test_action_ast_projects_trigger_dolist_and_switch_statements() -> None:
     assert dolist.cst is action_list.statements[1].dolist
     assert dolist.list_expr == Span(27, 34)
     assert dolist.body == Span(35, 45)
+    assert isinstance(wait, WaitStmt)
+    assert action_list.statements[2].wait is not None
+    assert wait.cst is action_list.statements[2].wait
+    assert wait.delay == Span(52, 53)
+    assert wait.body == Span(54, 67)
     assert isinstance(switch, SwitchStmt)
-    assert action_list.statements[2].switch is not None
-    assert switch.cst is action_list.statements[2].switch
-    assert switch.subject == Span(54, 57)
+    assert action_list.statements[3].switch is not None
+    assert switch.cst is action_list.statements[3].switch
+    assert switch.subject == Span(76, 79)
     assert len(switch.cases) == 1
-    assert switch.cases[0].pattern == Span(58, 61)
-    assert switch.cases[0].action == Span(62, len(source))
+    assert switch.cases[0].pattern == Span(80, 83)
+    assert switch.cases[0].action == Span(84, len(source))
 
 
 def test_action_ast_projects_empty_statement_to_dynamic_expr() -> None:

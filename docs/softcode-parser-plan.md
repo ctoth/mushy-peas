@@ -720,6 +720,8 @@ Second action slice:
   spans and nested action block reuse.
 - Done: first command-specific `@switch` CST classification with subject span
   and top-level comma case splitting.
+- Done: first command-specific `@wait` CST classification with delay/body
+  spans and nested action block reuse.
 
 ## Stage 8: Profiles
 
@@ -820,6 +822,7 @@ Action AST projection:
 - Done: `AssignmentStmt` from generic assignment CST;
 - Done: `TriggerStmt`, `DolistStmt`, and `SwitchStmt` from the first
   command-specific action CST nodes;
+- Done: `WaitStmt` from the first command-specific `@wait` CST node;
 - Done: empty action statements project to `DynamicExpr`.
 
 ## Stage 10: Semantic Graph
@@ -1072,8 +1075,9 @@ As of 2026-06-28, the project has:
 - first command-specific `@trigger` CST classification;
 - first command-specific `@dolist` CST classification;
 - first command-specific `@switch` CST classification;
+- first command-specific `@wait` CST classification;
 - action-level AST projections for assignment, trigger, dolist, switch, and
-  empty dynamic statements;
+  wait plus empty dynamic statements;
 - first semantic graph slice for WCNH command/function definitions and literal
   or dynamic `u(...)` references;
 - first advisory semantic diagnostics for profile convention warnings;

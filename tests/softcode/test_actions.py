@@ -10,6 +10,7 @@ from mushy_peas.softcode import (
     SwitchCase,
     SwitchCommand,
     TriggerCommand,
+    WaitCommand,
     parse_action_list,
     parse_command_attribute_body,
 )
@@ -201,6 +202,40 @@ def test_action_list_classifies_dolist_nested_action_body() -> None:
     assert [(stmt.span.start, stmt.span.end) for stmt in block.actions.statements] == [
         (14, 22),
         (23, 33),
+    ]
+
+
+def test_action_list_classifies_wait_command() -> None:
+    source = "@wait 5=@emit done"
+    action_list = parse_action_list(source)
+    statement = action_list.statements[0]
+
+    assert isinstance(statement.wait, WaitCommand)
+    wait = statement.wait
+    assert wait.span.start == 0
+    assert wait.span.end == len(source)
+    assert wait.command_name.text == "@wait"
+    assert wait.delay.span.start == 6
+    assert wait.delay.span.end == 7
+    assert wait.equals == 7
+    assert wait.body.span.start == 8
+    assert wait.body.span.end == len(source)
+    assert wait.nested_action_block is None
+
+
+def test_action_list_classifies_wait_nested_action_body() -> None:
+    source = "@wa 1={@emit one;@emit two}"
+    action_list = parse_action_list(source)
+    wait = action_list.statements[0].wait
+
+    assert isinstance(wait, WaitCommand)
+    assert isinstance(wait.nested_action_block, NestedActionBlock)
+    block = wait.nested_action_block
+    assert block.span.start == 6
+    assert block.span.end == len(source)
+    assert [(stmt.span.start, stmt.span.end) for stmt in block.actions.statements] == [
+        (7, 16),
+        (17, 26),
     ]
 
 

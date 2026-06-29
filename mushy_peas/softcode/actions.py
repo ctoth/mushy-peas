@@ -69,6 +69,16 @@ class DolistCommand:
 
 
 @dataclass(frozen=True)
+class WaitCommand:
+    span: Span
+    command_name: CommandName
+    delay: CommandArg
+    equals: int
+    body: CommandArg
+    nested_action_block: NestedActionBlock | None = None
+
+
+@dataclass(frozen=True)
 class SwitchCase:
     span: Span
     pattern: CommandArg
@@ -95,6 +105,7 @@ class CommandStmt:
     dolist: DolistCommand | None = None
     switch: SwitchCommand | None = None
     trigger: TriggerCommand | None = None
+    wait: WaitCommand | None = None
 
 
 @dataclass(frozen=True)
@@ -224,6 +235,7 @@ def _parse_statement(source: str, start: int, end: int) -> CommandStmt:
             target=assignment.lhs,
             assignment=assignment,
         ),
+        wait=_parse_wait_command(span, command_name, assignment),
     )
 
 
@@ -269,6 +281,23 @@ def _parse_dolist_command(
         span=span,
         command_name=command_name,
         list_expr=assignment.lhs,
+        equals=assignment.equals,
+        body=assignment.rhs,
+        nested_action_block=assignment.nested_action_block,
+    )
+
+
+def _parse_wait_command(
+    span: Span,
+    command_name: CommandName,
+    assignment: Assignment,
+) -> WaitCommand | None:
+    if command_name.text.casefold() not in {"@wait", "@wa"}:
+        return None
+    return WaitCommand(
+        span=span,
+        command_name=command_name,
+        delay=assignment.lhs,
         equals=assignment.equals,
         body=assignment.rhs,
         nested_action_block=assignment.nested_action_block,

@@ -12,6 +12,7 @@ from mushy_peas.softcode.actions import (
     SwitchCase,
     SwitchCommand,
     TriggerCommand,
+    WaitCommand,
 )
 from mushy_peas.softcode.actions import (
     CommandStmt as CstCommandStmt,
@@ -116,6 +117,14 @@ class DolistStmt:
 
 
 @dataclass(frozen=True)
+class WaitStmt:
+    span: Span
+    cst: WaitCommand
+    delay: Span
+    body: Span
+
+
+@dataclass(frozen=True)
 class SwitchCaseView:
     span: Span
     cst: SwitchCase
@@ -143,6 +152,7 @@ ActionStmt: TypeAlias = (
     | AssignmentStmt
     | TriggerStmt
     | DolistStmt
+    | WaitStmt
     | SwitchStmt
     | DynamicExpr
 )
@@ -227,6 +237,13 @@ def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
             cst=statement.dolist,
             list_expr=statement.dolist.list_expr.span,
             body=statement.dolist.body.span,
+        )
+    if statement.wait is not None:
+        return WaitStmt(
+            span=statement.wait.span,
+            cst=statement.wait,
+            delay=statement.wait.delay.span,
+            body=statement.wait.body.span,
         )
     if statement.trigger is not None:
         arguments = (

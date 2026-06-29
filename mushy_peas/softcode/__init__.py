@@ -14,6 +14,7 @@ from mushy_peas.softcode.actions import (
     SwitchCase,
     SwitchCommand,
     TriggerCommand,
+    WaitCommand,
     parse_action_list,
     parse_command_attribute_body,
 )
@@ -31,6 +32,7 @@ from mushy_peas.softcode.ast_views import (
     SwitchStmt,
     TriggerStmt,
     UnknownExpr,
+    WaitStmt,
     build_action_ast_view,
     build_ast_view,
 )
@@ -105,6 +107,8 @@ __all__ = [
     "TriggerCommand",
     "TriggerStmt",
     "UnknownExpr",
+    "WaitCommand",
+    "WaitStmt",
     "build_action_ast_view",
     "build_ast_view",
     "build_semantic_graph",
