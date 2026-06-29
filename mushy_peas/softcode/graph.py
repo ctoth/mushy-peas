@@ -48,6 +48,15 @@ class SemanticGraph:
     references: tuple[Reference, ...]
 
 
+@dataclass(frozen=True)
+class Diagnostic:
+    unit_id: str
+    span: Span
+    code: str
+    message: str
+    evidence: str
+
+
 def build_semantic_graph(
     units: tuple[SoftcodeUnit, ...],
     *,
@@ -66,6 +75,25 @@ def build_semantic_graph(
         definitions=tuple(definitions),
         references=tuple(references),
     )
+
+
+def collect_semantic_diagnostics(
+    units: tuple[SoftcodeUnit, ...],
+) -> tuple[Diagnostic, ...]:
+    diagnostics: list[Diagnostic] = []
+    for unit in units:
+        classification = classify_profile(unit)
+        for warning in classification.warnings:
+            diagnostics.append(
+                Diagnostic(
+                    unit_id=unit.id,
+                    span=unit.source_span,
+                    code="profile.warning",
+                    message=warning,
+                    evidence=f"profile={classification.profile}",
+                )
+            )
+    return tuple(diagnostics)
 
 
 def _definition_for_unit(unit: SoftcodeUnit) -> Definition | None:

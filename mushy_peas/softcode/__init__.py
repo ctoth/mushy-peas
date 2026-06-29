@@ -36,9 +36,11 @@ from mushy_peas.softcode.ast_views import (
 )
 from mushy_peas.softcode.graph import (
     Definition,
+    Diagnostic,
     Reference,
     SemanticGraph,
     build_semantic_graph,
+    collect_semantic_diagnostics,
 )
 from mushy_peas.softcode.model import (
     Argument,
@@ -73,6 +75,7 @@ __all__ = [
     "CommandPattern",
     "CommandStmt",
     "Definition",
+    "Diagnostic",
     "Document",
     "DolistCommand",
     "DolistStmt",
@@ -106,6 +109,7 @@ __all__ = [
     "build_ast_view",
     "build_semantic_graph",
     "classify_profile",
+    "collect_semantic_diagnostics",
     "parse_action_list",
     "parse_command_attribute_body",
     "parse_expression",

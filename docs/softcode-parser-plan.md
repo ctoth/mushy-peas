@@ -914,6 +914,11 @@ Implementation target:
 - diagnostics can initially live in `mushy_peas/softcode/graph.py`;
 - split to `diagnostics.py` only after there are multiple diagnostic families.
 
+First diagnostic slice:
+
+- Done: advisory profile convention diagnostics from profile warnings;
+- Done: diagnostics include unit id, source span, code, message, and evidence.
+
 ## Stage 12: Locks And Boolexp
 
 Locks are adjacent to softcode but should be staged separately.
@@ -1071,6 +1076,7 @@ As of 2026-06-28, the project has:
   empty dynamic statements;
 - first semantic graph slice for WCNH command/function definitions and literal
   or dynamic `u(...)` references;
+- first advisory semantic diagnostics for profile convention warnings;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
