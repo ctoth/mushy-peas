@@ -3,6 +3,7 @@ from pathlib import Path
 from mushy_peas.softcode import (
     AssertStmt,
     AssignmentStmt,
+    AttrReadExpr,
     BraceExpr,
     DolistStmt,
     DynamicExpr,
@@ -11,6 +12,7 @@ from mushy_peas.softcode import (
     FunctionCall,
     FunctionExpr,
     ParseMode,
+    RpcCallExpr,
     SubstitutionExpr,
     SwitchStmt,
     TriggerStmt,
@@ -20,7 +22,11 @@ from mushy_peas.softcode import (
 )
 from mushy_peas.softcode.actions import parse_action_list
 from mushy_peas.softcode.ast_views import build_ast_view
-from mushy_peas.softcode.function_metadata import load_function_registry
+from mushy_peas.softcode.function_metadata import (
+    FunctionMetadata,
+    FunctionRegistry,
+    load_function_registry,
+)
 from mushy_peas.softcode.model import Document, Span, Text, Unknown
 from mushy_peas.softcode.parser import parse_expression
 
@@ -111,6 +117,73 @@ def test_ast_projection_is_total_over_unsupported_cst_nodes() -> None:
     assert expr.span == text.span
     assert expr.cst is text
     assert expr.reason == "unsupported CST node: text"
+
+
+def test_attribute_reads_project_to_semantic_ast_exprs() -> None:
+    source = "get(me/name) [xget(#10,desc)]"
+    registry = load_function_registry(FIXTURE)
+    document = parse_expression(source, metadata=registry)
+
+    ast = build_ast_view(document)
+    get_expr = ast.expressions[0]
+    eval_group = ast.expressions[2]
+
+    assert isinstance(get_expr, AttrReadExpr)
+    assert get_expr.function_name == "GET"
+    assert get_expr.attribute == Span(4, 11)
+    assert get_expr.object_ref is None
+    assert get_expr.dynamic is False
+    assert get_expr.reason is None
+    assert isinstance(eval_group, EvalExpr)
+    xget_expr = eval_group.expressions[0]
+    assert isinstance(xget_expr, AttrReadExpr)
+    assert xget_expr.function_name == "XGET"
+    assert xget_expr.object_ref == Span(19, 22)
+    assert xget_expr.attribute == Span(23, 27)
+    assert xget_expr.dynamic is False
+    assert xget_expr.reason is None
+
+
+def test_dynamic_attribute_reads_remain_explicit() -> None:
+    source = "get(%q0) [xget(#10,%q1)]"
+    registry = load_function_registry(FIXTURE)
+    document = parse_expression(source, metadata=registry)
+
+    ast = build_ast_view(document)
+    get_expr = ast.expressions[0]
+    eval_group = ast.expressions[2]
+
+    assert isinstance(get_expr, AttrReadExpr)
+    assert get_expr.attribute == Span(4, 7)
+    assert get_expr.dynamic is True
+    assert get_expr.reason == "dynamic get() attribute"
+    assert isinstance(eval_group, EvalExpr)
+    xget_expr = eval_group.expressions[0]
+    assert isinstance(xget_expr, AttrReadExpr)
+    assert xget_expr.object_ref == Span(15, 18)
+    assert xget_expr.attribute == Span(19, 22)
+    assert xget_expr.dynamic is True
+    assert xget_expr.reason == "dynamic xget() object or attribute"
+
+
+def test_rpc_calls_project_to_semantic_ast_exprs() -> None:
+    source = "rpc(Module.method,%#) [rpc(%q0,%#)]"
+    document = parse_expression(source, metadata=_rpc_registry())
+
+    ast = build_ast_view(document)
+    literal = ast.expressions[0]
+    eval_group = ast.expressions[2]
+
+    assert isinstance(literal, RpcCallExpr)
+    assert literal.endpoint == Span(4, 17)
+    assert literal.dynamic is False
+    assert literal.reason is None
+    assert isinstance(eval_group, EvalExpr)
+    dynamic = eval_group.expressions[0]
+    assert isinstance(dynamic, RpcCallExpr)
+    assert dynamic.endpoint == Span(27, 30)
+    assert dynamic.dynamic is True
+    assert dynamic.reason == "dynamic rpc() endpoint"
 
 
 def test_action_ast_projects_assignment_statement() -> None:
@@ -215,3 +288,19 @@ def test_action_ast_projects_empty_statement_to_dynamic_expr() -> None:
     assert stmt.span == Span(0, 0)
     assert stmt.cst is action_list.statements[0]
     assert stmt.reason == "empty command statement"
+
+
+def _rpc_registry() -> FunctionRegistry:
+    return FunctionRegistry(
+        pennmush_commit="test",
+        functions={
+            "RPC": FunctionMetadata(
+                name="RPC",
+                min_args=1,
+                max_args=2,
+                flags=0,
+                flag_names=(),
+                is_builtin=False,
+            )
+        },
+    )

@@ -70,13 +70,41 @@ class EvalExpr:
 
 
 @dataclass(frozen=True)
+class AttrReadExpr:
+    span: Span
+    cst: FunctionCall
+    function_name: Literal["GET", "XGET"]
+    attribute: Span | None
+    object_ref: Span | None = None
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
+class RpcCallExpr:
+    span: Span
+    cst: FunctionCall
+    endpoint: Span | None
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
 class UnknownExpr:
     span: Span
     cst: Node
     reason: str
 
 
-Expr: TypeAlias = FunctionExpr | SubstitutionExpr | BraceExpr | EvalExpr | UnknownExpr
+Expr: TypeAlias = (
+    FunctionExpr
+    | SubstitutionExpr
+    | BraceExpr
+    | EvalExpr
+    | AttrReadExpr
+    | RpcCallExpr
+    | UnknownExpr
+)
 
 
 @dataclass(frozen=True)
@@ -197,6 +225,9 @@ def build_action_ast_view(action_list: ActionList) -> AstActionList:
 
 def _project_node(node: Node) -> Expr:
     if isinstance(node, FunctionCall):
+        semantic_expr = _project_semantic_function(node)
+        if semantic_expr is not None:
+            return semantic_expr
         return FunctionExpr(
             span=node.span,
             cst=node,
@@ -240,6 +271,102 @@ def _project_node(node: Node) -> Expr:
 
 def _project_argument(argument: Argument) -> tuple[Expr, ...]:
     return tuple(_project_node(child) for child in argument.children)
+
+
+def _project_semantic_function(
+    node: FunctionCall,
+) -> AttrReadExpr | RpcCallExpr | None:
+    if node.name == "GET":
+        return _project_get_call(node)
+    if node.name == "XGET":
+        return _project_xget_call(node)
+    if node.name == "RPC":
+        return _project_rpc_call(node)
+    return None
+
+
+def _project_get_call(node: FunctionCall) -> AttrReadExpr:
+    if not node.arguments:
+        return AttrReadExpr(
+            span=node.span,
+            cst=node,
+            function_name="GET",
+            attribute=None,
+            dynamic=True,
+            reason="missing get() attribute",
+        )
+    attribute = node.arguments[0]
+    if _is_literal_argument(attribute):
+        return AttrReadExpr(
+            span=node.span,
+            cst=node,
+            function_name="GET",
+            attribute=attribute.span,
+        )
+    return AttrReadExpr(
+        span=node.span,
+        cst=node,
+        function_name="GET",
+        attribute=attribute.span,
+        dynamic=True,
+        reason="dynamic get() attribute",
+    )
+
+
+def _project_xget_call(node: FunctionCall) -> AttrReadExpr:
+    if len(node.arguments) < 2:
+        return AttrReadExpr(
+            span=node.span,
+            cst=node,
+            function_name="XGET",
+            attribute=None,
+            dynamic=True,
+            reason="missing xget() object or attribute",
+        )
+    object_arg = node.arguments[0]
+    attribute = node.arguments[1]
+    if _is_literal_argument(object_arg) and _is_literal_argument(attribute):
+        return AttrReadExpr(
+            span=node.span,
+            cst=node,
+            function_name="XGET",
+            object_ref=object_arg.span,
+            attribute=attribute.span,
+        )
+    return AttrReadExpr(
+        span=node.span,
+        cst=node,
+        function_name="XGET",
+        object_ref=object_arg.span,
+        attribute=attribute.span,
+        dynamic=True,
+        reason="dynamic xget() object or attribute",
+    )
+
+
+def _project_rpc_call(node: FunctionCall) -> RpcCallExpr:
+    if not node.arguments:
+        return RpcCallExpr(
+            span=node.span,
+            cst=node,
+            endpoint=None,
+            dynamic=True,
+            reason="missing rpc() endpoint",
+        )
+    endpoint = node.arguments[0]
+    if _is_literal_argument(endpoint):
+        return RpcCallExpr(span=node.span, cst=node, endpoint=endpoint.span)
+    return RpcCallExpr(
+        span=node.span,
+        cst=node,
+        endpoint=endpoint.span,
+        dynamic=True,
+        reason="dynamic rpc() endpoint",
+    )
+
+
+def _is_literal_argument(argument: Argument) -> bool:
+    return len(argument.children) == 1 and argument.children[0].kind == "text"
 
 
 def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:

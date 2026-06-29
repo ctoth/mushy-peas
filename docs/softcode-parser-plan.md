@@ -829,6 +829,12 @@ Action AST projection:
 - Done: `WaitStmt` from the first command-specific `@wait` CST node;
 - Done: empty action statements project to `DynamicExpr`.
 
+Semantic expression AST projection:
+
+- Done: `AttrReadExpr` from static and dynamic `get(...)` and `xget(...)`
+  function CST nodes;
+- Done: `RpcCallExpr` from static and dynamic `rpc(...)` function CST nodes.
+
 ## Stage 10: Semantic Graph
 
 Build a graph of definitions, references, and effects.
@@ -1143,6 +1149,8 @@ As of 2026-06-28, the project has:
 - first command-specific `@assert` CST classification;
 - action-level AST projections for assignment, trigger, dolist, switch, and
   wait plus assert, emit, and empty dynamic statements;
+- semantic expression AST projections for static and dynamic attribute reads
+  and RPC calls;
 - first semantic graph slice for WCNH command/function definitions and literal
   or dynamic `u(...)` references;
 - semantic graph references for literal `ufun(...)` and `ulocal(...)` calls;
