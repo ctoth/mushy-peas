@@ -900,6 +900,11 @@ Fifth graph slice:
 
 - Done: q-register read edges for `%q0` and `%q<name>` substitutions.
 
+Sixth graph slice:
+
+- Done: q-register write edges for literal `setq(register, value)` calls;
+- Done: unresolved dynamic `setq(...)` register writes represented explicitly.
+
 ## Stage 11: Semantic Conformance
 
 Move from structural understanding toward best-effort semantic parsing.
@@ -1105,6 +1110,7 @@ As of 2026-06-28, the project has:
 - semantic graph attribute-read edges for literal `get(...)` and `xget(...)`
   calls;
 - semantic graph q-register read edges for `%q` substitutions;
+- semantic graph q-register write edges for `setq(...)` calls;
 - first advisory semantic diagnostics for profile convention warnings;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for

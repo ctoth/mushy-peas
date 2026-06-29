@@ -103,7 +103,7 @@ def build_semantic_graph(
                 _attribute_references_for_document(unit.id, unit.body, document)
             )
             q_register_references.extend(
-                _q_register_references_for_document(unit.id, document)
+                _q_register_references_for_document(unit.id, unit.body, document)
             )
     return SemanticGraph(
         definitions=tuple(definitions),
@@ -175,11 +175,12 @@ def _attribute_references_for_document(
 
 def _q_register_references_for_document(
     unit_id: str,
+    source: str,
     document: Document,
 ) -> tuple[QRegisterReference, ...]:
     references: list[QRegisterReference] = []
     for child in document.children:
-        references.extend(_q_register_references_for_node(unit_id, child))
+        references.extend(_q_register_references_for_node(unit_id, source, child))
     return tuple(references)
 
 
@@ -204,6 +205,7 @@ def _references_for_node(
 
 def _q_register_references_for_node(
     unit_id: str,
+    source: str,
     node: Node,
 ) -> tuple[QRegisterReference, ...]:
     references: list[QRegisterReference] = []
@@ -212,11 +214,15 @@ def _q_register_references_for_node(
         if reference is not None:
             references.append(reference)
     elif isinstance(node, FunctionCall):
+        if node.name == "SETQ":
+            references.append(_q_register_reference_for_setq(unit_id, source, node))
         for argument in node.arguments:
-            references.extend(_q_register_references_for_argument(unit_id, argument))
+            references.extend(
+                _q_register_references_for_argument(unit_id, source, argument)
+            )
     elif isinstance(node, BraceGroup | EvalGroup):
         for child in node.children:
-            references.extend(_q_register_references_for_node(unit_id, child))
+            references.extend(_q_register_references_for_node(unit_id, source, child))
     return tuple(references)
 
 
@@ -243,11 +249,12 @@ def _attribute_references_for_node(
 
 def _q_register_references_for_argument(
     unit_id: str,
+    source: str,
     argument: Argument,
 ) -> tuple[QRegisterReference, ...]:
     references: list[QRegisterReference] = []
     for child in argument.children:
-        references.extend(_q_register_references_for_node(unit_id, child))
+        references.extend(_q_register_references_for_node(unit_id, source, child))
     return tuple(references)
 
 
@@ -276,6 +283,38 @@ def _q_register_reference_for_percent_sub(
         span=node.span,
         register=register.casefold(),
         operation="read",
+    )
+
+
+def _q_register_reference_for_setq(
+    unit_id: str,
+    source: str,
+    call: FunctionCall,
+) -> QRegisterReference:
+    if not call.arguments:
+        return QRegisterReference(
+            unit_id=unit_id,
+            span=call.span,
+            register=None,
+            operation="write",
+            dynamic=True,
+            reason="missing setq() register",
+        )
+    register = _literal_argument(source, call.arguments[0])
+    if register is None:
+        return QRegisterReference(
+            unit_id=unit_id,
+            span=call.arguments[0].span,
+            register=None,
+            operation="write",
+            dynamic=True,
+            reason="dynamic setq() register",
+        )
+    return QRegisterReference(
+        unit_id=unit_id,
+        span=call.arguments[0].span,
+        register=register,
+        operation="write",
     )
 
 

@@ -240,6 +240,49 @@ def test_graph_extracts_q_register_reads_from_percent_substitutions(
     ]
 
 
+def test_graph_extracts_q_register_writes_from_setq(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=setq(0,value)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_q_register_registry())
+    reference = graph.q_register_references[0]
+
+    assert reference.register == "0"
+    assert reference.operation == "write"
+    assert reference.span.start == 5
+    assert reference.span.end == 6
+    assert reference.dynamic is False
+    assert reference.reason is None
+
+
+def test_graph_represents_dynamic_setq_register_writes_explicitly(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=setq(%q0,value)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_q_register_registry())
+    write = graph.q_register_references[0]
+    read = graph.q_register_references[1]
+
+    assert write.register is None
+    assert write.operation == "write"
+    assert write.dynamic is True
+    assert write.reason == "dynamic setq() register"
+    assert read.register == "0"
+    assert read.operation == "read"
+
+
 def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
@@ -295,6 +338,13 @@ def _attribute_registry() -> FunctionRegistry:
 
 def _empty_registry() -> FunctionRegistry:
     return FunctionRegistry(pennmush_commit="test", functions={})
+
+
+def _q_register_registry() -> FunctionRegistry:
+    return FunctionRegistry(
+        pennmush_commit="test",
+        functions={"SETQ": _function("SETQ")},
+    )
 
 
 def _function(name: str) -> FunctionMetadata:
