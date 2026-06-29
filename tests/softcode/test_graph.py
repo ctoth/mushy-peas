@@ -283,6 +283,45 @@ def test_graph_represents_dynamic_setq_register_writes_explicitly(
     assert read.operation == "read"
 
 
+def test_graph_extracts_literal_rpc_endpoint_references(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=rpc(Module.method,%#)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_rpc_registry())
+    reference = graph.rpc_references[0]
+
+    assert reference.unit_id == unit.id
+    assert reference.endpoint == "module.method"
+    assert reference.endpoint_span.start == 4
+    assert reference.endpoint_span.end == 17
+    assert reference.dynamic is False
+    assert reference.reason is None
+
+
+def test_graph_represents_dynamic_rpc_endpoint_references_explicitly(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=rpc(%q0,%#)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_rpc_registry())
+    reference = graph.rpc_references[0]
+
+    assert reference.endpoint is None
+    assert reference.dynamic is True
+    assert reference.reason == "dynamic rpc() endpoint"
+
+
 def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
@@ -344,6 +383,13 @@ def _q_register_registry() -> FunctionRegistry:
     return FunctionRegistry(
         pennmush_commit="test",
         functions={"SETQ": _function("SETQ")},
+    )
+
+
+def _rpc_registry() -> FunctionRegistry:
+    return FunctionRegistry(
+        pennmush_commit="test",
+        functions={"RPC": _function("RPC")},
     )
 
 

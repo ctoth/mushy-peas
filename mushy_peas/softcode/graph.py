@@ -67,11 +67,22 @@ class QRegisterReference:
 
 
 @dataclass(frozen=True)
+class RpcReference:
+    unit_id: str
+    span: Span
+    endpoint_span: Span
+    endpoint: str | None = None
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
 class SemanticGraph:
     definitions: tuple[Definition, ...]
     references: tuple[Reference, ...]
     attribute_references: tuple[AttributeReference, ...]
     q_register_references: tuple[QRegisterReference, ...]
+    rpc_references: tuple[RpcReference, ...]
 
 
 @dataclass(frozen=True)
@@ -92,6 +103,7 @@ def build_semantic_graph(
     references: list[Reference] = []
     attribute_references: list[AttributeReference] = []
     q_register_references: list[QRegisterReference] = []
+    rpc_references: list[RpcReference] = []
     for unit in units:
         definition = _definition_for_unit(unit)
         if definition is not None:
@@ -105,11 +117,15 @@ def build_semantic_graph(
             q_register_references.extend(
                 _q_register_references_for_document(unit.id, unit.body, document)
             )
+            rpc_references.extend(
+                _rpc_references_for_document(unit.id, unit.body, document)
+            )
     return SemanticGraph(
         definitions=tuple(definitions),
         references=tuple(references),
         attribute_references=tuple(attribute_references),
         q_register_references=tuple(q_register_references),
+        rpc_references=tuple(rpc_references),
     )
 
 
@@ -184,6 +200,17 @@ def _q_register_references_for_document(
     return tuple(references)
 
 
+def _rpc_references_for_document(
+    unit_id: str,
+    source: str,
+    document: Document,
+) -> tuple[RpcReference, ...]:
+    references: list[RpcReference] = []
+    for child in document.children:
+        references.extend(_rpc_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
 def _references_for_node(
     unit_id: str,
     source: str,
@@ -200,6 +227,23 @@ def _references_for_node(
     elif isinstance(node, BraceGroup | EvalGroup):
         for child in node.children:
             references.extend(_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
+def _rpc_references_for_node(
+    unit_id: str,
+    source: str,
+    node: Node,
+) -> tuple[RpcReference, ...]:
+    references: list[RpcReference] = []
+    if isinstance(node, FunctionCall):
+        if node.name == "RPC":
+            references.append(_rpc_reference_for_call(unit_id, source, node))
+        for argument in node.arguments:
+            references.extend(_rpc_references_for_argument(unit_id, source, argument))
+    elif isinstance(node, BraceGroup | EvalGroup):
+        for child in node.children:
+            references.extend(_rpc_references_for_node(unit_id, source, child))
     return tuple(references)
 
 
@@ -223,6 +267,17 @@ def _q_register_references_for_node(
     elif isinstance(node, BraceGroup | EvalGroup):
         for child in node.children:
             references.extend(_q_register_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
+def _rpc_references_for_argument(
+    unit_id: str,
+    source: str,
+    argument: Argument,
+) -> tuple[RpcReference, ...]:
+    references: list[RpcReference] = []
+    for child in argument.children:
+        references.extend(_rpc_references_for_node(unit_id, source, child))
     return tuple(references)
 
 
@@ -315,6 +370,36 @@ def _q_register_reference_for_setq(
         span=call.arguments[0].span,
         register=register,
         operation="write",
+    )
+
+
+def _rpc_reference_for_call(
+    unit_id: str,
+    source: str,
+    call: FunctionCall,
+) -> RpcReference:
+    if not call.arguments:
+        return RpcReference(
+            unit_id=unit_id,
+            span=call.span,
+            endpoint_span=call.span,
+            dynamic=True,
+            reason="missing rpc() endpoint",
+        )
+    endpoint = _literal_argument(source, call.arguments[0])
+    if endpoint is None:
+        return RpcReference(
+            unit_id=unit_id,
+            span=call.span,
+            endpoint_span=call.arguments[0].span,
+            dynamic=True,
+            reason="dynamic rpc() endpoint",
+        )
+    return RpcReference(
+        unit_id=unit_id,
+        span=call.span,
+        endpoint_span=call.arguments[0].span,
+        endpoint=endpoint,
     )
 
 
