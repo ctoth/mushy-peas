@@ -50,6 +50,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     _configure_upgrade_parser(subcommands.add_parser("upgrade"))
     _configure_softcode_coverage_parser(subcommands.add_parser("softcode-coverage"))
     _configure_softcode_graph_parser(subcommands.add_parser("softcode-graph"))
+    _configure_softcode_inventory_parser(subcommands.add_parser("softcode-inventory"))
     return _run_parser(parser, argv)
 
 
@@ -86,6 +87,12 @@ def mush_softcode_coverage(argv: Sequence[str] | None = None) -> int:
 def mush_softcode_graph(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="mush-softcode-graph")
     _configure_softcode_graph_parser(parser)
+    return _run_parser(parser, argv)
+
+
+def mush_softcode_inventory(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="mush-softcode-inventory")
+    _configure_softcode_inventory_parser(parser)
     return _run_parser(parser, argv)
 
 
@@ -139,6 +146,11 @@ def _configure_softcode_coverage_parser(parser: argparse.ArgumentParser) -> None
 def _configure_softcode_graph_parser(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("paths", nargs="+")
     parser.set_defaults(handler=_softcode_graph_command)
+
+
+def _configure_softcode_inventory_parser(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("paths", nargs="+")
+    parser.set_defaults(handler=_softcode_inventory_command)
 
 
 def _run_parser(
@@ -221,6 +233,13 @@ def _softcode_graph_command(args: argparse.Namespace) -> int:
     units = extract_softcode_units(paths).units
     graph = build_semantic_graph(units)
     print(json.dumps(_to_json_value(graph), indent=2, sort_keys=True))
+    return 0
+
+
+def _softcode_inventory_command(args: argparse.Namespace) -> int:
+    paths = tuple(Path(str(path)) for path in args.paths)
+    collection = extract_softcode_units(paths)
+    print(json.dumps(_to_json_value(collection.to_json()), indent=2, sort_keys=True))
     return 0
 
 

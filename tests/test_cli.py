@@ -14,6 +14,7 @@ from mushy_peas.cli import (
     mush_roundtrip,
     mush_softcode_coverage,
     mush_softcode_graph,
+    mush_softcode_inventory,
     mush_upgrade,
 )
 from mushy_peas.mail_model import PennMailAlias, PennMailDatabase, PennMailMessage
@@ -185,6 +186,44 @@ def test_main_softcode_graph_subcommand_reports_json_graph(
     payload = cast(dict[str, object], json.loads(capsys.readouterr().out))
     definitions = cast(list[object], payload["definitions"])
     assert len(definitions) == 1
+
+
+def test_softcode_inventory_cli_reports_json_units(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.VALUE #10=1",
+        encoding="utf-8",
+    )
+
+    assert mush_softcode_inventory([str(root)]) == 0
+
+    payload = cast(dict[str, object], json.loads(capsys.readouterr().out))
+    units = cast(list[dict[str, object]], payload["units"])
+    assert len(units) == 1
+    assert units[0]["attribute_name"] == "FN.VALUE"
+
+
+def test_main_softcode_inventory_subcommand_reports_json_units(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.TEST #10=$test:@emit hi",
+        encoding="utf-8",
+    )
+
+    assert main(["softcode-inventory", str(root)]) == 0
+
+    payload = cast(dict[str, object], json.loads(capsys.readouterr().out))
+    units = cast(list[dict[str, object]], payload["units"])
+    assert len(units) == 1
+    assert units[0]["attribute_kind"] == "cmd"
 
 
 def _main_database() -> PennMainDatabase:
