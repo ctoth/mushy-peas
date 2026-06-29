@@ -903,6 +903,12 @@ Third graph slice:
 - Done: references for literal `trigger(object/attr,...)` calls;
 - Done: unresolved dynamic `trigger(...)` targets represented explicitly.
 
+Third graph slice, action-command extension:
+
+- Done: references for literal `@trigger object/attr=...` action commands,
+  including nested action blocks exposed by the action CST;
+- Done: unresolved dynamic `@trigger` command targets represented explicitly.
+
 Fourth graph slice:
 
 - Done: attribute-read edges for literal `get(attr)` and `xget(obj, attr)`;
@@ -1157,6 +1163,7 @@ As of 2026-06-28, the project has:
   or dynamic `u(...)` references;
 - semantic graph references for literal `ufun(...)` and `ulocal(...)` calls;
 - semantic graph references for literal or dynamic `trigger(...)` calls;
+- semantic graph references for literal or dynamic `@trigger` action commands;
 - semantic graph attribute-read edges for literal `get(...)` and `xget(...)`
   calls;
 - semantic graph q-register read edges for `%q` substitutions;

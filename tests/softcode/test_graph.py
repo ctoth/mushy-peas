@@ -158,6 +158,68 @@ def test_graph_represents_dynamic_trigger_references_explicitly(
     assert reference.reason == "dynamic trigger() target"
 
 
+def test_graph_extracts_literal_trigger_command_references(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.CALLER #10=$test:@trigger #10/fn.helper=one,two",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units((root,)).units[0]
+
+    graph = build_semantic_graph((unit,))
+    reference = graph.references[0]
+
+    assert reference.unit_id == unit.id
+    assert reference.function_name == "@TRIGGER"
+    assert reference.span.start == 15
+    assert reference.span.end == 28
+    assert reference.target_span == reference.span
+    assert reference.target == "#10/fn.helper"
+    assert reference.dynamic is False
+    assert reference.reason is None
+
+
+def test_graph_represents_dynamic_trigger_command_references_explicitly(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.CALLER #10=$test:@trigger %q0=one",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units((root,)).units[0]
+
+    graph = build_semantic_graph((unit,))
+    reference = graph.references[0]
+
+    assert reference.function_name == "@TRIGGER"
+    assert reference.span.start == 15
+    assert reference.span.end == 18
+    assert reference.target is None
+    assert reference.dynamic is True
+    assert reference.reason == "dynamic @trigger target"
+
+
+def test_graph_extracts_nested_trigger_command_references(tmp_path: Path) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.CALLER #10=$test:@wait 1={@trigger #10/fn.helper=one}",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units((root,)).units[0]
+
+    graph = build_semantic_graph((unit,))
+    reference = graph.references[0]
+
+    assert reference.function_name == "@TRIGGER"
+    assert reference.target == "#10/fn.helper"
+    assert reference.span.start == 24
+    assert reference.span.end == 37
+
+
 def test_graph_extracts_literal_get_and_xget_attribute_references(
     tmp_path: Path,
 ) -> None:

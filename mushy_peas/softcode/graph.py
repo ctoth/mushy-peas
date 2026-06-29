@@ -7,6 +7,7 @@ from typing import Literal
 
 from mushy_peas.softcode.actions import (
     ActionList,
+    CommandArg,
     CommandStmt,
     parse_action_list,
     parse_command_attribute_body,
@@ -141,6 +142,7 @@ def build_semantic_graph(
             definitions.append(definition)
         effects.extend(_effects_for_unit(unit))
         attribute_writes.extend(_attribute_writes_for_unit(unit))
+        references.extend(_action_references_for_unit(unit))
         if metadata is not None:
             document = parse_expression(unit.body, metadata=metadata)
             references.extend(_references_for_document(unit.id, unit.body, document))
@@ -228,6 +230,19 @@ def _attribute_writes_for_unit(unit: SoftcodeUnit) -> tuple[AttributeWrite, ...]
     return _attribute_writes_for_action_list(unit.id, unit.body, action_list)
 
 
+def _action_references_for_unit(unit: SoftcodeUnit) -> tuple[Reference, ...]:
+    classification = classify_profile(unit)
+    if classification.profile != "wcnh" or classification.family != "command":
+        return ()
+    command_body = parse_command_attribute_body(unit.body)
+    action_list = (
+        command_body.actions
+        if command_body is not None
+        else parse_action_list(unit.body)
+    )
+    return _action_references_for_action_list(unit.id, unit.body, action_list)
+
+
 def _effects_for_action_list(
     unit_id: str,
     action_list: ActionList,
@@ -247,6 +262,17 @@ def _attribute_writes_for_action_list(
     for statement in action_list.statements:
         writes.extend(_attribute_writes_for_statement(unit_id, source, statement))
     return tuple(writes)
+
+
+def _action_references_for_action_list(
+    unit_id: str,
+    source: str,
+    action_list: ActionList,
+) -> tuple[Reference, ...]:
+    references: list[Reference] = []
+    for statement in action_list.statements:
+        references.extend(_action_references_for_statement(unit_id, source, statement))
+    return tuple(references)
 
 
 def _effects_for_statement(unit_id: str, statement: CommandStmt) -> tuple[Effect, ...]:
@@ -293,6 +319,72 @@ def _effects_for_statement(unit_id: str, statement: CommandStmt) -> tuple[Effect
             *nested,
         )
     return ()
+
+
+def _action_references_for_statement(
+    unit_id: str,
+    source: str,
+    statement: CommandStmt,
+) -> tuple[Reference, ...]:
+    references: list[Reference] = []
+    if statement.trigger is not None:
+        references.append(
+            _reference_for_trigger_command(unit_id, source, statement.trigger.target)
+        )
+    if statement.wait is not None and statement.wait.nested_action_block is not None:
+        references.extend(
+            _action_references_for_action_list(
+                unit_id,
+                source,
+                statement.wait.nested_action_block.actions,
+            )
+        )
+    if (
+        statement.dolist is not None
+        and statement.dolist.nested_action_block is not None
+    ):
+        references.extend(
+            _action_references_for_action_list(
+                unit_id,
+                source,
+                statement.dolist.nested_action_block.actions,
+            )
+        )
+    if statement.switch is not None:
+        for case in statement.switch.cases:
+            if case.nested_action_block is not None:
+                references.extend(
+                    _action_references_for_action_list(
+                        unit_id,
+                        source,
+                        case.nested_action_block.actions,
+                    )
+                )
+    return tuple(references)
+
+
+def _reference_for_trigger_command(
+    unit_id: str,
+    source: str,
+    target_arg: CommandArg,
+) -> Reference:
+    target = _literal_command_arg(source, target_arg)
+    if target is None:
+        return Reference(
+            unit_id=unit_id,
+            function_name="@TRIGGER",
+            span=target_arg.span,
+            target_span=target_arg.span,
+            dynamic=True,
+            reason="dynamic @trigger target",
+        )
+    return Reference(
+        unit_id=unit_id,
+        function_name="@TRIGGER",
+        span=target_arg.span,
+        target_span=target_arg.span,
+        target=target,
+    )
 
 
 def _attribute_writes_for_statement(
@@ -685,6 +777,14 @@ def _literal_argument(source: str, argument: Argument) -> str | None:
     if len(argument.children) != 1 or not isinstance(argument.children[0], Text):
         return None
     return source[argument.span.start : argument.span.end].strip().casefold()
+
+
+def _literal_command_arg(source: str, argument: CommandArg) -> str | None:
+    raw = source[argument.span.start : argument.span.end]
+    document = parse_expression(raw)
+    if len(document.children) != 1 or not isinstance(document.children[0], Text):
+        return None
+    return raw.strip().casefold()
 
 
 def _reference_for_trigger_call(
