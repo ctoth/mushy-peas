@@ -1019,6 +1019,11 @@ Implementation target:
 - extend `mushy_peas/cli.py` only after callable APIs exist;
 - avoid adding CLI first as a substitute for library behavior.
 
+First tooling slice:
+
+- Done: deterministic JSON `softcode-coverage` subcommand;
+- Done: deterministic JSON `mush-softcode-coverage` script entrypoint.
+
 ## Stage 14: Coverage And Maturity Gates
 
 Track progress with explicit gates.
@@ -1142,6 +1147,7 @@ As of 2026-06-28, the project has:
 - first advisory semantic diagnostics for profile convention warnings;
 - first coverage report API with parser, graph, diagnostic, unknown-node, and
   unsupported-category counts;
+- first softcode coverage CLI and script entrypoint;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;

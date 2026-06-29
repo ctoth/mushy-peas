@@ -23,6 +23,8 @@ from mushy_peas.oldstyle import (
     read_oldstyle_chat_database,
     read_oldstyle_main_database,
 )
+from mushy_peas.softcode.coverage_report import build_softcode_coverage_report
+from mushy_peas.softcode.units import extract_softcode_units
 
 RequestedKind: TypeAlias = Literal["main", "mail", "chat", "auto"]
 DatabaseKind: TypeAlias = Literal["main", "mail", "chat"]
@@ -45,6 +47,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     _configure_roundtrip_parser(subcommands.add_parser("roundtrip"))
     _configure_dump_json_parser(subcommands.add_parser("dump-json"))
     _configure_upgrade_parser(subcommands.add_parser("upgrade"))
+    _configure_softcode_coverage_parser(subcommands.add_parser("softcode-coverage"))
     return _run_parser(parser, argv)
 
 
@@ -69,6 +72,12 @@ def mush_dump_json(argv: Sequence[str] | None = None) -> int:
 def mush_upgrade(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="mush-upgrade")
     _configure_upgrade_parser(parser)
+    return _run_parser(parser, argv)
+
+
+def mush_softcode_coverage(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="mush-softcode-coverage")
+    _configure_softcode_coverage_parser(parser)
     return _run_parser(parser, argv)
 
 
@@ -112,6 +121,11 @@ def _configure_upgrade_parser(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument("--out", required=True)
     parser.set_defaults(handler=_upgrade_command)
+
+
+def _configure_softcode_coverage_parser(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument("paths", nargs="+")
+    parser.set_defaults(handler=_softcode_coverage_command)
 
 
 def _run_parser(
@@ -178,6 +192,14 @@ def _upgrade_command(args: argparse.Namespace) -> int:
     print(f"kind: {kind}")
     print(f"output_kind: {output_kind}")
     print(f"output: {out_path}")
+    return 0
+
+
+def _softcode_coverage_command(args: argparse.Namespace) -> int:
+    paths = tuple(Path(str(path)) for path in args.paths)
+    units = extract_softcode_units(paths).units
+    report = build_softcode_coverage_report(units)
+    print(json.dumps(_to_json_value(report), indent=2, sort_keys=True))
     return 0
 
 

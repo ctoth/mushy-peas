@@ -8,9 +8,11 @@ from mushy_peas.chat_model import PennChannel, PennChatDatabase
 from mushy_peas.chat_reader import read_chat_database
 from mushy_peas.chat_writer import write_chat_database_text
 from mushy_peas.cli import (
+    main,
     mush_dump_json,
     mush_inspect,
     mush_roundtrip,
+    mush_softcode_coverage,
     mush_upgrade,
 )
 from mushy_peas.mail_model import PennMailAlias, PennMailDatabase, PennMailMessage
@@ -106,6 +108,44 @@ def test_cli_errors_include_source_and_line_context(
     assert exc_info.value.code == 1
     stderr = capsys.readouterr().err
     assert "broken.db:1" in stderr
+
+
+def test_softcode_coverage_cli_reports_json_counts(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.TEST #10=$test:@emit hi",
+        encoding="utf-8",
+    )
+
+    assert mush_softcode_coverage([str(root)]) == 0
+
+    payload = cast(dict[str, object], json.loads(capsys.readouterr().out))
+    assert payload["unit_count"] == 1
+    assert payload["action_parsed_count"] == 1
+    assert payload["effect_count"] == 1
+    assert payload["unsupported_categories"] == []
+
+
+def test_main_softcode_coverage_subcommand_reports_json_counts(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.VALUE #10=1",
+        encoding="utf-8",
+    )
+
+    assert main(["softcode-coverage", str(root)]) == 0
+
+    payload = cast(dict[str, object], json.loads(capsys.readouterr().out))
+    assert payload["unit_count"] == 1
+    assert payload["expression_parsed_count"] == 1
 
 
 def _main_database() -> PennMainDatabase:
