@@ -39,6 +39,10 @@ from mushy_peas.softcode.ast_views import (
     build_action_ast_view,
     build_ast_view,
 )
+from mushy_peas.softcode.coverage_report import (
+    SoftcodeCoverageReport,
+    build_softcode_coverage_report,
+)
 from mushy_peas.softcode.graph import (
     AttributeReference,
     AttributeWrite,
@@ -112,6 +116,7 @@ __all__ = [
     "RegexCommandPattern",
     "RpcReference",
     "SemanticGraph",
+    "SoftcodeCoverageReport",
     "Span",
     "SubstitutionExpr",
     "SwitchCase",
@@ -128,6 +133,7 @@ __all__ = [
     "build_action_ast_view",
     "build_ast_view",
     "build_semantic_graph",
+    "build_softcode_coverage_report",
     "classify_profile",
     "collect_semantic_diagnostics",
     "parse_action_list",

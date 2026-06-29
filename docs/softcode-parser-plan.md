@@ -1040,6 +1040,11 @@ Acceptance:
 - Regressions are visible.
 - Unsupported behavior is named, not buried.
 
+First coverage slice:
+
+- Done: library coverage report for unit, expression-parse, action-parse, graph
+  edge, diagnostic, unknown-node, and unsupported-category counts.
+
 ## Stage 15: Full Conformance Target
 
 The most complete practical target is:
@@ -1135,6 +1140,8 @@ As of 2026-06-28, the project has:
 - semantic graph command-effect edges for emits and waits/queues;
 - semantic graph attribute-write edges for `@set` commands;
 - first advisory semantic diagnostics for profile convention warnings;
+- first coverage report API with parser, graph, diagnostic, unknown-node, and
+  unsupported-category counts;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
   the first corpus roots;
@@ -1175,7 +1182,7 @@ The project does not yet have:
 - richer command-specific action CST for `@switch`, `@dolist`, and `@trigger`;
 - complete semantic AST views;
 - complete semantic graph extraction;
-- maturity and coverage gates.
+- complete maturity and coverage gates.
 
 Therefore the project is past the first parser skeleton, but it is still not
 ready to claim that the full parser apparatus exists. The next execution slice
