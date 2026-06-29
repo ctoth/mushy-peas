@@ -43,9 +43,23 @@ class Reference:
 
 
 @dataclass(frozen=True)
+class AttributeReference:
+    unit_id: str
+    function_name: str
+    span: Span
+    attribute_span: Span
+    object_span: Span | None = None
+    object_ref: str | None = None
+    attribute: str | None = None
+    dynamic: bool = False
+    reason: str | None = None
+
+
+@dataclass(frozen=True)
 class SemanticGraph:
     definitions: tuple[Definition, ...]
     references: tuple[Reference, ...]
+    attribute_references: tuple[AttributeReference, ...]
 
 
 @dataclass(frozen=True)
@@ -64,6 +78,7 @@ def build_semantic_graph(
 ) -> SemanticGraph:
     definitions: list[Definition] = []
     references: list[Reference] = []
+    attribute_references: list[AttributeReference] = []
     for unit in units:
         definition = _definition_for_unit(unit)
         if definition is not None:
@@ -71,9 +86,13 @@ def build_semantic_graph(
         if metadata is not None:
             document = parse_expression(unit.body, metadata=metadata)
             references.extend(_references_for_document(unit.id, unit.body, document))
+            attribute_references.extend(
+                _attribute_references_for_document(unit.id, unit.body, document)
+            )
     return SemanticGraph(
         definitions=tuple(definitions),
         references=tuple(references),
+        attribute_references=tuple(attribute_references),
     )
 
 
@@ -126,6 +145,17 @@ def _references_for_document(
     return tuple(references)
 
 
+def _attribute_references_for_document(
+    unit_id: str,
+    source: str,
+    document: Document,
+) -> tuple[AttributeReference, ...]:
+    references: list[AttributeReference] = []
+    for child in document.children:
+        references.extend(_attribute_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
 def _references_for_node(
     unit_id: str,
     source: str,
@@ -145,6 +175,27 @@ def _references_for_node(
     return tuple(references)
 
 
+def _attribute_references_for_node(
+    unit_id: str,
+    source: str,
+    node: Node,
+) -> tuple[AttributeReference, ...]:
+    references: list[AttributeReference] = []
+    if isinstance(node, FunctionCall):
+        if node.name == "GET":
+            references.append(_attribute_reference_for_get(unit_id, source, node))
+        elif node.name == "XGET":
+            references.append(_attribute_reference_for_xget(unit_id, source, node))
+        for argument in node.arguments:
+            references.extend(
+                _attribute_references_for_argument(unit_id, source, argument)
+            )
+    elif isinstance(node, BraceGroup | EvalGroup):
+        for child in node.children:
+            references.extend(_attribute_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
 def _references_for_argument(
     unit_id: str,
     source: str,
@@ -153,6 +204,17 @@ def _references_for_argument(
     references: list[Reference] = []
     for child in argument.children:
         references.extend(_references_for_node(unit_id, source, child))
+    return tuple(references)
+
+
+def _attribute_references_for_argument(
+    unit_id: str,
+    source: str,
+    argument: Argument,
+) -> tuple[AttributeReference, ...]:
+    references: list[AttributeReference] = []
+    for child in argument.children:
+        references.extend(_attribute_references_for_node(unit_id, source, child))
     return tuple(references)
 
 
@@ -188,6 +250,82 @@ def _reference_for_user_function_call(
         dynamic=True,
         reason=f"dynamic {call.name.casefold()}() target",
     )
+
+
+def _attribute_reference_for_get(
+    unit_id: str,
+    source: str,
+    call: FunctionCall,
+) -> AttributeReference:
+    if not call.arguments:
+        return AttributeReference(
+            unit_id=unit_id,
+            function_name=call.name,
+            span=call.span,
+            attribute_span=call.span,
+            dynamic=True,
+            reason="missing get() attribute",
+        )
+    attribute = _literal_argument(source, call.arguments[0])
+    if attribute is None:
+        return AttributeReference(
+            unit_id=unit_id,
+            function_name=call.name,
+            span=call.span,
+            attribute_span=call.arguments[0].span,
+            dynamic=True,
+            reason="dynamic get() attribute",
+        )
+    return AttributeReference(
+        unit_id=unit_id,
+        function_name=call.name,
+        span=call.span,
+        attribute_span=call.arguments[0].span,
+        attribute=attribute,
+    )
+
+
+def _attribute_reference_for_xget(
+    unit_id: str,
+    source: str,
+    call: FunctionCall,
+) -> AttributeReference:
+    if len(call.arguments) < 2:
+        return AttributeReference(
+            unit_id=unit_id,
+            function_name=call.name,
+            span=call.span,
+            attribute_span=call.span,
+            dynamic=True,
+            reason="missing xget() object or attribute",
+        )
+    object_ref = _literal_argument(source, call.arguments[0])
+    attribute = _literal_argument(source, call.arguments[1])
+    if object_ref is None or attribute is None:
+        return AttributeReference(
+            unit_id=unit_id,
+            function_name=call.name,
+            span=call.span,
+            object_span=call.arguments[0].span,
+            attribute_span=call.arguments[1].span,
+            dynamic=True,
+            reason="dynamic xget() object or attribute",
+        )
+    return AttributeReference(
+        unit_id=unit_id,
+        function_name=call.name,
+        span=call.span,
+        object_span=call.arguments[0].span,
+        attribute_span=call.arguments[1].span,
+        object_ref=object_ref,
+        attribute=attribute,
+    )
+
+
+def _literal_argument(source: str, argument: Argument) -> str | None:
+    if len(argument.children) != 1 or not isinstance(argument.children[0], Text):
+        return None
+    return source[argument.span.start : argument.span.end].strip().casefold()
 
 
 def _reference_for_trigger_call(

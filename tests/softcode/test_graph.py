@@ -157,6 +157,62 @@ def test_graph_represents_dynamic_trigger_references_explicitly(
     assert reference.reason == "dynamic trigger() target"
 
 
+def test_graph_extracts_literal_get_and_xget_attribute_references(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=get(me/name) [xget(#10,desc)]",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_attribute_registry())
+
+    assert [
+        (
+            reference.function_name,
+            reference.object_ref,
+            reference.attribute,
+            reference.dynamic,
+        )
+        for reference in graph.attribute_references
+    ] == [
+        ("GET", None, "me/name", False),
+        ("XGET", "#10", "desc", False),
+    ]
+    get_ref = graph.attribute_references[0]
+    assert get_ref.attribute_span.start == 4
+    assert get_ref.attribute_span.end == 11
+    xget_ref = graph.attribute_references[1]
+    assert xget_ref.object_span is not None
+    assert xget_ref.object_span.start == 19
+    assert xget_ref.object_span.end == 22
+    assert xget_ref.attribute_span.start == 23
+    assert xget_ref.attribute_span.end == 27
+
+
+def test_graph_represents_dynamic_get_attribute_references_explicitly(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&FN.CALLER #10=get(%q0)",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,), metadata=_attribute_registry())
+    reference = graph.attribute_references[0]
+
+    assert reference.function_name == "GET"
+    assert reference.attribute is None
+    assert reference.dynamic is True
+    assert reference.reason == "dynamic get() attribute"
+
+
 def test_semantic_diagnostics_include_profile_warnings(tmp_path: Path) -> None:
     root = tmp_path / "wcnh" / "systems" / "softcode"
     root.mkdir(parents=True)
@@ -197,6 +253,16 @@ def _trigger_registry() -> FunctionRegistry:
     return FunctionRegistry(
         pennmush_commit="test",
         functions={"TRIGGER": _function("TRIGGER")},
+    )
+
+
+def _attribute_registry() -> FunctionRegistry:
+    return FunctionRegistry(
+        pennmush_commit="test",
+        functions={
+            "GET": _function("GET"),
+            "XGET": _function("XGET"),
+        },
     )
 
 

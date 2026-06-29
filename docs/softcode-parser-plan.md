@@ -891,6 +891,11 @@ Third graph slice:
 - Done: references for literal `trigger(object/attr,...)` calls;
 - Done: unresolved dynamic `trigger(...)` targets represented explicitly.
 
+Fourth graph slice:
+
+- Done: attribute-read edges for literal `get(attr)` and `xget(obj, attr)`;
+- Done: unresolved dynamic `get(...)` attribute reads represented explicitly.
+
 ## Stage 11: Semantic Conformance
 
 Move from structural understanding toward best-effort semantic parsing.
@@ -1093,6 +1098,8 @@ As of 2026-06-28, the project has:
   or dynamic `u(...)` references;
 - semantic graph references for literal `ufun(...)` and `ulocal(...)` calls;
 - semantic graph references for literal or dynamic `trigger(...)` calls;
+- semantic graph attribute-read edges for literal `get(...)` and `xget(...)`
+  calls;
 - first advisory semantic diagnostics for profile convention warnings;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
