@@ -125,6 +125,15 @@ class WaitStmt:
 
 
 @dataclass(frozen=True)
+class EmitStmt:
+    span: Span
+    cst: CstCommandStmt
+    command_name: str
+    target: Span | None = None
+    message: Span | None = None
+
+
+@dataclass(frozen=True)
 class SwitchCaseView:
     span: Span
     cst: SwitchCase
@@ -153,6 +162,7 @@ ActionStmt: TypeAlias = (
     | TriggerStmt
     | DolistStmt
     | WaitStmt
+    | EmitStmt
     | SwitchStmt
     | DynamicExpr
 )
@@ -257,6 +267,9 @@ def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
             target=statement.trigger.target.span,
             arguments=arguments,
         )
+    emit = _project_emit_statement(statement)
+    if emit is not None:
+        return emit
     if statement.assignment is not None:
         return AssignmentStmt(
             span=statement.assignment.span,
@@ -274,6 +287,28 @@ def _project_action_statement(statement: CstCommandStmt) -> ActionStmt:
         span=statement.span,
         cst=statement,
         reason="empty command statement",
+    )
+
+
+def _project_emit_statement(statement: CstCommandStmt) -> EmitStmt | None:
+    if statement.command_name is None:
+        return None
+    command_name = statement.command_name.text.casefold()
+    if command_name in {"@emit", "think"}:
+        return EmitStmt(
+            span=statement.span,
+            cst=statement,
+            command_name=statement.command_name.text,
+            message=None if statement.argument is None else statement.argument.span,
+        )
+    if command_name != "@pemit":
+        return None
+    return EmitStmt(
+        span=statement.span,
+        cst=statement,
+        command_name=statement.command_name.text,
+        target=None if statement.assignment is None else statement.assignment.lhs.span,
+        message=None if statement.assignment is None else statement.assignment.rhs.span,
     )
 
 

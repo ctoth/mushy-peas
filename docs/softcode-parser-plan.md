@@ -820,6 +820,7 @@ Action AST projection:
 
 - Done: action-list AST projection retains the action CST;
 - Done: `AssignmentStmt` from generic assignment CST;
+- Done: `EmitStmt` from `@emit`, `think`, and `@pemit` action CST;
 - Done: `TriggerStmt`, `DolistStmt`, and `SwitchStmt` from the first
   command-specific action CST nodes;
 - Done: `WaitStmt` from the first command-specific `@wait` CST node;
@@ -1112,7 +1113,7 @@ As of 2026-06-28, the project has:
 - first command-specific `@switch` CST classification;
 - first command-specific `@wait` CST classification;
 - action-level AST projections for assignment, trigger, dolist, switch, and
-  wait plus empty dynamic statements;
+  wait plus emit and empty dynamic statements;
 - first semantic graph slice for WCNH command/function definitions and literal
   or dynamic `u(...)` references;
 - semantic graph references for literal `ufun(...)` and `ulocal(...)` calls;

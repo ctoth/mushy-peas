@@ -5,6 +5,7 @@ from mushy_peas.softcode import (
     BraceExpr,
     DolistStmt,
     DynamicExpr,
+    EmitStmt,
     EvalExpr,
     FunctionCall,
     FunctionExpr,
@@ -112,7 +113,7 @@ def test_ast_projection_is_total_over_unsupported_cst_nodes() -> None:
 
 
 def test_action_ast_projects_assignment_statement() -> None:
-    source = "@pemit %#=hello"
+    source = "@set #10/flag=value"
     action_list = parse_action_list(source)
 
     ast = build_action_ast_view(action_list)
@@ -125,8 +126,30 @@ def test_action_ast_projects_assignment_statement() -> None:
     assert ast.cst is action_list
     assert stmt.span == assignment.span
     assert stmt.cst is assignment
-    assert stmt.lhs == Span(7, 9)
-    assert stmt.rhs == Span(10, len(source))
+    assert stmt.lhs == Span(5, 13)
+    assert stmt.rhs == Span(14, len(source))
+
+
+def test_action_ast_projects_emit_statements() -> None:
+    source = "@emit hi;think later;@pemit %#=secret"
+    action_list = parse_action_list(source)
+
+    ast = build_action_ast_view(action_list)
+    emit = ast.statements[0]
+    think = ast.statements[1]
+    pemit = ast.statements[2]
+
+    assert isinstance(emit, EmitStmt)
+    assert emit.command_name == "@emit"
+    assert emit.target is None
+    assert emit.message == Span(6, 8)
+    assert isinstance(think, EmitStmt)
+    assert think.command_name == "think"
+    assert think.message == Span(15, 20)
+    assert isinstance(pemit, EmitStmt)
+    assert pemit.command_name == "@pemit"
+    assert pemit.target == Span(28, 30)
+    assert pemit.message == Span(31, len(source))
 
 
 def test_action_ast_projects_trigger_dolist_and_switch_statements() -> None:
