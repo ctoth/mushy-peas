@@ -5,6 +5,7 @@ from mushy_peas.softcode.graph import (
     build_semantic_graph,
     collect_semantic_diagnostics,
 )
+from mushy_peas.softcode.model import Span
 from mushy_peas.softcode.units import extract_softcode_units
 
 
@@ -281,6 +282,31 @@ def test_graph_represents_dynamic_setq_register_writes_explicitly(
     assert write.reason == "dynamic setq() register"
     assert read.register == "0"
     assert read.operation == "read"
+
+
+def test_graph_extracts_emit_and_wait_effects_from_command_units(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "wcnh" / "systems" / "softcode"
+    root.mkdir(parents=True)
+    (root / "system.mush").write_text(
+        "&CMD.TEST #10=$test:@pemit %#=hi;@wait 1={think later}",
+        encoding="utf-8",
+    )
+    unit = extract_softcode_units([root]).units[0]
+
+    graph = build_semantic_graph((unit,))
+
+    assert [
+        (effect.kind, effect.command_name, effect.span.start, effect.span.end)
+        for effect in graph.effects
+    ] == [
+        ("emit", "@pemit", 6, 18),
+        ("wait", "@wait", 19, 40),
+        ("emit", "think", 28, 39),
+    ]
+    assert graph.effects[0].target_span == Span(13, 15)
+    assert graph.effects[1].target_span == Span(25, 26)
 
 
 def test_graph_extracts_literal_rpc_endpoint_references(tmp_path: Path) -> None:

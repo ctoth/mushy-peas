@@ -5,6 +5,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal
 
+from mushy_peas.softcode.actions import (
+    ActionList,
+    CommandStmt,
+    parse_action_list,
+    parse_command_attribute_body,
+)
 from mushy_peas.softcode.function_metadata import FunctionRegistry
 from mushy_peas.softcode.model import (
     Argument,
@@ -22,6 +28,7 @@ from mushy_peas.softcode.profiles import classify_profile
 from mushy_peas.softcode.units import SoftcodeUnit
 
 DefinitionFamily = Literal["command", "function"]
+EffectKind = Literal["emit", "wait"]
 
 
 @dataclass(frozen=True)
@@ -77,12 +84,22 @@ class RpcReference:
 
 
 @dataclass(frozen=True)
+class Effect:
+    unit_id: str
+    kind: EffectKind
+    span: Span
+    command_name: str
+    target_span: Span | None = None
+
+
+@dataclass(frozen=True)
 class SemanticGraph:
     definitions: tuple[Definition, ...]
     references: tuple[Reference, ...]
     attribute_references: tuple[AttributeReference, ...]
     q_register_references: tuple[QRegisterReference, ...]
     rpc_references: tuple[RpcReference, ...]
+    effects: tuple[Effect, ...]
 
 
 @dataclass(frozen=True)
@@ -104,10 +121,12 @@ def build_semantic_graph(
     attribute_references: list[AttributeReference] = []
     q_register_references: list[QRegisterReference] = []
     rpc_references: list[RpcReference] = []
+    effects: list[Effect] = []
     for unit in units:
         definition = _definition_for_unit(unit)
         if definition is not None:
             definitions.append(definition)
+        effects.extend(_effects_for_unit(unit))
         if metadata is not None:
             document = parse_expression(unit.body, metadata=metadata)
             references.extend(_references_for_document(unit.id, unit.body, document))
@@ -126,6 +145,7 @@ def build_semantic_graph(
         attribute_references=tuple(attribute_references),
         q_register_references=tuple(q_register_references),
         rpc_references=tuple(rpc_references),
+        effects=tuple(effects),
     )
 
 
@@ -165,6 +185,75 @@ def _definition_for_unit(unit: SoftcodeUnit) -> Definition | None:
         family=family,
         span=unit.source_span,
     )
+
+
+def _effects_for_unit(unit: SoftcodeUnit) -> tuple[Effect, ...]:
+    classification = classify_profile(unit)
+    if classification.profile != "wcnh" or classification.family != "command":
+        return ()
+    command_body = parse_command_attribute_body(unit.body)
+    action_list = (
+        command_body.actions
+        if command_body is not None
+        else parse_action_list(unit.body)
+    )
+    return _effects_for_action_list(unit.id, action_list)
+
+
+def _effects_for_action_list(
+    unit_id: str,
+    action_list: ActionList,
+) -> tuple[Effect, ...]:
+    effects: list[Effect] = []
+    for statement in action_list.statements:
+        effects.extend(_effects_for_statement(unit_id, statement))
+    return tuple(effects)
+
+
+def _effects_for_statement(unit_id: str, statement: CommandStmt) -> tuple[Effect, ...]:
+    if statement.command_name is None:
+        return ()
+    command_name = statement.command_name.text.casefold()
+    if command_name in {"@emit", "think"}:
+        return (
+            Effect(
+                unit_id=unit_id,
+                kind="emit",
+                span=statement.span,
+                command_name=statement.command_name.text,
+            ),
+        )
+    if command_name == "@pemit":
+        target_span = (
+            None if statement.assignment is None else statement.assignment.lhs.span
+        )
+        return (
+            Effect(
+                unit_id=unit_id,
+                kind="emit",
+                span=statement.span,
+                command_name=statement.command_name.text,
+                target_span=target_span,
+            ),
+        )
+    if statement.wait is not None:
+        nested: tuple[Effect, ...] = ()
+        if statement.wait.nested_action_block is not None:
+            nested = _effects_for_action_list(
+                unit_id,
+                statement.wait.nested_action_block.actions,
+            )
+        return (
+            Effect(
+                unit_id=unit_id,
+                kind="wait",
+                span=statement.wait.span,
+                command_name=statement.wait.command_name.text,
+                target_span=statement.wait.delay.span,
+            ),
+            *nested,
+        )
+    return ()
 
 
 def _references_for_document(

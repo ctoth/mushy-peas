@@ -910,6 +910,11 @@ Seventh graph slice:
 - Done: RPC endpoint edges for literal `rpc(Module.method, ...)` calls;
 - Done: unresolved dynamic `rpc(...)` endpoints represented explicitly.
 
+Eighth graph slice:
+
+- Done: command-effect edges for `@emit`, `@pemit`, and `think`;
+- Done: wait/queue effect edges for `@wait` with nested action effects.
+
 ## Stage 11: Semantic Conformance
 
 Move from structural understanding toward best-effort semantic parsing.
@@ -1117,6 +1122,7 @@ As of 2026-06-28, the project has:
 - semantic graph q-register read edges for `%q` substitutions;
 - semantic graph q-register write edges for `setq(...)` calls;
 - semantic graph RPC endpoint edges for `rpc(...)` calls;
+- semantic graph command-effect edges for emits and waits/queues;
 - first advisory semantic diagnostics for profile convention warnings;
 - a generated PennMUSH function metadata fixture with commit provenance;
 - stable, JSON-serializable softcode units and a reproducible unit ledger for
